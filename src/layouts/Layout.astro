@@ -16,6 +16,14 @@ type Props = {
 const { titulo, descripcion } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
 
+/*
+ * Los despliegues de vista previa se marcan como no indexables.
+ *
+ * Sin esto, Google puede indexar la copia de pruebas y hacerle la competencia
+ * al dominio real, que es lo último que le conviene a un negocio local.
+ */
+const esProduccion = canonical.hostname === 'nancinails.es'
+
 /**
  * Datos estructurados para Google. Sin esto, un negocio local es invisible en
  * los resultados con mapa, horario y teléfono.
@@ -62,6 +70,7 @@ const datosEstructurados = {
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
+    {!esProduccion && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />

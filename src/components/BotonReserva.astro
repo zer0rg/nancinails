@@ -1,0 +1,97 @@
+---
+import { enlaceWhatsapp } from '../data/negocio'
+
+/**
+ * El único camino a la cita en toda la página.
+ *
+ * Abre WhatsApp con el mensaje ya redactado: que la clienta no tenga que
+ * escribir nada es la diferencia entre una cita y una pestaña cerrada.
+ *
+ * El verde corporativo de WhatsApp queda fuera a propósito. Rompería la
+ * paleta y delataría plantilla. El icono va monocromo.
+ */
+type Props = {
+  /** Se inserta en el mensaje: "…pedir cita para {servicio}". */
+  servicio?: string
+  /** `inverso` para fondos oscuros. */
+  variante?: 'normal' | 'inverso' | 'contorno'
+  texto?: string
+}
+
+const { servicio, variante = 'normal', texto = 'Reservar por WhatsApp' } = Astro.props
+---
+
+<a
+  class="boton"
+  data-variante={variante}
+  href={enlaceWhatsapp(servicio)}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path
+      fill="currentColor"
+      d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.09-.16.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.02 2.57.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.19.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"
+    ></path>
+  </svg>
+  <span>{texto}</span>
+</a>
+
+<style>
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-2xs);
+    /* Objetivo táctil holgado: la mayoría del tráfico es móvil. */
+    min-height: 3rem;
+    padding: 0.9rem var(--espacio-md);
+    font-size: var(--texto-sm);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    /* El rectángulo puro es más editorial que la esquina redondeada. */
+    border: 1px solid transparent;
+    transition:
+      background-color 0.4s var(--salida),
+      color 0.4s var(--salida),
+      border-color 0.4s var(--salida);
+  }
+
+  .boton[data-variante='normal'] {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+
+  .boton[data-variante='inverso'] {
+    background: var(--papel);
+    color: var(--tinta);
+  }
+
+  .boton[data-variante='contorno'] {
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--tinta);
+  }
+
+  .icono {
+    width: 1.15em;
+    height: 1.15em;
+    flex-shrink: 0;
+  }
+
+  @media (hover: hover) {
+    .boton[data-variante='normal']:hover {
+      background: var(--tinta-media);
+    }
+
+    .boton[data-variante='inverso']:hover {
+      background: var(--sobre-tinta-suave);
+    }
+
+    .boton[data-variante='contorno']:hover {
+      background: var(--tinta);
+      color: var(--papel);
+    }
+  }
+</style>

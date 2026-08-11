@@ -1,0 +1,226 @@
+---
+import { Image } from 'astro:assets'
+import BotonReserva from './BotonReserva.astro'
+import { portada } from '../data/galeria'
+import { negocio } from '../data/negocio'
+
+/**
+ * Composición asimétrica: el titular ocupa la mitad izquierda y desborda por
+ * abajo, la fotografía sangra por el borde derecho y superior. Un hero
+ * centrado con título, subtítulo y botón apilados se lee como plantilla.
+ */
+---
+
+<section class="hero">
+  <div class="texto">
+    {/* Tres líneas explícitas: dejadas al flujo, "tú" se queda solo en una
+        cuarta línea y el titular pierde toda la fuerza. */}
+    <h1 class="titular">
+      <span>Las manos</span>
+      <span>hablan</span>
+      <em>antes que tú</em>
+    </h1>
+
+    <p class="claim">
+      Centro de manicura y pedicura en Rivas Vaciamadrid. Esmaltado permanente,
+      uñas de gel y diseño a mano alzada.
+    </p>
+
+    <div class="acciones">
+      <BotonReserva />
+      <a class="enlace-servicios toque" href="#tarifas">Ver tarifas</a>
+    </div>
+  </div>
+
+  <div class="imagen">
+    <Image
+      src={portada.imagen}
+      alt={portada.alt}
+      widths={[480, 760, 1100, 1440]}
+      sizes="(min-width: 60rem) 45vw, 100vw"
+      loading="eager"
+      fetchpriority="high"
+      layout="full-width"
+    />
+  </div>
+
+  <p class="pie">
+    <span>{negocio.redes.instagramUsuario}</span>
+    <span aria-hidden="true">·</span>
+    <span>{negocio.direccion.local}, {negocio.direccion.ciudad}</span>
+  </p>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: end;
+    gap: var(--espacio-md);
+    padding-inline: var(--margen);
+    padding-block: var(--espacio-xl) var(--espacio-2xl);
+  }
+
+  .texto {
+    grid-column: 1 / -1;
+    order: 1;
+  }
+
+  .titular {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: var(--texto-display);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+    /* Compensa el espacio en blanco propio de la caja tipográfica para que el
+       bloque de texto se alinee ópticamente con el borde de la foto. */
+    margin-left: -0.045em;
+  }
+
+  .titular span,
+  .titular em {
+    display: block;
+  }
+
+  .titular em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .claim {
+    max-width: 34ch;
+    margin-top: var(--espacio-md);
+    color: var(--grafito);
+    font-size: var(--texto-lg);
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-lg);
+  }
+
+  .enlace-servicios {
+    font-size: var(--texto-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--borde);
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .enlace-servicios:hover {
+    border-color: var(--tinta);
+  }
+
+  .imagen {
+    grid-column: 1 / -1;
+    order: 2;
+    margin-top: var(--espacio-xl);
+    /* Sangra hasta el borde de la ventana, no del contenedor. */
+    margin-inline: calc(var(--margen) * -1);
+  }
+
+  .pie {
+    grid-column: 1 / -1;
+    order: 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-2xs);
+    margin-top: var(--espacio-md);
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 60rem) {
+    .hero {
+      /*
+        Se resta la cabecera y se usa `svh`, no `vh`: en móvil `vh` cuenta la
+        barra del navegador aunque esté visible, y eso corta contenido.
+        El contenido manda sobre esta altura mínima, nunca al revés.
+      */
+      /*
+        Exactamente lo que queda de pantalla bajo la cabecera. La foto sangra
+        por arriba, por abajo y por la derecha, así que el primer vistazo no
+        tiene ninguna franja blanca suelta.
+      */
+      min-height: calc(100svh - var(--alto-cabecera));
+      /*
+        La primera fila absorbe todo el espacio sobrante y la segunda mide lo
+        que ocupa la línea de datos. Así las filas llenan la sección entera y
+        la foto, que abarca ambas, llega de verdad a los bordes. Con las filas
+        centradas quedaba un margen muerto arriba y la imagen no pegaba con la
+        cabecera.
+      */
+      grid-template-rows: 1fr auto;
+      padding-block: var(--espacio-lg) var(--espacio-xl);
+    }
+
+    /*
+      Dos bloques de la misma altura, uno al lado del otro.
+
+      El texto y la línea de datos ocupan dos filas de la izquierda; la foto
+      abarca esas mismas dos filas a la derecha. Así los bordes superior e
+      inferior coinciden y la composición se lee cuadrada en lugar de suelta.
+    */
+    .texto {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+      /* Centrado, no pegado abajo: alinear al final acumulaba todo el hueco
+         sobrante encima del titular y lo tiraba fuera del pliegue. */
+      align-self: center;
+    }
+
+    .imagen {
+      grid-column: 7 / -1;
+      grid-row: 1 / span 2;
+      order: 2;
+      /*
+        Sangra por tres lados: llena el alto completo de la sección, desde
+        justo debajo de la cabecera hasta donde empieza la siguiente, y llega
+        al borde derecho de la ventana. Dejarla como una caja recortada dentro
+        del área de contenido delataba el recuadro y rompía el aire editorial.
+        Los negativos anulan exactamente el relleno vertical del hero.
+      */
+      margin-block: calc(var(--espacio-lg) * -1) calc(var(--espacio-xl) * -1);
+      margin-inline: 0 calc(var(--margen) * -1);
+      align-self: stretch;
+      /*
+        La foto acompaña al texto: adopta su altura, no la impone.
+
+        Ocupando cinco columnas, su proporción 4:5 reclama unos 875 px de alto.
+        Eso estiraba la fila, empujaba el titular hacia abajo y dejaba el botón
+        de reserva fuera del pliegue en cualquier portátil. Sacando la imagen
+        del flujo, la altura la marca el texto y la foto la rellena.
+      */
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .imagen :global(img) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Las uñas caen ligeramente a la derecha y por encima del centro
+         geométrico: se ancla ahí para que sobrevivan a cualquier recorte. */
+      object-position: 58% 42%;
+    }
+
+    .pie {
+      grid-column: 1 / span 6;
+      grid-row: 2;
+      order: 3;
+      margin-top: var(--espacio-lg);
+      align-self: end;
+    }
+  }
+</style>

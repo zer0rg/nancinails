@@ -1,0 +1,170 @@
+---
+import { Image } from 'astro:assets'
+import { negocio } from '../data/negocio'
+import salon from '../assets/salon.jpg'
+
+/**
+ * ⚠️ TEXTO PENDIENTE DE VALIDAR CON LA DUEÑA.
+ *
+ * Todo lo que hay aquí está sacado de lo que se puede comprobar: los servicios
+ * que ofrece, la marca de producto que usa y dónde está el salón. No hay
+ * biografía, ni años de experiencia, ni número de clientas, porque nadie me ha
+ * dado esos datos y no se inventan.
+ *
+ * Es la sección que más gana con media hora de conversación con Nanci: una
+ * frase suya de verdad vale más que tres párrafos bien escritos.
+ */
+
+const compromisos = [
+  {
+    titulo: 'Material esterilizado',
+    texto:
+      'Instrumental esterilizado entre clienta y clienta, y limas de un solo uso. No es un extra, es lo mínimo.',
+  },
+  {
+    titulo: 'Producto profesional',
+    texto: `Se trabaja con ${negocio.productos.join(' y ')}: esmaltes y tratamientos de gama profesional, no de bazar.`,
+  },
+  {
+    titulo: 'Diseño a mano alzada',
+    texto:
+      'Flores, mármol, carey o líneas: se pintan a pincel, una a una. Nada de pegatinas.',
+  },
+  {
+    titulo: 'La uña, primero',
+    texto:
+      'Retirada cuidadosa y descanso cuando toca. Una uña dañada no aguanta ningún color.',
+  },
+]
+---
+
+<section class="seccion salon" id="salon">
+  <div class="contenido">
+    <h2 class="titulo-seccion">El salón</h2>
+
+    <p class="principal">
+      Un centro pequeño en el {negocio.direccion.local} donde se atiende con
+      cita y sin prisa. Cada clienta tiene su hora y su hora es suya.
+    </p>
+
+    <ul class="compromisos">
+      {
+        compromisos.map((compromiso) => (
+          <li class="compromiso" data-revelar>
+            <h3 class="titulo-compromiso">{compromiso.titulo}</h3>
+            <p class="texto-compromiso">{compromiso.texto}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <figure class="retrato">
+    <Image
+      src={salon}
+      alt="Interior del salón: tres puestos de manicura con sillones negros, lámparas de luz fría y el expositor de esmaltes al fondo"
+      widths={[420, 640, 900, 1080]}
+      sizes="(min-width: 60rem) 42vw, 100vw"
+      loading="lazy"
+    />
+  </figure>
+</section>
+
+<style>
+  .salon {
+    display: grid;
+    gap: var(--espacio-xl);
+    padding-inline: var(--margen);
+    background: var(--papel-hueso);
+  }
+
+  .principal {
+    max-width: 34ch;
+    margin-top: var(--espacio-md);
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: var(--texto-xl);
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+  }
+
+  .compromisos {
+    display: grid;
+    gap: var(--espacio-lg);
+    list-style: none;
+    margin: var(--espacio-xl) 0 0;
+    padding: 0;
+  }
+
+  .titulo-compromiso {
+    font-family: var(--texto);
+    font-size: var(--texto-sm);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .texto-compromiso {
+    margin-top: var(--espacio-2xs);
+    color: var(--grafito);
+    max-width: 44ch;
+  }
+
+  .retrato {
+    /* Sangra hasta los bordes de la ventana, igual que la foto de portada, y
+       cierra la sección por abajo anulando su relleno inferior: si no, queda
+       una franja de fondo suelta entre la foto y la sección siguiente. */
+    margin: 0;
+    margin-inline: calc(var(--margen) * -1);
+    margin-bottom: calc(var(--espacio-3xl) * -1);
+  }
+
+  @media (min-width: 60rem) {
+    .salon {
+      /* Mitad y mitad, con un hueco amplio entre ambas. La foto ya gana ancho
+         real por el sangrado del borde derecho, así que no necesita robárselo
+         al texto: con la columna más estrecha, los cuatro apartados quedaban
+         apretados y las líneas se partían mal. */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--espacio-2xl);
+      align-items: stretch;
+    }
+
+    .compromisos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--espacio-xl) var(--espacio-lg);
+    }
+
+    /*
+      Misma solución que en el hero: la foto llena la sección de arriba abajo
+      y sangra por el borde derecho. Los márgenes negativos anulan el relleno
+      de la sección, y la imagen va en posición absoluta para que sea la
+      altura del texto la que manda, no la proporción de la foto.
+
+      Asume recorte lateral: al pasar de una foto apaisada a un hueco vertical
+      se pierden el mostrador de la izquierda y parte del expositor. A cambio,
+      los puestos de manicura se ven de cerca y la sección deja de tener un
+      hueco muerto debajo de la imagen.
+    */
+    .retrato {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      align-self: stretch;
+      margin-block: calc(var(--espacio-3xl) * -1);
+      /* Solo por la derecha: el sangrado izquierdo es cosa del móvil, y aquí
+         invadiría el hueco que la separa del texto. */
+      margin-inline: 0 calc(var(--margen) * -1);
+    }
+
+    .retrato :global(img) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Ancla en los puestos de trabajo, que es lo que interesa enseñar. */
+      object-position: 55% 50%;
+    }
+  }
+</style>

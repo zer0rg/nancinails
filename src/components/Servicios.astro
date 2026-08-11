@@ -1,0 +1,228 @@
+---
+import BotonReserva from './BotonReserva.astro'
+import { grupos, formatearPrecio, formatearDuracion } from '../data/servicios'
+
+/**
+ * Carta de servicios, no rejilla de tarjetas.
+ *
+ * El nombre a la izquierda, el precio a la derecha y una línea de puntos que
+ * los une: es como se lee una carta de restaurante, y funciona porque la
+ * clienta escanea precios en vertical. Doce tarjetas idénticas con icono
+ * arriba serían más código y peor lectura.
+ */
+---
+
+<section class="seccion" id="tarifas">
+  <div class="cabecera-seccion">
+    <h2 class="titulo-seccion">Tarifas</h2>
+    <p class="entradilla">
+      Cada servicio con su duración y su precio. Sin llamar para preguntar.
+    </p>
+  </div>
+
+  <div class="grupos">
+    {
+      grupos.map((grupo) => (
+        <section class="grupo" data-revelar>
+          <div class="intro-grupo">
+            <h3 class="titulo-grupo">{grupo.titulo}</h3>
+            <p class="descripcion-grupo">{grupo.entradilla}</p>
+          </div>
+
+          <ul class="lista">
+            {grupo.servicios.map((servicio) => (
+              <li class="fila">
+                <div class="descripcion">
+                  <h4 class="nombre">{servicio.nombre}</h4>
+                  <p class="detalle">{servicio.descripcion}</p>
+                </div>
+
+                <span class="puntos" aria-hidden="true" />
+
+                <p class="cifras">
+                  {formatearDuracion(servicio) && (
+                    <span class="duracion">{formatearDuracion(servicio)}</span>
+                  )}
+                  <span class="precio">{formatearPrecio(servicio)}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <div class="cierre">
+    <p class="nota">
+      ¿No sabes qué pedir? Cuéntame qué te apetece por WhatsApp y lo vemos.
+    </p>
+    <BotonReserva variante="contorno" texto="Preguntar y reservar" />
+  </div>
+</section>
+
+<style>
+  .cabecera-seccion {
+    display: grid;
+    gap: var(--espacio-sm);
+    padding-inline: var(--margen);
+    margin-bottom: var(--espacio-xl);
+  }
+
+  .aviso {
+    max-width: 62ch;
+    margin-inline: var(--margen);
+    margin-bottom: var(--espacio-xl);
+    padding: var(--espacio-md);
+    border: 1px solid var(--laca);
+    color: var(--tinta);
+    font-size: var(--texto-sm);
+    line-height: 1.55;
+  }
+
+  .aviso code {
+    font-family: ui-monospace, monospace;
+    font-size: 0.9em;
+  }
+
+  .grupos {
+    display: grid;
+    gap: var(--espacio-2xl);
+    padding-inline: var(--margen);
+  }
+
+  .intro-grupo {
+    margin-bottom: var(--espacio-md);
+  }
+
+  .titulo-grupo {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: var(--texto-xl);
+    letter-spacing: -0.015em;
+  }
+
+  .descripcion-grupo {
+    margin-top: var(--espacio-3xs);
+    color: var(--grafito);
+    max-width: 48ch;
+  }
+
+  .lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--linea);
+  }
+
+  .fila {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 0 var(--espacio-sm);
+    padding-block: var(--espacio-md);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .nombre {
+    font-family: var(--texto);
+    font-size: var(--texto-base);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .detalle {
+    margin-top: var(--espacio-3xs);
+    color: var(--grafito);
+    font-size: var(--texto-sm);
+    max-width: 46ch;
+  }
+
+  /* La línea de puntos solo aparece cuando hay sitio: en móvil estorba. */
+  .puntos {
+    display: none;
+  }
+
+  .cifras {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* Sin versalitas: en mayúsculas, "1 h 45 min" se lee como "1 H 45 MIN" y
+     parece una errata. */
+  .duracion {
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+
+  .precio {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: var(--texto-lg);
+    line-height: 1.1;
+  }
+
+  .cierre {
+    display: grid;
+    justify-items: start;
+    gap: var(--espacio-md);
+    padding-inline: var(--margen);
+    margin-top: var(--espacio-2xl);
+  }
+
+  .nota {
+    color: var(--grafito);
+    max-width: 40ch;
+  }
+
+  @media (min-width: 48rem) {
+    .grupo {
+      display: grid;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--espacio-xl);
+      align-items: start;
+    }
+
+    .intro-grupo {
+      margin-bottom: 0;
+      position: sticky;
+      top: var(--espacio-lg);
+    }
+
+    .fila {
+      grid-template-columns: auto 1fr auto;
+    }
+
+    .puntos {
+      display: block;
+      /* Puntos suspensivos tipográficos, no un border-bottom punteado:
+         el punto redondo se lee mucho mejor a este tamaño. */
+      height: 1px;
+      background-image: radial-gradient(circle, var(--borde) 1px, transparent 1px);
+      background-size: 6px 1px;
+      background-repeat: repeat-x;
+      transform: translateY(-0.35em);
+    }
+
+    .cifras {
+      flex-direction: row;
+      align-items: baseline;
+      gap: var(--espacio-md);
+    }
+
+    .duracion {
+      min-width: 6ch;
+      text-align: right;
+    }
+
+    .precio {
+      min-width: 8ch;
+    }
+  }
+</style>

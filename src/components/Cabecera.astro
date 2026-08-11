@@ -1,0 +1,83 @@
+---
+import Logo from './Logo.astro'
+
+/**
+ * Cabecera estática, no fija. En una página de este largo una barra pegada
+ * roba altura de pantalla en móvil sin dar nada a cambio: el CTA persistente
+ * vive en la barra inferior (ver BarraMovil).
+ *
+ * Sin menú hamburguesa: cuatro anclas caben en una línea en escritorio y en
+ * móvil el recorrido natural es bajar.
+ */
+const enlaces = [
+  { texto: 'Tarifas', destino: '#tarifas' },
+  { texto: 'Trabajos', destino: '#trabajos' },
+  { texto: 'El salón', destino: '#salon' },
+  { texto: 'Dónde estamos', destino: '#donde' },
+]
+---
+
+<header class="cabecera">
+  <a class="marca toque" href="/" aria-label="Nanci Nails, inicio">
+    <Logo />
+  </a>
+
+  <nav aria-label="Secciones">
+    <ul class="enlaces">
+      {
+        enlaces.map((enlace) => (
+          <li>
+            <a href={enlace.destino}>{enlace.texto}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-md);
+    /* Altura fija: el hero resta este valor exacto para llenar la pantalla. */
+    min-height: var(--alto-cabecera);
+    padding-inline: var(--margen);
+  }
+
+  .marca {
+    text-decoration: none;
+  }
+
+  .enlaces {
+    display: none;
+    gap: var(--espacio-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .enlaces a {
+    display: inline-flex;
+    align-items: center;
+    /* Objetivo táctil completo: la navegación también se usa con el dedo. */
+    min-height: 44px;
+    font-size: var(--texto-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .enlaces a:hover {
+    border-color: var(--tinta);
+  }
+
+  @media (min-width: 48rem) {
+    .enlaces {
+      display: flex;
+    }
+  }
+</style>

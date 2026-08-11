@@ -1,23 +1,88 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '@fontsource-variable/bodoni-moda'
+// La cursiva de la Bodoni carga aparte y solo se usa en el titular de portada.
+// Es el gesto editorial que separa una portada de moda de una web genérica.
+import '@fontsource-variable/bodoni-moda/wght-italic.css'
+import '@fontsource-variable/jost'
+import '../styles/global.css'
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+import { negocio, direccionLegible } from '../data/negocio'
+
+type Props = {
+  titulo: string
+  descripcion: string
+}
+
+const { titulo, descripcion } = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site)
+
+/**
+ * Datos estructurados para Google. Sin esto, un negocio local es invisible en
+ * los resultados con mapa, horario y teléfono.
+ */
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'NailSalon',
+  name: negocio.nombre,
+  description: negocio.descripcion,
+  url: negocio.web,
+  telephone: negocio.contacto.movilE164,
+  email: negocio.contacto.email,
+  address: {
+    '@type': 'PostalAddress',
+    // La calle y el código postal siguen sin confirmar: se omiten en lugar de
+    // inventarlos, porque una dirección falsa penaliza el SEO local.
+    ...(negocio.direccion.calle ? { streetAddress: negocio.direccion.calle } : {}),
+    ...(negocio.direccion.codigoPostal ? { postalCode: negocio.direccion.codigoPostal } : {}),
+    addressLocality: negocio.direccion.ciudad,
+    addressRegion: negocio.direccion.provincia,
+    addressCountry: negocio.direccion.pais,
+  },
+  openingHoursSpecification: negocio.horario
+    .filter((dia) => dia.abre !== null)
+    .map((dia) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: `https://schema.org/${dia.schema}`,
+      opens: dia.abre,
+      closes: dia.cierra,
+    })),
+  sameAs: [negocio.redes.instagram, negocio.redes.facebook],
+  currenciesAccepted: 'EUR',
+}
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.jpg', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Manicura almendrada en negro de Nanci Nails" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="geo.region" content="ES-M" />
+    <meta name="geo.placename" content={direccionLegible} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} is:inline />
+  </head>
+
+  <body>
+    <a class="salto" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

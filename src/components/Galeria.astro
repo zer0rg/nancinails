@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets'
+import BotonReserva from './BotonReserva.astro'
+import { trabajos } from '../data/galeria'
+import { negocio } from '../data/negocio'
+
+/**
+ * La única sección invertida de la página.
+ *
+ * No es decoración: el color de las uñas revienta sobre negro, y la inversión
+ * marca el cambio de registro entre "lo que cuesta" y "lo que hace".
+ *
+ * Todas las fotos comparten relación 4:5, así que la variación del mosaico
+ * viene del tamaño de celda y no de recortes distintos. Sin esa disciplina el
+ * conjunto se ve amateur, que es justo el problema de la web antigua.
+ */
+---
+
+<section class="seccion galeria" id="trabajos" data-invertido>
+  <div class="cabecera-seccion">
+    <h2 class="titulo-seccion">Trabajos</h2>
+    <p class="entradilla">
+      Todo lo que ves está hecho en el salón. Si traes una foto de referencia,
+      mejor.
+    </p>
+  </div>
+
+  <ul class="mosaico">
+    {
+      trabajos.map((trabajo, indice) => (
+        <li class="pieza" data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
+          <Image
+            src={trabajo.imagen}
+            alt={trabajo.alt}
+            widths={[320, 480, 720]}
+            sizes="(min-width: 75rem) 22vw, (min-width: 48rem) 30vw, 45vw"
+            loading={indice < 4 ? 'eager' : 'lazy'}
+          />
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="cierre">
+    <p class="nota">
+      Hay muchos más en Instagram, y ahí se publican los últimos.
+    </p>
+    <div class="acciones">
+      <BotonReserva variante="inverso" texto="Pedir cita" />
+      <a class="enlace-instagram toque" href={negocio.redes.instagram} target="_blank" rel="noopener noreferrer">
+        Ver {negocio.redes.instagramUsuario}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .galeria {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+
+  .cabecera-seccion {
+    display: grid;
+    gap: var(--espacio-sm);
+    padding-inline: var(--margen);
+    margin-bottom: var(--espacio-xl);
+  }
+
+  .mosaico {
+    display: grid;
+    /* dense rellena los huecos que dejan las piezas de doble tamaño. */
+    grid-auto-flow: dense;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espacio-2xs);
+    list-style: none;
+    margin: 0;
+    padding-inline: var(--margen);
+  }
+
+  .pieza {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  /*
+    Las piezas grandes solo se activan a partir de tres columnas.
+
+    Con dos columnas, una pieza de doble ancho ocupa la fila entera y no queda
+    ninguna pieza normal que le fije la altura a esa fila: la rejilla colapsa y
+    deja un hueco enorme. A partir de tres columnas siempre hay al menos una
+    pieza normal a su lado marcando el alto, así que la grande solo necesita
+    ocupar dos columnas y estirarse.
+  */
+  @media (min-width: 48rem) {
+    .pieza[data-destacada] {
+      grid-column: span 2;
+      /*
+        La imagen se saca del flujo para que la pieza ancha no tenga altura
+        propia. Si la conserva, al medir dos columnas de ancho reclama una
+        altura mayor que la de la fila, estira la fila y deja huecos junto a
+        las piezas normales, que sí tienen proporción fija. Sin altura propia,
+        adopta la de la fila y la imagen la rellena.
+      */
+      position: relative;
+      aspect-ratio: auto;
+      min-height: 0;
+    }
+
+    .pieza[data-destacada] :global(img) {
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .pieza :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--salida);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .pieza:hover :global(img) {
+      transform: scale(1.03);
+    }
+  }
+
+  .cierre {
+    display: grid;
+    gap: var(--espacio-md);
+    padding-inline: var(--margen);
+    margin-top: var(--espacio-xl);
+  }
+
+  .nota {
+    color: var(--sobre-tinta-suave);
+    max-width: 40ch;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espacio-md);
+  }
+
+  .enlace-instagram {
+    font-size: var(--texto-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--tinta-media);
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .enlace-instagram:hover {
+    border-color: var(--papel);
+  }
+
+  @media (min-width: 48rem) {
+    .mosaico {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--espacio-xs);
+    }
+  }
+
+  @media (min-width: 75rem) {
+    .mosaico {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

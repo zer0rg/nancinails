@@ -1,0 +1,111 @@
+---
+import Logo from './Logo.astro'
+import { negocio, direccionLegible } from '../data/negocio'
+
+/**
+ * ⚠️ FALTAN LAS PÁGINAS LEGALES.
+ *
+ * Una web de negocio en España necesita aviso legal (LSSI-CE) y política de
+ * privacidad (RGPD). La web antigua los tenía. Aquí no se enlazan todavía
+ * porque no existen: hacen falta la razón social o el nombre de la titular, el
+ * NIF y el domicilio fiscal, y esos datos no se inventan.
+ *
+ * En cuanto lleguen, se añaden las páginas y sus enlaces en este pie. Es
+ * bloqueante para publicar, no un detalle.
+ */
+const anio = new Date().getFullYear()
+---
+
+<footer class="pie">
+  <div class="marca">
+    <Logo tamano="grande" como="p" />
+    <p class="descripcion">{negocio.descripcion}</p>
+  </div>
+
+  <div class="datos">
+    <address class="direccion">{direccionLegible}</address>
+    <a class="enlace toque" href={`tel:${negocio.contacto.movilE164}`}>{negocio.contacto.movil}</a>
+    <a class="enlace toque" href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a>
+  </div>
+
+  <nav class="redes" aria-label="Redes sociales">
+    <a class="enlace toque" href={negocio.redes.instagram} target="_blank" rel="noopener noreferrer">
+      Instagram
+    </a>
+    <a class="enlace toque" href={negocio.redes.facebook} target="_blank" rel="noopener noreferrer">
+      Facebook
+    </a>
+  </nav>
+
+  <p class="creditos">© {anio} {negocio.nombre}</p>
+</footer>
+
+<style>
+  .pie {
+    display: grid;
+    gap: var(--espacio-lg);
+    padding: var(--espacio-2xl) var(--margen) var(--espacio-xl);
+    border-top: 1px solid var(--linea);
+  }
+
+  .descripcion {
+    margin-top: var(--espacio-2xs);
+    color: var(--grafito);
+    font-size: var(--texto-sm);
+    max-width: 30ch;
+  }
+
+  /* Hueco generoso: las áreas táctiles ampliadas no deben solaparse. */
+  .datos,
+  .redes {
+    display: grid;
+    justify-items: start;
+    gap: var(--espacio-md);
+    font-size: var(--texto-sm);
+  }
+
+  .direccion {
+    color: var(--grafito);
+    font-style: normal;
+    max-width: 26ch;
+  }
+
+  .enlace {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .enlace:hover {
+    border-color: var(--tinta);
+  }
+
+  .creditos {
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 48rem) {
+    .pie {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+      gap: var(--espacio-lg) var(--espacio-md);
+      align-items: start;
+    }
+
+    .creditos {
+      grid-column: 1 / -1;
+      margin-top: var(--espacio-lg);
+      padding-top: var(--espacio-md);
+      border-top: 1px solid var(--linea);
+    }
+  }
+
+  /* La barra fija de móvil taparía el final del pie. */
+  @media (max-width: 47.99rem) {
+    .pie {
+      padding-bottom: calc(var(--espacio-xl) + 4.5rem);
+    }
+  }
+</style>

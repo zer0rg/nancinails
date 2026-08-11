@@ -1,11 +1,29 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '../layouts/Layout.astro'
+import Cabecera from '../components/Cabecera.astro'
+import Hero from '../components/Hero.astro'
+import Servicios from '../components/Servicios.astro'
+import Galeria from '../components/Galeria.astro'
+import ElSalon from '../components/ElSalon.astro'
+import Ubicacion from '../components/Ubicacion.astro'
+import PieDePagina from '../components/PieDePagina.astro'
+import BarraMovil from '../components/BarraMovil.astro'
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  titulo="Nanci Nails · Manicura y pedicura en Rivas Vaciamadrid"
+  descripcion="Centro de manicura y pedicura en el C.C. Santa Mónica de Rivas Vaciamadrid. Esmaltado permanente, uñas de gel y diseño a mano alzada. Precios, horarios y cita por WhatsApp."
+>
+  <Cabecera />
+
+  <main id="contenido">
+    <Hero />
+    <Servicios />
+    <Galeria />
+    <ElSalon />
+    <Ubicacion />
+  </main>
+
+  <PieDePagina />
+  <BarraMovil />
 </Layout>

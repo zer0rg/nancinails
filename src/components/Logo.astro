@@ -1,0 +1,46 @@
+---
+/**
+ * Marca tipográfica provisional.
+ *
+ * Cuando llegue el logotipo definitivo, se sustituye el contenido de este
+ * archivo (por un <img> o un <svg> en línea) y no hay que tocar nada más:
+ * ningún otro componente sabe cómo se dibuja la marca.
+ *
+ * Se mantiene la Bodoni porque es la misma familia de la marca de agua que
+ * Nanci lleva años poniendo en sus fotos.
+ */
+type Props = {
+  /** `h1` solo en la portada; en cabecera y pie va como texto normal. */
+  como?: 'h1' | 'p' | 'span'
+  tamano?: 'normal' | 'grande'
+}
+
+const { como: Etiqueta = 'span', tamano = 'normal' } = Astro.props
+---
+
+<Etiqueta class="logo" data-tamano={tamano}>
+  <span class="nombre">Nanci Nails</span>
+</Etiqueta>
+
+<style>
+  .logo {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .logo[data-tamano='normal'] {
+    font-size: var(--texto-lg);
+  }
+
+  .logo[data-tamano='grande'] {
+    font-size: var(--texto-xl);
+  }
+
+  .nombre {
+    display: inline-block;
+  }
+</style>

@@ -1,0 +1,77 @@
+---
+import { enlaceWhatsapp, negocio } from '../data/negocio'
+
+/**
+ * Barra de acción fija, solo en móvil.
+ *
+ * La cabecera no es fija a propósito, pero el camino a la cita tiene que estar
+ * siempre a un dedo de distancia. Dos acciones: escribir o llamar. Quien tiene
+ * prisa llama, quien no quiere hablar escribe.
+ */
+---
+
+<div class="barra">
+  <a class="accion principal" href={enlaceWhatsapp()} target="_blank" rel="noopener noreferrer">
+    Reservar por WhatsApp
+  </a>
+  <a
+    class="accion secundaria"
+    href={`tel:${negocio.contacto.movilE164}`}
+    aria-label={`Llamar al ${negocio.contacto.movil}`}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"
+      ></path>
+    </svg>
+  </a>
+</div>
+
+<style>
+  .barra {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    gap: 1px;
+    /* Respeta la zona del gesto de inicio en iPhone. */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    background: var(--linea);
+  }
+
+  .accion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.5rem;
+    background: var(--tinta);
+    color: var(--papel);
+    font-size: var(--texto-sm);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .principal {
+    flex: 1;
+  }
+
+  .secundaria {
+    width: 4rem;
+    flex-shrink: 0;
+  }
+
+  .secundaria svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .barra {
+      display: none;
+    }
+  }
+</style>

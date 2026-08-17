@@ -14,10 +14,15 @@ import { negocio } from '../data/negocio'
 <section class="hero">
   <div class="texto">
     {/* Tres líneas explícitas: dejadas al flujo, "tú" se queda solo en una
-        cuarta línea y el titular pierde toda la fuerza. */}
+        cuarta línea y el titular pierde toda la fuerza.
+
+        El espacio final dentro de cada línea NO sobra. Sin él, el texto del
+        titular se concatena en "Las manoshablanantes que tú": es lo que leen
+        Google y un lector de pantalla, aunque en pantalla se vea bien. El
+        espacio se colapsa visualmente y no mueve nada. */}
     <h1 class="titular">
-      <span>Las manos</span>
-      <span>hablan</span>
+      <span>Las manos </span>
+      <span>hablan </span>
       <em>antes que tú</em>
     </h1>
 

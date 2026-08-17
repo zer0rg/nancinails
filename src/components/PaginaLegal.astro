@@ -1,0 +1,213 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Cabecera from './Cabecera.astro'
+import PieDePagina from './PieDePagina.astro'
+
+/**
+ * Envoltorio de las páginas legales.
+ *
+ * El texto es prosa jurídica larga y su único trabajo es leerse bien, así que
+ * aquí no hay composición asimétrica ni fotografía: una sola columna, medida de
+ * lectura corta y jerarquía clara. La marca se mantiene con la Bodoni de los
+ * titulares y los mismos tokens de `global.css`; el resto sobra.
+ *
+ * No se indexan. No aportan nada en búsqueda, compiten con las páginas que sí
+ * importan y su sitio es el pie, que es exactamente donde la gente las busca.
+ */
+type Props = {
+  titulo: string
+  descripcion: string
+  encabezado: string
+  entradilla?: string
+}
+
+const { titulo, descripcion, encabezado, entradilla } = Astro.props
+---
+
+<Layout titulo={titulo} descripcion={descripcion} sinIndexar>
+  <Cabecera />
+
+  <main class="legal" id="contenido">
+    <nav class="migas" aria-label="Ruta de navegación">
+      <a class="toque" href="/">Inicio</a>
+      <span aria-hidden="true">·</span>
+      <span aria-current="page">{encabezado}</span>
+    </nav>
+
+    <h1 class="titular">{encabezado}</h1>
+    {entradilla && <p class="entradilla-legal">{entradilla}</p>}
+
+    <div class="texto">
+      <slot />
+    </div>
+  </main>
+
+  <PieDePagina />
+</Layout>
+
+<style>
+  .legal {
+    max-width: 74ch;
+    padding: var(--espacio-2xl) var(--margen) var(--espacio-3xl);
+  }
+
+  .migas {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2xs);
+    margin-bottom: var(--espacio-lg);
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .migas a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .migas a:hover {
+    border-color: currentColor;
+  }
+
+  .titular {
+    font-family: var(--display);
+    font-size: var(--texto-2xl);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .entradilla-legal {
+    margin-top: var(--espacio-md);
+    color: var(--grafito);
+    font-size: var(--texto-lg);
+    text-wrap: pretty;
+  }
+
+  .texto {
+    margin-top: var(--espacio-2xl);
+  }
+
+  /*
+    Estilos de la prosa legal.
+    Van con :global porque el contenido llega por <slot> desde cada página y el
+    ámbito de Astro no alcanza a la marca de otro componente.
+  */
+  .texto :global(h2) {
+    font-family: var(--display);
+    font-size: var(--texto-xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-top: var(--espacio-2xl);
+    margin-bottom: var(--espacio-sm);
+  }
+
+  .texto :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .texto :global(h3) {
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+    font-weight: 400;
+    margin-top: var(--espacio-lg);
+    margin-bottom: var(--espacio-2xs);
+  }
+
+  .texto :global(p) {
+    color: var(--tinta-media);
+    text-wrap: pretty;
+  }
+
+  .texto :global(p + p) {
+    margin-top: var(--espacio-sm);
+  }
+
+  /* Sin esto, el párrafo que cierra un apartado se pega al último punto de la
+     lista anterior y parece formar parte de ella. */
+  .texto :global(ul + p),
+  .texto :global(dl + p) {
+    margin-top: var(--espacio-md);
+  }
+
+  .texto :global(ul) {
+    margin-top: var(--espacio-sm);
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .texto :global(li) {
+    position: relative;
+    padding-left: var(--espacio-md);
+    color: var(--tinta-media);
+    text-wrap: pretty;
+  }
+
+  .texto :global(li + li) {
+    margin-top: var(--espacio-xs);
+  }
+
+  /* Guion en lugar de bolo: encaja con el registro editorial del resto. */
+  .texto :global(li)::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--borde);
+  }
+
+  /* Datos identificativos: pares nombre/valor, no una lista cualquiera. */
+  .texto :global(dl) {
+    display: grid;
+    gap: var(--espacio-xs);
+    margin-top: var(--espacio-md);
+    padding-block: var(--espacio-md);
+    border-top: 1px solid var(--linea);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .texto :global(dt) {
+    font-size: var(--texto-xs);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .texto :global(dd) {
+    margin: 0;
+    color: var(--tinta-media);
+  }
+
+  .texto :global(a) {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--borde);
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .texto :global(a:hover) {
+    border-color: var(--tinta);
+  }
+
+  @media (min-width: 48rem) {
+    .texto :global(dl) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: var(--espacio-sm) var(--espacio-md);
+      align-items: baseline;
+    }
+  }
+
+  /* La barra fija de móvil no existe aquí, pero el pie sí necesita aire. */
+  @media (max-width: 47.99rem) {
+    .legal {
+      padding-bottom: var(--espacio-2xl);
+    }
+  }
+</style>

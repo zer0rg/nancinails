@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Cabecera from '../components/Cabecera.astro'
+import PieDePagina from '../components/PieDePagina.astro'
+import BotonReserva from '../components/BotonReserva.astro'
+
+/**
+ * Página de error.
+ *
+ * No es decoración: la web antigua tenía 18 URLs y esta solo una. Aunque las
+ * redirecciones cubran las conocidas, quedan enlaces viejos repartidos por
+ * directorios y redes que apuntan a rutas que ya no existen. Sin esta página,
+ * quien los siga ve el 404 genérico del alojamiento y se va.
+ *
+ * Por eso lleva el CTA de WhatsApp: una clienta que llega aquí venía a pedir
+ * cita, no a leer un mensaje de error.
+ */
+---
+
+<Layout
+  titulo="Página no encontrada · Nanci Nails"
+  descripcion="La página que buscabas ya no existe. Vuelve al inicio o escríbenos por WhatsApp para pedir cita."
+  sinIndexar
+>
+  <Cabecera />
+
+  <main class="error" id="contenido">
+    <p class="codigo">404</p>
+
+    <h1 class="titular">Esta página<br /><em>se ha despintado</em></h1>
+
+    <p class="explicacion">
+      La dirección que buscabas ya no existe. Puede que hayamos cambiado la web
+      desde la última vez que estuviste por aquí.
+    </p>
+
+    <div class="acciones">
+      <BotonReserva />
+      <a class="enlace toque" href="/">Volver al inicio</a>
+    </div>
+  </main>
+
+  <PieDePagina />
+</Layout>
+
+<style>
+  .error {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Descuenta la cabecera para que el bloque quede centrado de verdad. */
+    min-height: calc(100svh - var(--alto-cabecera));
+    justify-content: center;
+    padding: var(--espacio-2xl) var(--margen);
+  }
+
+  .codigo {
+    font-family: var(--display);
+    font-size: var(--texto-sm);
+    letter-spacing: 0.35em;
+    color: var(--grafito);
+    margin-bottom: var(--espacio-md);
+  }
+
+  .titular {
+    font-family: var(--display);
+    font-size: var(--texto-2xl);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .titular em {
+    font-style: italic;
+    color: var(--tinta-media);
+  }
+
+  .explicacion {
+    max-width: 34ch;
+    margin-top: var(--espacio-md);
+    color: var(--tinta-media);
+    text-wrap: pretty;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-xl);
+  }
+
+  .enlace {
+    font-size: var(--texto-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--tinta);
+  }
+</style>

@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
+import sitemap from '@astrojs/sitemap'
 
 // https://astro.build/config
 /*
@@ -17,9 +18,29 @@ const dominio =
     ? `https://${process.env.VERCEL_URL}`
     : 'https://nancinails.es')
 
+/*
+ * Los despliegues de vista previa no son el sitio real.
+ *
+ * Se usa en el sitemap y en robots.txt para que una copia de pruebas nunca
+ * compita en Google con nancinails.es. El mismo criterio que aplica el
+ * `noindex` de Layout.astro.
+ */
+const esProduccion = dominio === 'https://nancinails.es'
+
 export default defineConfig({
   // Necesario para generar URLs absolutas (canonical, Open Graph, sitemap).
   site: dominio,
+
+  integrations: [
+    sitemap({
+      /*
+       * En vista previa el sitemap se genera vacío en lugar de omitirse: así
+       * la ruta existe y no devuelve un 404 al probar el despliegue, pero no
+       * le ofrece a Google ni una URL que rastrear.
+       */
+      filter: () => esProduccion,
+    }),
+  ],
 
   image: {
     // Todas las imágenes son responsive por defecto: Astro genera el srcset y

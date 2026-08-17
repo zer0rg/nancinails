@@ -1,0 +1,171 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/centro-de-manicura-en-rivas-vaciamadrid",
+      "destination": "/manicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/centro-de-manicura-en-rivas-vaciamadrid/",
+      "destination": "/manicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/mejor-centro-de-manicura-en-rivas-vaciamadrid",
+      "destination": "/manicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/mejor-centro-de-manicura-en-rivas-vaciamadrid/",
+      "destination": "/manicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/centro-de-pedicura-en-rivas-vaciamadrid",
+      "destination": "/pedicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/centro-de-pedicura-en-rivas-vaciamadrid/",
+      "destination": "/pedicura-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/diseno-de-unas-de-gel-en-rivas-vaciamadrid",
+      "destination": "/unas-de-gel-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/diseno-de-unas-de-gel-en-rivas-vaciamadrid/",
+      "destination": "/unas-de-gel-rivas-vaciamadrid/",
+      "statusCode": 301
+    },
+    {
+      "source": "/thecolouredclap-com-cc-comercial-santa-monica-rivas-vaciamadrid",
+      "destination": "/#donde",
+      "statusCode": 301
+    },
+    {
+      "source": "/thecolouredclap-com-cc-comercial-santa-monica-rivas-vaciamadrid/",
+      "destination": "/#donde",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicios",
+      "destination": "/#tarifas",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicios/",
+      "destination": "/#tarifas",
+      "statusCode": 301
+    },
+    {
+      "source": "/nuestras-ofertas",
+      "destination": "/#tarifas",
+      "statusCode": 301
+    },
+    {
+      "source": "/nuestras-ofertas/",
+      "destination": "/#tarifas",
+      "statusCode": 301
+    },
+    {
+      "source": "/galerias",
+      "destination": "/#trabajos",
+      "statusCode": 301
+    },
+    {
+      "source": "/galerias/",
+      "destination": "/#trabajos",
+      "statusCode": 301
+    },
+    {
+      "source": "/instagram",
+      "destination": "/#trabajos",
+      "statusCode": 301
+    },
+    {
+      "source": "/instagram/",
+      "destination": "/#trabajos",
+      "statusCode": 301
+    },
+    {
+      "source": "/contacta",
+      "destination": "/#donde",
+      "statusCode": 301
+    },
+    {
+      "source": "/contacta/",
+      "destination": "/#donde",
+      "statusCode": 301
+    },
+    {
+      "source": "/testimonials",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/testimonials/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/our-clients",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/our-clients/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/trabaja-con-nosotros",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/trabaja-con-nosotros/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/personalizar-cookies",
+      "destination": "/politica-de-cookies/",
+      "statusCode": 301
+    },
+    {
+      "source": "/personalizar-cookies/",
+      "destination": "/politica-de-cookies/",
+      "statusCode": 301
+    },
+    {
+      "source": "/feed",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/feed/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/comments/feed",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/comments/feed/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/wp-json/:ruta*",
+      "destination": "/",
+      "statusCode": 301
+    }
+  ]
+}

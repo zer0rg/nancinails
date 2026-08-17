@@ -1,0 +1,372 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Cabecera from '../components/Cabecera.astro'
+import Servicios from '../components/Servicios.astro'
+import Galeria from '../components/Galeria.astro'
+import Preguntas from '../components/Preguntas.astro'
+import Ubicacion from '../components/Ubicacion.astro'
+import PieDePagina from '../components/PieDePagina.astro'
+import BarraMovil from '../components/BarraMovil.astro'
+import BotonReserva from '../components/BotonReserva.astro'
+import { paginasServicio } from '../data/paginasServicio'
+import { negocio } from '../data/negocio'
+import { trabajosDe } from '../data/galeria'
+
+/**
+ * Plantilla de las páginas de servicio local.
+ *
+ * Una sola plantilla para las tres, con el contenido en `paginasServicio.ts`.
+ * El texto es distinto en cada una; lo único compartido es la estructura, que
+ * es exactamente al revés que en la web antigua, donde las tres páginas
+ * compartían el 80 % del TEXTO y se canibalizaban entre sí en Google.
+ *
+ * La portada no se toca: quien llega buscando "pedicura en Rivas" aterriza
+ * directamente aquí y nunca pasa por ella.
+ */
+export function getStaticPaths() {
+  return paginasServicio.map((pagina) => ({
+    params: { servicio: pagina.slug },
+    props: { pagina },
+  }))
+}
+
+const { pagina } = Astro.props
+
+const url = new URL(`/${pagina.slug}/`, Astro.site).href
+
+/** Las otras dos páginas, para enlazarlas al final. */
+const otras = paginasServicio.filter((otra) => otra.slug !== pagina.slug)
+
+/*
+ * El mosaico solo se monta si hay material para llenarlo.
+ *
+ * ⚠️ HOY LA PÁGINA DE PEDICURA SE QUEDA SIN GALERÍA: de las 19 fotos de la
+ * galería solo UNA es de pedicura. Con una foto el mosaico se ve roto y
+ * transmite justo lo contrario de lo que buscamos.
+ *
+ * No se rellena con fotos de manicura: enseñar manos bajo el titular "Pedicura
+ * en Rivas Vaciamadrid" engaña a quien mira y desdibuja la página ante Google.
+ * Mejor sin sección que con una sección que miente.
+ *
+ * Se arregla con fotos, no con código: hacen falta 4-5 de pedicura, etiquetarlas
+ * como `pies` en galeria.ts y la sección aparece sola.
+ */
+const MINIMO_MOSAICO = 3
+const hayGaleria = trabajosDe(pagina.categoriaGaleria).length >= MINIMO_MOSAICO
+
+/*
+ * Migas de pan. Google las usa para sustituir la URL cruda en el resultado de
+ * búsqueda por una ruta legible: "nancinails.es › Manicura" en lugar del slug.
+ */
+const migas = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: negocio.web },
+    { '@type': 'ListItem', position: 2, name: pagina.etiqueta, item: url },
+  ],
+}
+
+const esquemaServicio = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: pagina.servicio.nombre,
+  description: pagina.servicio.descripcion,
+  serviceType: pagina.servicio.nombre,
+  url,
+  provider: {
+    '@type': 'NailSalon',
+    name: negocio.nombre,
+    url: negocio.web,
+    telephone: negocio.contacto.movilE164,
+  },
+  areaServed: { '@type': 'City', name: negocio.direccion.ciudad },
+}
+
+const esquemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: pagina.faq.map((entrada) => ({
+    '@type': 'Question',
+    name: entrada.pregunta,
+    acceptedAnswer: { '@type': 'Answer', text: entrada.respuesta },
+  })),
+}
+---
+
+<Layout
+  titulo={pagina.titulo}
+  descripcion={pagina.descripcion}
+  esquemas={[migas, esquemaServicio, esquemaFaq]}
+>
+  <Cabecera />
+
+  <main id="contenido">
+    {/*
+      Portada tipográfica, no fotográfica. El hero de la home ocupa la pantalla
+      entera con foto a sangre y ese golpe solo funciona si es único: repetirlo
+      en cuatro páginas lo convierte en plantilla. Aquí manda la Bodoni y la
+      imagen llega después, en el mosaico.
+    */}
+    <section class="portada">
+      <nav class="migas" aria-label="Ruta de navegación">
+        <a class="toque" href="/">Inicio</a>
+        <span aria-hidden="true">·</span>
+        <span aria-current="page">{pagina.etiqueta}</span>
+      </nav>
+
+      {/*
+        El espacio tras cada línea es deliberado: sin él, el titular se lee
+        "Manicura enRivas Vaciamadrid" para Google y para un lector de
+        pantalla. En una página cuyo objetivo es justo esa frase exacta, la
+        diferencia no es cosmética.
+      */}
+      <h1 class="titular">
+        {pagina.h1.lineas.map((linea) => <span>{linea} </span>)}
+        <em>{pagina.h1.enfasis}</em>
+      </h1>
+
+      <p class="entradilla-portada">{pagina.entradilla}</p>
+
+      <div class="acciones">
+        <BotonReserva servicio={pagina.servicioWhatsapp} />
+        <a class="enlace-tarifas toque" href="#tarifas">Ver tarifas</a>
+      </div>
+    </section>
+
+    <div class="cuerpo">
+      {
+        pagina.secciones.map((seccion) => (
+          <section class="bloque">
+            <h2 class="titulo-bloque">{seccion.titulo}</h2>
+            {/*
+              Los párrafos van envueltos, no sueltos. La rejilla de dos
+              columnas reparte a sus hijos directos: con el título y tres
+              párrafos como hermanos, el segundo párrafo caía bajo el título,
+              el tercero al lado, y el texto quedaba en zigzag.
+            */}
+            <div class="texto">
+              {seccion.parrafos.map((parrafo) => (
+                <p class="parrafo">{parrafo}</p>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <Servicios
+      ids={pagina.gruposTarifas}
+      slugActual={pagina.slug}
+      entradilla="Precio y duración a la vista. Sin llamar para preguntar."
+    />
+
+    {
+      hayGaleria && (
+        <Galeria
+          categoria={pagina.categoriaGaleria}
+          entradilla="Trabajos hechos en el salón. Si traes una foto de referencia, mejor."
+        />
+      )
+    }
+
+    <Preguntas preguntas={pagina.faq} />
+
+    <Ubicacion />
+
+    {/*
+      Enlaces entre las tres páginas de servicio. Reparten autoridad entre
+      ellas y, sobre todo, recogen a quien ha entrado buscando una cosa y
+      necesita otra.
+    */}
+    <section class="seccion otras">
+      <h2 class="titulo-otras">También en el salón</h2>
+      <ul class="enlaces-otras">
+        {
+          otras.map((otra) => (
+            <li>
+              <a class="tarjeta" href={`/${otra.slug}/`}>
+                <span class="nombre-otra">{otra.etiqueta}</span>
+                <span class="pie-otra">{otra.entradilla}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <PieDePagina />
+  <BarraMovil servicio={pagina.servicioWhatsapp} />
+</Layout>
+
+<style>
+  .portada {
+    padding: var(--espacio-2xl) var(--margen) var(--espacio-3xl);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .migas {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2xs);
+    margin-bottom: var(--espacio-lg);
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .migas a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .migas a:hover {
+    border-color: currentColor;
+  }
+
+  .titular {
+    display: grid;
+    font-family: var(--display);
+    /* Un escalón por debajo del hero de portada: sigue siendo rotundo, pero no
+       compite con él ni obliga a hacer scroll para ver de qué va la página. */
+    font-size: var(--texto-2xl);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .titular em {
+    font-style: italic;
+    color: var(--tinta-media);
+  }
+
+  .entradilla-portada {
+    max-width: 46ch;
+    margin-top: var(--espacio-md);
+    color: var(--grafito);
+    font-size: var(--texto-lg);
+    text-wrap: pretty;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-xl);
+  }
+
+  .enlace-tarifas {
+    font-size: var(--texto-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--borde);
+    padding-bottom: 0.15rem;
+  }
+
+  /* ------------------------------------------------------------------ texto */
+
+  .cuerpo {
+    display: grid;
+    gap: var(--espacio-2xl);
+    padding: var(--espacio-3xl) var(--margen) 0;
+  }
+
+  .titulo-bloque {
+    font-family: var(--display);
+    font-size: var(--texto-xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-bottom: var(--espacio-md);
+  }
+
+  /* Medida de lectura, no ancho de pantalla. Una línea de 140 caracteres se
+     lee mal y hace que el ojo pierda el renglón al volver. */
+  .parrafo {
+    max-width: 62ch;
+    color: var(--tinta-media);
+    text-wrap: pretty;
+  }
+
+  .parrafo + .parrafo {
+    margin-top: var(--espacio-md);
+  }
+
+  @media (min-width: 60rem) {
+    .bloque {
+      display: grid;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      gap: var(--espacio-xl);
+      align-items: start;
+    }
+
+    /* El título se queda a la izquierda y el texto corre a la derecha: es la
+       misma asimetría del hero de portada, aplicada a la lectura larga. */
+    .titulo-bloque {
+      margin-bottom: 0;
+    }
+  }
+
+  /* ---------------------------------------------------------- otros servicios */
+
+  .otras {
+    padding-inline: var(--margen);
+  }
+
+  .titulo-otras {
+    font-family: var(--display);
+    font-size: var(--texto-xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--espacio-lg);
+  }
+
+  .enlaces-otras {
+    display: grid;
+    gap: var(--espacio-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tarjeta {
+    display: grid;
+    gap: var(--espacio-2xs);
+    padding: var(--espacio-md) 0;
+    border-top: 1px solid var(--linea);
+    text-decoration: none;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .tarjeta:hover {
+    border-color: var(--tinta);
+  }
+
+  .nombre-otra {
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+  }
+
+  .pie-otra {
+    max-width: 44ch;
+    color: var(--grafito);
+    font-size: var(--texto-sm);
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 48rem) {
+    .enlaces-otras {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--espacio-lg);
+    }
+  }
+</style>

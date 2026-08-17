@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import BotonReserva from './BotonReserva.astro'
-import { trabajos } from '../data/galeria'
+import { trabajos, trabajosDe, type CategoriaTrabajo } from '../data/galeria'
 import { negocio } from '../data/negocio'
 
 /**
@@ -14,20 +14,31 @@ import { negocio } from '../data/negocio'
  * viene del tamaño de celda y no de recortes distintos. Sin esa disciplina el
  * conjunto se ve amateur, que es justo el problema de la web antigua.
  */
+type Props = {
+  /** Filtra el mosaico. Sin esto, todos los trabajos. */
+  categoria?: CategoriaTrabajo
+  titulo?: string
+  entradilla?: string
+}
+
+const {
+  categoria,
+  titulo = 'Trabajos',
+  entradilla = 'Todo lo que ves está hecho en el salón. Si traes una foto de referencia, mejor.',
+} = Astro.props
+
+const visibles = categoria ? trabajosDe(categoria) : trabajos
 ---
 
 <section class="seccion galeria" id="trabajos" data-invertido>
   <div class="cabecera-seccion">
-    <h2 class="titulo-seccion">Trabajos</h2>
-    <p class="entradilla">
-      Todo lo que ves está hecho en el salón. Si traes una foto de referencia,
-      mejor.
-    </p>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <p class="entradilla">{entradilla}</p>
   </div>
 
   <ul class="mosaico">
     {
-      trabajos.map((trabajo, indice) => (
+      visibles.map((trabajo, indice) => (
         <li class="pieza" data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
           <Image
             src={trabajo.imagen}

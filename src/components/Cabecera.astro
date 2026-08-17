@@ -8,12 +8,18 @@ import Logo from './Logo.astro'
  *
  * Sin menú hamburguesa: cuatro anclas caben en una línea en escritorio y en
  * móvil el recorrido natural es bajar.
+ *
+ * Las anclas van con la barra delante (`/#tarifas`, no `#tarifas`) porque esta
+ * cabecera también se usa en las páginas de servicio. Sin ella, desde
+ * /manicura-rivas-vaciamadrid/ el enlace buscaría una sección que ahí no
+ * existe y no haría nada. En la portada el comportamiento no cambia: el
+ * navegador ve la misma ruta y se limita a desplazarse.
  */
 const enlaces = [
-  { texto: 'Tarifas', destino: '#tarifas' },
-  { texto: 'Trabajos', destino: '#trabajos' },
-  { texto: 'El salón', destino: '#salon' },
-  { texto: 'Dónde estamos', destino: '#donde' },
+  { texto: 'Tarifas', destino: '/#tarifas' },
+  { texto: 'Trabajos', destino: '/#trabajos' },
+  { texto: 'El salón', destino: '/#salon' },
+  { texto: 'Dónde estamos', destino: '/#donde' },
 ]
 ---
 

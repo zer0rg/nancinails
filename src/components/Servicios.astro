@@ -1,6 +1,7 @@
 ---
 import BotonReserva from './BotonReserva.astro'
 import { grupos, formatearPrecio, formatearDuracion } from '../data/servicios'
+import { paginaDeGrupo } from '../data/paginasServicio'
 
 /**
  * Carta de servicios, no rejilla de tarjetas.
@@ -9,24 +10,61 @@ import { grupos, formatearPrecio, formatearDuracion } from '../data/servicios'
  * los une: es como se lee una carta de restaurante, y funciona porque la
  * clienta escanea precios en vertical. Doce tarjetas idénticas con icono
  * arriba serían más código y peor lectura.
+ *
+ * Las páginas de servicio reutilizan esta misma carta filtrada por grupo, para
+ * que las tarifas se mantengan en un único sitio. Sin esto, cambiar un precio
+ * obligaría a tocar cuatro archivos y acabarían descuadrados entre sí.
  */
+type Props = {
+  /** Ids de grupo a mostrar. Sin esto, la carta completa. */
+  ids?: string[]
+  titulo?: string
+  entradilla?: string
+  /** Slug de la página en curso, para no enlazarla a sí misma. */
+  slugActual?: string
+}
+
+const {
+  ids,
+  titulo = 'Tarifas',
+  entradilla = 'Cada servicio con su duración y su precio. Sin llamar para preguntar.',
+  slugActual,
+} = Astro.props
+
+const gruposVisibles = ids ? grupos.filter((grupo) => ids.includes(grupo.id)) : grupos
+
+/**
+ * Cada grupo, con la página que lo desarrolla si la hay y no es esta misma.
+ *
+ * El enlace vive AQUÍ, en la carta, y no solo en el pie. Quien está leyendo las
+ * tarifas de uñas de gel es exactamente quien quiere saber cuánto duran, cada
+ * cuánto se rellenan y en qué se diferencian del acrílico. Enlazar desde el pie
+ * y nada más deja esa página fuera del recorrido real.
+ */
+const gruposConPagina = gruposVisibles.map((grupo) => {
+  const pagina = paginaDeGrupo(grupo.id)
+  return { grupo, pagina: pagina && pagina.slug !== slugActual ? pagina : undefined }
+})
 ---
 
 <section class="seccion" id="tarifas">
   <div class="cabecera-seccion">
-    <h2 class="titulo-seccion">Tarifas</h2>
-    <p class="entradilla">
-      Cada servicio con su duración y su precio. Sin llamar para preguntar.
-    </p>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <p class="entradilla">{entradilla}</p>
   </div>
 
   <div class="grupos">
     {
-      grupos.map((grupo) => (
+      gruposConPagina.map(({ grupo, pagina }) => (
         <section class="grupo" data-revelar>
           <div class="intro-grupo">
             <h3 class="titulo-grupo">{grupo.titulo}</h3>
             <p class="descripcion-grupo">{grupo.entradilla}</p>
+            {pagina && (
+              <a class="enlace-grupo toque" href={`/${pagina.slug}/`}>
+                Todo sobre {pagina.etiqueta.toLowerCase()}
+              </a>
+            )}
           </div>
 
           <ul class="lista">
@@ -106,6 +144,24 @@ import { grupos, formatearPrecio, formatearDuracion } from '../data/servicios'
     margin-top: var(--espacio-3xs);
     color: var(--grafito);
     max-width: 48ch;
+  }
+
+  /* Discreto a propósito: acompaña a la carta, no compite con el botón de
+     reserva, que sigue siendo la única acción principal de la página. */
+  .enlace-grupo {
+    display: inline-block;
+    margin-top: var(--espacio-sm);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--borde);
+    padding-bottom: 0.2rem;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .enlace-grupo:hover {
+    border-color: var(--tinta);
   }
 
   .lista {

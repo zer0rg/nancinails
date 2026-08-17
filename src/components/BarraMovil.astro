@@ -8,10 +8,21 @@ import { enlaceWhatsapp, negocio } from '../data/negocio'
  * siempre a un dedo de distancia. Dos acciones: escribir o llamar. Quien tiene
  * prisa llama, quien no quiere hablar escribe.
  */
+type Props = {
+  /** En las páginas de servicio, precarga el mensaje con ese servicio. */
+  servicio?: string
+}
+
+const { servicio } = Astro.props
 ---
 
 <div class="barra">
-  <a class="accion principal" href={enlaceWhatsapp()} target="_blank" rel="noopener noreferrer">
+  <a
+    class="accion principal"
+    href={enlaceWhatsapp(servicio)}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     Reservar por WhatsApp
   </a>
   <a

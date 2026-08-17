@@ -1,0 +1,134 @@
+---
+import type { Pregunta } from '../data/paginasServicio'
+
+/**
+ * Preguntas frecuentes.
+ *
+ * Dos motivos, y el segundo pesa tanto como el primero:
+ *
+ * 1. Responde lo que la clienta duda justo antes de escribir. Cuánto dura,
+ *    si daña la uña, si hace falta cita. Quitar esas dudas es lo que convierte
+ *    una visita en un mensaje de WhatsApp.
+ * 2. Con el marcado `FAQPage`, Google puede desplegar estas respuestas dentro
+ *    del propio resultado de búsqueda. Se ocupa más espacio en la página de
+ *    resultados sin necesidad de subir de posición.
+ *
+ * Se usa `<details>` nativo: sin JavaScript, accesible de serie y buscable con
+ * Ctrl+F en los navegadores modernos, que abren el panel al encontrar el texto.
+ */
+type Props = {
+  preguntas: Pregunta[]
+}
+
+const { preguntas } = Astro.props
+---
+
+<section class="seccion preguntas" id="preguntas">
+  <div class="cabecera-seccion">
+    <h2 class="titulo-seccion">Preguntas frecuentes</h2>
+    <p class="entradilla">
+      Lo que más me preguntan por WhatsApp, respondido de antemano.
+    </p>
+  </div>
+
+  <div class="lista">
+    {
+      preguntas.map((entrada) => (
+        <details class="entrada" name="preguntas">
+          <summary>
+            <h3 class="pregunta">{entrada.pregunta}</h3>
+            <span class="signo" aria-hidden="true" />
+          </summary>
+          <p class="respuesta">{entrada.respuesta}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .cabecera-seccion {
+    display: grid;
+    gap: var(--espacio-sm);
+    padding-inline: var(--margen);
+    margin-bottom: var(--espacio-xl);
+  }
+
+  .lista {
+    padding-inline: var(--margen);
+    max-width: 68ch;
+  }
+
+  .entrada {
+    border-top: 1px solid var(--linea);
+  }
+
+  .entrada:last-child {
+    border-bottom: 1px solid var(--linea);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-md);
+    /* Objetivo táctil holgado: se abre y se cierra con el dedo. */
+    min-height: 3.5rem;
+    padding-block: var(--espacio-sm);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  /* El triángulo por defecto de Safari rompe la alineación. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pregunta {
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  /* Cruz que gira a equis al abrir. Más discreto que una flecha. */
+  .signo {
+    position: relative;
+    flex-shrink: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    transition: rotate 0.4s var(--salida);
+  }
+
+  .signo::before,
+  .signo::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: var(--tinta);
+  }
+
+  .signo::after {
+    rotate: 90deg;
+  }
+
+  .entrada[open] .signo {
+    rotate: 135deg;
+  }
+
+  .respuesta {
+    max-width: 58ch;
+    padding-bottom: var(--espacio-md);
+    color: var(--tinta-media);
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signo {
+      transition: none;
+    }
+  }
+</style>

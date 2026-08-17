@@ -95,12 +95,45 @@ const horarioParaScript = negocio.horario.map((dia) => ({
     </div>
   </div>
 
+  {/*
+    El iframe sale SIN `src`: la URL vive en `data-src-consentido` y solo se
+    copia al atributo real cuando hay un sí explícito en el aviso de cookies.
+    Con `src` puesto de salida, el navegador contactaría con Google y Google
+    instalaría sus cookies antes de que nadie haya aceptado nada, que es
+    exactamente lo que el artículo 22.2 de la LSSI prohíbe.
+  */}
   <div class="mapa">
     <iframe
-      src={mapaIncrustado}
+      data-src-consentido={mapaIncrustado}
       title={`Mapa de ubicación: ${direccionLegible}`}
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    {/*
+      Marcador mientras no hay consentimiento. No es un hueco vacío: repite la
+      dirección, ofrece el enlace a Maps —que no instala nada hasta que se
+      pulsa— y deja volver sobre la decisión.
+    */}
+    <div class="marcador" data-sin-consentimiento>
+      <p class="donde-marcador">{negocio.direccion.local}</p>
+      <p class="detalle-marcador">
+        {negocio.direccion.numeroLocal} · {negocio.direccion.ciudad}
+      </p>
+      <p class="motivo">
+        El mapa no se carga hasta que aceptas las cookies de Google.
+      </p>
+      <div class="opciones">
+        <button type="button" class="accion-marcador" data-abrir-cookies>Cargar el mapa</button>
+        <a
+          class="accion-marcador"
+          href={enlaceMapa}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Abrir en Google Maps
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -303,6 +336,81 @@ const horarioParaScript = negocio.horario.map((dia) => ({
     width: 100%;
     height: clamp(16rem, 42vh, 28rem);
     border: 0;
+  }
+
+  /* Sin consentimiento el iframe está vacío y no debe reservar altura: la ocupa
+     el marcador, que mide exactamente lo mismo. */
+  .mapa iframe:not([src]) {
+    display: none;
+  }
+
+  /* Mismo motivo que en el aviso de cookies: `display` de autor pisa a
+     `[hidden]`, y sin esto el marcador seguiría encima del mapa ya cargado. */
+  .marcador[hidden] {
+    display: none;
+  }
+
+  .marcador {
+    /*
+      `.mapa` lleva `line-height: 0` para matar el hueco de descendente que el
+      navegador deja bajo un iframe. El marcador lo heredaba y sus párrafos
+      salían con altura CERO: el texto se pintaba encima de sí mismo. Aquí se
+      recupera la interlínea normal del cuerpo.
+    */
+    line-height: 1.6;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--espacio-2xs);
+    height: clamp(16rem, 42vh, 28rem);
+    padding: var(--espacio-lg) var(--margen);
+    text-align: center;
+    background: var(--papel-hueso);
+  }
+
+  .donde-marcador {
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+  }
+
+  .detalle-marcador {
+    color: var(--tinta-media);
+    font-size: var(--texto-sm);
+  }
+
+  .motivo {
+    max-width: 34ch;
+    margin-top: var(--espacio-2xs);
+    color: var(--grafito);
+    font-size: var(--texto-xs);
+    text-wrap: pretty;
+  }
+
+  .opciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-sm);
+  }
+
+  .accion-marcador {
+    padding: 0;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--borde);
+    color: var(--tinta);
+    font-family: var(--texto);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.4s var(--salida);
+  }
+
+  .accion-marcador:hover {
+    border-color: var(--tinta);
   }
 
   @media (prefers-reduced-motion: reduce) {

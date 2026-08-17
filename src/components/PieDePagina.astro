@@ -1,18 +1,21 @@
 ---
 import Logo from './Logo.astro'
 import { negocio, direccionLegible } from '../data/negocio'
+import { paginasServicio } from '../data/paginasServicio'
 
 /**
- * ⚠️ FALTAN LAS PÁGINAS LEGALES.
+ * Páginas legales: obligación de la LSSI-CE y del RGPD, y su sitio es el pie,
+ * que es donde la gente las busca.
  *
- * Una web de negocio en España necesita aviso legal (LSSI-CE) y política de
- * privacidad (RGPD). La web antigua los tenía. Aquí no se enlazan todavía
- * porque no existen: hacen falta la razón social o el nombre de la titular, el
- * NIF y el domicilio fiscal, y esos datos no se inventan.
- *
- * En cuanto lleguen, se añaden las páginas y sus enlaces en este pie. Es
- * bloqueante para publicar, no un detalle.
+ * Los datos identificativos (titular, NIF, domicilio) no hubo que pedirlos: la
+ * propia dueña ya los tenía publicados en el aviso legal de la web antigua.
  */
+const legales = [
+  { texto: 'Aviso legal', destino: '/aviso-legal/' },
+  { texto: 'Política de privacidad', destino: '/politica-de-privacidad/' },
+  { texto: 'Política de cookies', destino: '/politica-de-cookies/' },
+]
+
 const anio = new Date().getFullYear()
 ---
 
@@ -28,6 +31,23 @@ const anio = new Date().getFullYear()
     <a class="enlace toque" href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a>
   </div>
 
+  {/*
+    Enlace a las páginas de servicio desde todas las páginas del sitio.
+
+    No es relleno de pie: una página a la que no apunta nada tarda semanas en
+    ser rastreada y no recibe autoridad de la portada. Este bloque es lo que
+    conecta el trabajo de SEO local con el resto de la web.
+  */}
+  <nav class="servicios" aria-label="Servicios">
+    {
+      paginasServicio.map((pagina) => (
+        <a class="enlace toque" href={`/${pagina.slug}/`}>
+          {pagina.etiqueta} en Rivas
+        </a>
+      ))
+    }
+  </nav>
+
   <nav class="redes" aria-label="Redes sociales">
     <a class="enlace toque" href={negocio.redes.instagram} target="_blank" rel="noopener noreferrer">
       Instagram
@@ -37,7 +57,27 @@ const anio = new Date().getFullYear()
     </a>
   </nav>
 
-  <p class="creditos">© {anio} {negocio.nombre}</p>
+  <div class="creditos">
+    <p>© {anio} {negocio.nombre}</p>
+
+    <nav class="legales" aria-label="Información legal">
+      {
+        legales.map((legal) => (
+          <a class="enlace toque" href={legal.destino}>
+            {legal.texto}
+          </a>
+        ))
+      }
+
+      {/*
+        Retirar el consentimiento tiene que ser tan posible como darlo: lo exige
+        el RGPD. Vuelve a abrir el aviso de cookies.
+      */}
+      <button type="button" class="enlace boton-cookies toque" data-abrir-cookies>
+        Configuración de cookies
+      </button>
+    </nav>
+  </div>
 </footer>
 
 <style>
@@ -57,6 +97,7 @@ const anio = new Date().getFullYear()
 
   /* Hueco generoso: las áreas táctiles ampliadas no deben solaparse. */
   .datos,
+  .servicios,
   .redes {
     display: grid;
     justify-items: start;
@@ -81,15 +122,47 @@ const anio = new Date().getFullYear()
   }
 
   .creditos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-sm) var(--espacio-lg);
     color: var(--grafito);
     font-size: var(--texto-xs);
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
+  .legales {
+    display: flex;
+    flex-wrap: wrap;
+    /* Hueco amplio: las áreas táctiles ampliadas de .toque no deben solaparse. */
+    gap: var(--espacio-sm) var(--espacio-lg);
+  }
+
+  .legales .enlace {
+    color: inherit;
+  }
+
+  /* Es un <button> porque abre un diálogo, no navega. Se le quita la apariencia
+     de control para que lea igual que los enlaces de al lado. */
+  .boton-cookies {
+    padding: 0;
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+
   @media (min-width: 48rem) {
     .pie {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+      /* Cuatro columnas desde que entraron los servicios: marca, datos,
+         servicios y redes. Con tres, el bloque nuevo caía a una segunda fila
+         y dejaba el pie descuadrado. */
+      grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
       gap: var(--espacio-lg) var(--espacio-md);
       align-items: start;
     }

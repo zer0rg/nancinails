@@ -21,10 +21,17 @@ export const negocio = {
 
   direccion: {
     local: 'Centro Comercial Santa Mónica',
+    /*
+     * Número de local dentro del centro comercial.
+     *
+     * Sale del aviso legal que la propia dueña tenía publicado en la web
+     * antigua ("LOCAL 52BIS CENTRO COMERCIAL SANTA MÓNICA"), así que es un dato
+     * suyo y no una suposición. Importa más de lo que parece: sin él, una
+     * clienta que no conozca el centro llega al edificio y tiene que buscar el
+     * salón dentro.
+     */
+    numeroLocal: 'local 52 bis',
     // Dirección postal del centro comercial, según su ficha en Google Maps.
-    // PENDIENTE: confirmar con la dueña el número de local o planta dentro del
-    // centro. Sin ese dato, una clienta que no lo conozca llega al edificio
-    // pero tiene que buscar el salón dentro.
     calle: 'Calle Aloe, 14',
     codigoPostal: '28522',
     ciudad: 'Rivas Vaciamadrid',
@@ -97,8 +104,20 @@ export const mapaIncrustado = `https://www.google.com/maps?q=${encodeURIComponen
 /** Texto de dirección en una línea, saltando los campos aún sin confirmar. */
 export const direccionLegible = [
   negocio.direccion.local,
+  negocio.direccion.numeroLocal,
   negocio.direccion.calle,
   [negocio.direccion.codigoPostal, negocio.direccion.ciudad].filter(Boolean).join(' '),
 ]
+  .filter(Boolean)
+  .join(', ')
+
+/**
+ * Dirección de calle para el marcado `PostalAddress`.
+ *
+ * Incluye el número de local: la consistencia carácter a carácter entre la web,
+ * la ficha de Google y los directorios es de los factores que más pesan en el
+ * posicionamiento local.
+ */
+export const direccionPostal = [negocio.direccion.calle, negocio.direccion.numeroLocal]
   .filter(Boolean)
   .join(', ')

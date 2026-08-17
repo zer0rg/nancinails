@@ -6,14 +6,23 @@ import '@fontsource-variable/bodoni-moda/wght-italic.css'
 import '@fontsource-variable/jost'
 import '../styles/global.css'
 
-import { negocio, direccionLegible } from '../data/negocio'
+import AvisoCookies from '../components/AvisoCookies.astro'
+import { negocio, direccionLegible, direccionPostal, enlaceMapa } from '../data/negocio'
+import { grupos, hayPreciosProvisionales } from '../data/servicios'
 
 type Props = {
   titulo: string
   descripcion: string
+  /** Para páginas que no deben aparecer en Google, como la 404. */
+  sinIndexar?: boolean
+  /**
+   * Marcado adicional de schema.org: migas de pan, `Service`, `FAQPage`…
+   * El `NailSalon` va siempre y no hace falta pasarlo.
+   */
+  esquemas?: Record<string, unknown>[]
 }
 
-const { titulo, descripcion } = Astro.props
+const { titulo, descripcion, sinIndexar = false, esquemas = [] } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
 
 /*
@@ -23,10 +32,44 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
  * al dominio real, que es lo último que le conviene a un negocio local.
  */
 const esProduccion = canonical.hostname === 'nancinails.es'
+const indexable = esProduccion && !sinIndexar
+
+/*
+ * Catálogo de servicios para el marcado.
+ *
+ * Solo se publica cuando TODOS los precios están confirmados. Declarar precios
+ * provisionales como datos estructurados es publicar una tarifa falsa en los
+ * resultados de Google, y eso es peor que no publicar ninguna.
+ */
+const ofertas = hayPreciosProvisionales
+  ? []
+  : grupos.flatMap((grupo) =>
+      grupo.servicios
+        .filter((servicio) => servicio.precio !== null)
+        .map((servicio) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: servicio.nombre,
+            description: servicio.descripcion,
+            category: grupo.titulo,
+          },
+          price: servicio.precio,
+          priceCurrency: 'EUR',
+        })),
+    )
 
 /**
  * Datos estructurados para Google. Sin esto, un negocio local es invisible en
  * los resultados con mapa, horario y teléfono.
+ *
+ * PENDIENTE: `geo` con las coordenadas exactas del local. Refuerza la señal
+ * geográfica, pero unas coordenadas aproximadas apuntan a la puerta
+ * equivocada, así que se omiten hasta tenerlas medidas sobre el mapa.
+ *
+ * PENDIENTE: `aggregateRating`. No se añade hasta que haya reseñas reales
+ * publicadas: marcar valoraciones inexistentes es motivo de penalización
+ * manual por spam de datos estructurados.
  */
 const datosEstructurados = {
   '@context': 'https://schema.org',
@@ -34,13 +77,26 @@ const datosEstructurados = {
   name: negocio.nombre,
   description: negocio.descripcion,
   url: negocio.web,
+  image: new URL('/og.jpg', Astro.site).href,
   telephone: negocio.contacto.movilE164,
   email: negocio.contacto.email,
+  // Horquilla de precio del salón. Google la muestra en la ficha del negocio.
+  priceRange: '€€',
+  // Vincula la web con la ficha de Google Maps.
+  hasMap: enlaceMapa,
+  /*
+   * Radio de captación. El salón está en Rivas, pero el centro comercial recibe
+   * clientas de los municipios de alrededor por la A-3. Declararlo amplía las
+   * búsquedas locales en las que Google considera el negocio.
+   */
+  areaServed: ['Rivas Vaciamadrid', 'Arganda del Rey', 'Velilla de San Antonio', 'Madrid'].map(
+    (municipio) => ({ '@type': 'City', name: municipio }),
+  ),
+  ...(ofertas.length ? { makesOffer: ofertas } : {}),
   address: {
     '@type': 'PostalAddress',
-    // La calle y el código postal siguen sin confirmar: se omiten en lugar de
-    // inventarlos, porque una dirección falsa penaliza el SEO local.
-    ...(negocio.direccion.calle ? { streetAddress: negocio.direccion.calle } : {}),
+    // Calle y número de local. Este último sale del aviso legal de la dueña.
+    ...(direccionPostal ? { streetAddress: direccionPostal } : {}),
     ...(negocio.direccion.codigoPostal ? { postalCode: negocio.direccion.codigoPostal } : {}),
     addressLocality: negocio.direccion.ciudad,
     addressRegion: negocio.direccion.provincia,
@@ -70,7 +126,7 @@ const datosEstructurados = {
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
-    {!esProduccion && <meta name="robots" content="noindex, nofollow" />}
+    {!indexable && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />
@@ -88,10 +144,17 @@ const datosEstructurados = {
     <meta name="geo.placename" content={direccionLegible} />
 
     <script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} is:inline />
+    {
+      esquemas.map((esquema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(esquema)} is:inline />
+      ))
+    }
   </head>
 
   <body>
     <a class="salto" href="#contenido">Saltar al contenido</a>
     <slot />
+    {/* Va en el Layout para que el consentimiento valga en todo el sitio. */}
+    <AvisoCookies />
   </body>
 </html>

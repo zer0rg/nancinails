@@ -284,13 +284,11 @@ a {
   @media (prefers-reduced-motion: no-preference) {
     [data-revelar] {
       animation: revelar 1s var(--salida) both;
-      animation-timeline: view();
+      animation-timeline: view(block);
       will-change: opacity, transform;
-      /* El rango termina dentro de `entry`: así, en cuanto el elemento está
-         entero en pantalla ya se ve al 100%. Con un rango que llega a `cover`,
-         un elemento visible pero sin scroll disponible se queda a medio
-         aparecer, y eso es un fallo de accesibilidad, no un efecto. */
-      animation-range: entry 0% entry 80%;
+      /* `cover` hace que el reveal tenga recorrido incluso en elementos
+         pequeños y evita que el cambio ocurra en un solo instante al entrar. */
+      animation-range: entry 0% cover 40%;
     }
   }
 }

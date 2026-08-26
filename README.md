@@ -73,10 +73,10 @@ las fotos originales.
 
 ### Logo
 
-`src/components/Logo.astro` contiene una marca tipográfica provisional en Bodoni.
-El logotipo definitivo lo aporta la dueña; se sustituye el contenido de ese único
-archivo y ningún otro componente se entera. El logo rosa actual queda archivado
-en `assets-source/marca/` como referencia.
+`src/components/Logo.astro` contiene la firma vectorial y tipográfica usada en
+cabecera y pie: monograma compartido con el favicon, nombre en Bodoni y descriptor
+en Jost. El texto sigue siendo HTML para conservar accesibilidad y nitidez. La
+marca rosa anterior queda archivada en `assets-source/marca/` como referencia.
 
 ## Decisiones que conviene no deshacer
 

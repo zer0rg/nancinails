@@ -90,12 +90,12 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
   </div>
   <dialog class="visor" data-visor aria-labelledby="visor-titulo">
     <div class="visor-marco">
-      <button class="visor-cerrar" type="button" data-visor-cerrar aria-label="Cerrar visor">×</button>
+      <button class="visor-cerrar" type="button" data-visor-cerrar aria-label="Cerrar visor"><span aria-hidden="true"></span></button>
 
       <div class="visor-media" data-visor-media>
         <img data-visor-imagen src="" alt="" />
-        <button class="visor-control anterior" type="button" data-visor-anterior aria-label="Trabajo anterior">‹</button>
-        <button class="visor-control siguiente" type="button" data-visor-siguiente aria-label="Trabajo siguiente">›</button>
+        <button class="visor-control anterior" type="button" data-visor-anterior aria-label="Trabajo anterior"><span aria-hidden="true"></span></button>
+        <button class="visor-control siguiente" type="button" data-visor-siguiente aria-label="Trabajo siguiente"><span aria-hidden="true"></span></button>
       </div>
 
       <div class="visor-info">
@@ -275,6 +275,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     box-sizing: border-box;
     inline-size: min(92%, 72rem);
     max-inline-size: calc(100% - 2rem);
+    margin: auto;
     max-height: 92vh;
     padding: 0;
     border: 1px solid var(--tinta-media);
@@ -356,6 +357,13 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     transition: background 0.35s var(--salida), border-color 0.35s var(--salida);
   }
 
+  .visor-cerrar span,
+  .visor-control span {
+    display: block;
+    position: relative;
+    flex: none;
+  }
+
   .visor-cerrar:hover,
   .visor-control:hover {
     border-color: var(--papel);
@@ -370,9 +378,31 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    font-size: 1.75rem;
-    font-weight: 300;
-    line-height: 1;
+    padding: 0;
+  }
+
+  .visor-cerrar span {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .visor-cerrar span::before,
+  .visor-cerrar span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.15rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .visor-cerrar span::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .visor-cerrar span::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 
   .visor-control {
@@ -381,10 +411,23 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 50%;
-    font-family: Georgia, serif;
-    font-size: 2.25rem;
-    line-height: 0;
+    padding: 0;
     transform: translateY(-50%);
+  }
+
+  .visor-control span {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+  }
+
+  .visor-control.anterior span {
+    transform: rotate(-135deg) translate(-0.08rem, -0.08rem);
+  }
+
+  .visor-control.siguiente span {
+    transform: rotate(45deg) translate(-0.08rem, -0.08rem);
   }
 
   .visor-control:disabled {

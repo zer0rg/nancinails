@@ -20,7 +20,7 @@ Fecha: 26 de agosto de 2026
 | P2 | Corregido | Cuatro imágenes de galería fuera del pliegue se cargaban con `eager`. Ahora solo el hero/LCP es eager y lleva prioridad alta. |
 | P2 | Corregido | Los metadatos estaban centralizados parcialmente en el layout, pero no permitían configurar canonical, imagen u `og:type`. `SEO.astro` expone esos campos sin duplicados. |
 | P2 | Correcto | `?n=...` devuelve la Home con canonical y `og:url` limpios; esos parámetros no aparecen en el sitemap. |
-| P3 | `OWNER_VERIFICATION_REQUIRED` | La marca tipográfica y los favicon son provisionales. No se declara `logo` en Schema.org hasta disponer de un archivo oficial. |
+| P3 | `OWNER_VERIFICATION_REQUIRED` | La marca tipográfica sigue siendo provisional. El favicon ya tiene un monograma propio, pero no se declara como `logo` en Schema.org sin confirmación de identidad corporativa. |
 
 ## Estado técnico final
 
@@ -171,7 +171,8 @@ automáticamente afirmaciones comerciales discutibles.
   `src/data/galeria.ts:62,76,97,118,149` corresponden realmente a esa técnica.
 - Aportar más fotografías de pedicura: hoy solo hay una y la landing omite el
   mosaico para no etiquetar manos como pies.
-- Aportar logotipo/favicon oficiales antes de añadir `logo` a JSON-LD.
+- Confirmar el logotipo corporativo antes de añadir `logo` a JSON-LD. El nuevo
+  favicon es un identificador de interfaz, no se presenta como logotipo oficial.
 - Confirmar `priceRange`, coordenadas y ficha oficial de Google Business Profile
   antes de añadirlos a datos estructurados.
 

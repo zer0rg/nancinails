@@ -73,10 +73,10 @@ las fotos originales.
 
 ### Logo
 
-`src/components/Logo.astro` contiene la firma vectorial y tipográfica usada en
-cabecera y pie: monograma compartido con el favicon, nombre en Bodoni y descriptor
-en Jost. El texto sigue siendo HTML para conservar accesibilidad y nitidez. La
-marca rosa anterior queda archivada en `assets-source/marca/` como referencia.
+`src/components/Logo.astro` contiene la firma tipográfica usada en cabecera y
+pie: nombre en Bodoni y descriptor en Jost. El texto sigue siendo HTML para
+conservar accesibilidad y nitidez. La marca rosa anterior queda archivada en
+`assets-source/marca/` como referencia.
 
 ## Decisiones que conviene no deshacer
 

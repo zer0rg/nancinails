@@ -20,7 +20,7 @@ Fecha: 26 de agosto de 2026
 | P2 | Corregido | Cuatro imágenes de galería fuera del pliegue se cargaban con `eager`. Ahora solo el hero/LCP es eager y lleva prioridad alta. |
 | P2 | Corregido | Los metadatos estaban centralizados parcialmente en el layout, pero no permitían configurar canonical, imagen u `og:type`. `SEO.astro` expone esos campos sin duplicados. |
 | P2 | Correcto | `?n=...` devuelve la Home con canonical y `og:url` limpios; esos parámetros no aparecen en el sitemap. |
-| P3 | Mejorado | La cabecera y el favicon comparten ya un monograma propio; la firma visible mantiene el nombre como texto HTML accesible. |
+| P3 | Mejorado | La cabecera muestra una firma tipográfica propia y mantiene el nombre como texto HTML accesible. |
 
 ## Estado técnico final
 

@@ -2,9 +2,8 @@
 /**
  * Firma de Nanci Nails.
  *
- * El monograma comparte geometría con el favicon para que la marca se reconozca
- * tanto en la pestaña como en la cabecera. El nombre sigue siendo texto HTML:
- * conserva nitidez, accesibilidad y la Bodoni de la marca de agua histórica.
+ * El nombre sigue siendo texto HTML: conserva nitidez, accesibilidad y la
+ * Bodoni de la marca de agua histórica.
  */
 type Props = {
   /** Permite usar la firma dentro de distintos contextos semánticos. */
@@ -16,52 +15,22 @@ const { como: Etiqueta = 'span', tamano = 'normal' } = Astro.props
 ---
 
 <Etiqueta class="logo" data-tamano={tamano}>
-  <svg class="simbolo" viewBox="0 0 64 64" aria-hidden="true">
-    <rect width="64" height="64" rx="15" fill="currentColor"></rect>
-    <path
-      class="inicial"
-      d="M12 13h17v4h-4.7l18.2 27.1V17H37v-4h15v4h-5v34h-7.2L21.5 23.7V47H27v4H12v-4h5V17h-5v-4Z"
-    ></path>
-    <path
-      class="laca"
-      d="M40 54.5c0-1.9 1.5-3.5 3.5-3.5h6a3.5 3.5 0 1 1 0 7h-6a3.5 3.5 0 0 1-3.5-3.5Z"
-    ></path>
-  </svg>
-
   <span class="firma">
     <span class="nombre"><span>Nanci</span> <em>Nails</em></span>
-    <span class="especialidad" aria-hidden="true">Manicura <i>·</i> Pedicura</span>
+    <span class="especialidad" aria-hidden="true">Pedicura <i>y</i> manicura</span>
   </span>
 </Etiqueta>
 
 <style>
   .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
+    display: inline-block;
     margin: 0;
     color: var(--tinta);
   }
 
-  .simbolo {
-    flex: 0 0 auto;
-    width: 2.5rem;
-    height: 2.5rem;
-    overflow: visible;
-    color: var(--tinta);
-  }
-
-  .inicial {
-    fill: var(--papel);
-  }
-
-  .laca {
-    fill: var(--laca);
-  }
-
   .firma {
     display: grid;
-    gap: 0.27rem;
+    gap: 0.3rem;
   }
 
   .nombre {
@@ -96,15 +65,6 @@ const { como: Etiqueta = 'span', tamano = 'normal' } = Astro.props
   .especialidad i {
     color: var(--laca);
     font-style: normal;
-  }
-
-  .logo[data-tamano='grande'] {
-    gap: 0.9rem;
-  }
-
-  .logo[data-tamano='grande'] .simbolo {
-    width: 3.25rem;
-    height: 3.25rem;
   }
 
   .logo[data-tamano='grande'] .nombre {

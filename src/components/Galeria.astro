@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import BotonReserva from './BotonReserva.astro'
-import { trabajos, trabajosDe, type CategoriaTrabajo } from '../data/galeria'
+import { trabajos, trabajosDe, etiquetasCategoria, type CategoriaTrabajo } from '../data/galeria'
 import { negocio } from '../data/negocio'
 
 /**
@@ -28,6 +28,7 @@ const {
 } = Astro.props
 
 const visibles = categoria ? trabajosDe(categoria) : trabajos
+const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, string][]
 ---
 
 <section class="seccion galeria" id="trabajos" data-invertido>
@@ -36,10 +37,24 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
     <p class="entradilla">{entradilla}</p>
   </div>
 
-  <ul class="mosaico">
+  {
+    !categoria && (
+      <div class="filtros" aria-label="Filtrar trabajos por servicio">
+        <span class="etiqueta-filtros">Ver por</span>
+        <div class="lista-filtros" role="group">
+          <button class="filtro activo" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+          {categorias.map(([id, etiqueta]) => (
+            <button class="filtro" type="button" data-filtro={id} aria-pressed="false">{etiqueta}</button>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  <ul class="mosaico" data-galeria-lista>
     {
       visibles.map((trabajo) => (
-        <li class="pieza" data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
+        <li class="pieza" tabindex="0" aria-label={`${trabajo.descripcion ?? trabajo.alt}. Servicio: ${trabajo.categorias.map((id) => etiquetasCategoria[id]).join(', ')}`} data-categorias={trabajo.categorias.join(' ')} data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
           <Image
             src={trabajo.imagen}
             alt={trabajo.alt}
@@ -47,6 +62,16 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
             sizes="(min-width: 75rem) 22vw, (min-width: 48rem) 30vw, 45vw"
             loading="lazy"
           />
+          <div class="overlay" aria-hidden="true">
+            <div class="overlay-contenido">
+              <span class="overlay-servicio">
+                {trabajo.categorias.map((id, indice) => (
+                  <>{indice > 0 && ' · '}{etiquetasCategoria[id]}</>
+                ))}
+              </span>
+              <p>{trabajo.descripcion ?? trabajo.alt}</p>
+            </div>
+          </div>
         </li>
       ))
     }
@@ -78,6 +103,45 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
     margin-bottom: var(--espacio-xl);
   }
 
+  .filtros {
+    display: grid;
+    gap: var(--espacio-sm);
+    padding-inline: var(--margen);
+    margin-bottom: var(--espacio-lg);
+  }
+
+  .etiqueta-filtros,
+  .overlay-servicio {
+    color: var(--sobre-tinta-suave);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .lista-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-2xs) var(--espacio-sm);
+  }
+
+  .filtro {
+    appearance: none;
+    border: 0;
+    border-bottom: 1px solid var(--tinta-media);
+    background: transparent;
+    color: var(--sobre-tinta-suave);
+    cursor: pointer;
+    font-size: var(--texto-sm);
+    padding: 0.15rem 0 0.35rem;
+    transition: border-color 0.4s var(--salida), color 0.4s var(--salida);
+  }
+
+  .filtro:hover,
+  .filtro.activo {
+    border-color: var(--papel);
+    color: var(--papel);
+  }
+
   .mosaico {
     display: grid;
     /* dense rellena los huecos que dejan las piezas de doble tamaño. */
@@ -90,8 +154,10 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
   }
 
   .pieza {
+    position: relative;
     aspect-ratio: 4 / 5;
     overflow: hidden;
+    background: var(--tinta-media);
   }
 
   /*
@@ -131,9 +197,64 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
     transition: transform 0.8s var(--salida);
   }
 
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--espacio-md);
+    background: linear-gradient(180deg, transparent 28%, oklch(0.1 0.01 350 / 0.88) 100%);
+    opacity: 0;
+    transition: opacity 0.5s var(--salida);
+  }
+
+  .overlay-contenido {
+    transform: translateY(0.75rem);
+    transition: transform 0.5s var(--salida);
+  }
+
+  .overlay p {
+    color: var(--papel);
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+    line-height: 1.15;
+    margin-top: var(--espacio-2xs);
+    max-width: 25ch;
+  }
+
+  @media (hover: hover) {
+    .pieza:hover .overlay {
+      opacity: 1;
+    }
+
+    .pieza:hover .overlay-contenido {
+      transform: translateY(0);
+    }
+  }
+
+  .pieza:focus-within .overlay {
+    opacity: 1;
+  }
+
+  .pieza:focus-within .overlay-contenido {
+    transform: translateY(0);
+  }
+
+  .pieza[data-oculta] {
+    display: none;
+  }
+
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .pieza:hover :global(img) {
       transform: scale(1.03);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .overlay,
+    .overlay-contenido,
+    .pieza :global(img) {
+      transition: none;
     }
   }
 
@@ -183,3 +304,29 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
     }
   }
 </style>
+
+<script>
+  const galerias = document.querySelectorAll('[data-galeria-lista]')
+
+  galerias.forEach((galeria) => {
+    const filtros = galeria.closest('[data-invertido]')?.querySelectorAll('[data-filtro]')
+    const piezas = galeria.querySelectorAll('[data-categorias]')
+
+    filtros?.forEach((filtro) => {
+      filtro.addEventListener('click', () => {
+        const categoria = filtro.getAttribute('data-filtro')
+
+        filtros.forEach((otro) => {
+          const activo = otro === filtro
+          otro.classList.toggle('activo', activo)
+          otro.setAttribute('aria-pressed', String(activo))
+        })
+
+        piezas.forEach((pieza) => {
+          const visible = categoria === 'todos' || pieza.getAttribute('data-categorias')?.split(' ').includes(categoria ?? '')
+          pieza.toggleAttribute('data-oculta', !visible)
+        })
+      })
+    })
+  })
+</script>

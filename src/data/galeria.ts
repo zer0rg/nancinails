@@ -47,9 +47,19 @@ import francesNeonExtension from '../assets/galeria/frances-neon-extension.jpg'
  */
 export type CategoriaTrabajo = 'manos' | 'pies' | 'gel' | 'diseno'
 
+/** Nombre visible de cada filtro. Las categorías internas no se muestran tal cual. */
+export const etiquetasCategoria: Record<CategoriaTrabajo, string> = {
+  manos: 'Manicura',
+  pies: 'Pedicura',
+  gel: 'Uñas de gel',
+  diseno: 'Diseño',
+}
+
 export type Trabajo = {
   imagen: ImageMetadata
   alt: string
+  /** Texto que aparece en la tarjeta al pasar el ratón o enfocarla. */
+  descripcion?: string
   /** Ocupa dos columnas en el mosaico. Reservado a los trabajos más rotundos. */
   destacada?: boolean
   /** Páginas de servicio en las que aparece esta foto. */
@@ -75,99 +85,118 @@ export const trabajos: Trabajo[] = [
     imagen: almendraNegraCarey,
     categorias: ['manos', 'gel', 'diseno'],
     alt: 'Uñas almendradas en negro con efecto carey y una flor difuminada, sobre adelfas rosas',
+    descripcion: 'Almendra negra con efecto carey y una flor difuminada, un diseño intenso y elegante.',
   },
   {
     imagen: francesBabyboomer,
     categorias: ['manos', 'diseno'],
     alt: 'Francesa babyboomer: degradado de nude a blanco sin línea marcada',
+    descripcion: 'Francesa babyboomer en nude y blanco, suave y luminosa.',
     destacada: true,
   },
   {
     imagen: rojoRosaPintada,
     categorias: ['manos', 'diseno'],
     alt: 'Manicura roja con una rosa y hojas pintadas a mano sobre base nude',
+    descripcion: 'Base nude con una rosa y hojas pintadas a mano para un acabado único.',
   },
   {
     imagen: nudeNaturalBrillo,
     categorias: ['manos'],
     alt: 'Uñas naturales cortas con acabado nude de alto brillo',
+    descripcion: 'Uña natural corta en nude, limpia y con brillo espejo.',
   },
   {
     imagen: degradadoLilaNegro,
     categorias: ['manos', 'gel', 'diseno'],
     alt: 'Degradado de lila a negro con pedrería plateada en el anular',
+    descripcion: 'Degradado de lila a negro con un toque de pedrería plateada.',
   },
   {
     imagen: pedicuraRojo,
     categorias: ['pies', 'manos'],
     alt: 'Pedicura y manicura a juego en rojo intenso',
+    descripcion: 'Manicura y pedicura a juego en rojo intenso.',
     destacada: true,
   },
   {
     imagen: nudeCremoso,
     categorias: ['manos'],
     alt: 'Almendra corta en nude cremoso con acabado satinado',
+    descripcion: 'Almendra corta en nude cremoso y acabado satinado.',
   },
   {
     imagen: turquesaMarmol,
     categorias: ['manos', 'diseno'],
     alt: 'Degradado turquesa con vetas negras de mármol trazadas a mano',
+    descripcion: 'Turquesa degradado con vetas negras de mármol dibujadas a mano.',
   },
   {
     imagen: lilaPastel,
     categorias: ['manos', 'gel'],
     alt: 'Almendra larga en lila pastel con purpurina fina',
+    descripcion: 'Almendra larga en lila pastel con un velo de purpurina fina.',
   },
   {
     imagen: rojoDisenoBn,
     categorias: ['manos', 'diseno'],
     alt: 'Uñas rojas con un diseño en blanco y negro pintado a mano',
+    descripcion: 'Rojo intenso combinado con un diseño gráfico en blanco y negro.',
     destacada: true,
   },
   {
     imagen: purpurinaCoral,
     categorias: ['manos', 'diseno'],
     alt: 'Combinación de purpurina coral, rosa empolvado y blanco roto en forma cuadrada',
+    descripcion: 'Coral, rosa empolvado y blanco roto con purpurina en forma cuadrada.',
   },
   {
     imagen: coralLiso,
     categorias: ['manos'],
     alt: 'Almendra en coral liso con brillo espejo',
+    descripcion: 'Almendra en coral liso con un brillo limpio y luminoso.',
   },
   {
     imagen: fucsiaTornasolado,
     categorias: ['manos'],
     alt: 'Fucsia tornasolado con reflejo violeta sobre tul blanco',
+    descripcion: 'Fucsia tornasolado con reflejos violetas.',
   },
   {
     imagen: degradadoRosaFlores,
     categorias: ['manos', 'diseno'],
     alt: 'Degradado de nude a rosa y rojo, fotografiado sobre flores blancas',
+    descripcion: 'Degradado de nude a rosa y rojo con un acabado romántico.',
   },
   {
     imagen: francesNeonExtension,
     categorias: ['gel', 'diseno'],
     alt: 'Uñas de gel con extensión y francesa en neón verde, rosa, amarillo y naranja',
+    descripcion: 'Extensión de gel con francesa neón multicolor, para llevar las manos al centro.',
     destacada: true,
   },
   {
     imagen: degradadoNaranja,
     categorias: ['manos'],
     alt: 'Degradado de naranja a coral en forma almendra',
+    descripcion: 'Almendra en degradado de naranja a coral.',
   },
   {
     imagen: rosaNeonFrancesa,
     categorias: ['manos', 'diseno'],
     alt: 'Rosa neón con francesa invertida en blanco',
+    descripcion: 'Rosa neón con francesa invertida en blanco.',
   },
   {
     imagen: rosaNeonFloral,
     categorias: ['manos', 'diseno'],
     alt: 'Rosa neón combinado con un diseño floral multicolor sobre base blanca',
+    descripcion: 'Rosa neón y flores multicolor sobre una base blanca.',
   },
   {
     imagen: neonArcoiris,
     categorias: ['manos', 'diseno'],
     alt: 'Neones lisos combinados con un degradado arcoíris pintado a mano alzada',
+    descripcion: 'Colores neón lisos con un degradado arcoíris pintado a mano alzada.',
   },
 ]

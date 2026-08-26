@@ -288,7 +288,7 @@ a {
       will-change: opacity, transform;
       /* `cover` hace que el reveal tenga recorrido incluso en elementos
          pequeños y evita que el cambio ocurra en un solo instante al entrar. */
-      animation-range: entry 0% cover 40%;
+      animation-range: entry 25% cover 65%;
     }
   }
 }

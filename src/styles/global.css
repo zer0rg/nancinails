@@ -88,7 +88,6 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {

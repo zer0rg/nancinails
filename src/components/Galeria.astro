@@ -88,26 +88,25 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
       </a>
     </div>
   </div>
+  <dialog class="visor" data-visor aria-labelledby="visor-titulo">
+    <div class="visor-marco">
+      <button class="visor-cerrar" type="button" data-visor-cerrar aria-label="Cerrar visor">×</button>
+
+      <div class="visor-media" data-visor-media>
+        <img data-visor-imagen src="" alt="" />
+        <button class="visor-control anterior" type="button" data-visor-anterior aria-label="Trabajo anterior">‹</button>
+        <button class="visor-control siguiente" type="button" data-visor-siguiente aria-label="Trabajo siguiente">›</button>
+      </div>
+
+      <div class="visor-info">
+        <p class="visor-kicker" id="visor-titulo">Detalle del trabajo</p>
+        <p class="visor-servicio" data-visor-servicio></p>
+        <p class="visor-descripcion" data-visor-descripcion></p>
+        <p class="visor-contador" data-visor-contador aria-live="polite"></p>
+      </div>
+    </div>
+  </dialog>
 </section>
-
-<dialog class="visor" data-visor aria-labelledby="visor-titulo">
-  <div class="visor-marco">
-    <button class="visor-cerrar" type="button" data-visor-cerrar aria-label="Cerrar visor">×</button>
-
-    <div class="visor-media" data-visor-media>
-      <img data-visor-imagen src="" alt="" />
-      <button class="visor-control anterior" type="button" data-visor-anterior aria-label="Trabajo anterior">‹</button>
-      <button class="visor-control siguiente" type="button" data-visor-siguiente aria-label="Trabajo siguiente">›</button>
-    </div>
-
-    <div class="visor-info">
-      <p class="visor-kicker" id="visor-titulo">Detalle del trabajo</p>
-      <p class="visor-servicio" data-visor-servicio></p>
-      <p class="visor-descripcion" data-visor-descripcion></p>
-      <p class="visor-contador" data-visor-contador aria-live="polite"></p>
-    </div>
-  </div>
-</dialog>
 
 <style>
   .galeria {

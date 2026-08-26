@@ -244,23 +244,23 @@ a {
    tome forma al cargar sin animar de golpe todo el contenido que queda abajo. */
 @media (prefers-reduced-motion: no-preference) {
   #contenido > * {
-    animation: entrada-pagina 0.75s var(--salida) both;
+    animation: entrada-pagina 1.15s var(--salida) both;
   }
 
   #contenido > :nth-child(2) {
-    animation-delay: 0.06s;
-  }
-
-  #contenido > :nth-child(3) {
     animation-delay: 0.12s;
   }
 
+  #contenido > :nth-child(3) {
+    animation-delay: 0.24s;
+  }
+
   #contenido > :nth-child(4) {
-    animation-delay: 0.18s;
+    animation-delay: 0.36s;
   }
 
   #contenido > :nth-child(5) {
-    animation-delay: 0.24s;
+    animation-delay: 0.48s;
   }
 }
 
@@ -283,33 +283,30 @@ a {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     [data-revelar] {
-      animation: revelar 0.8s var(--salida) both;
+      animation: revelar 1s var(--salida) both;
       animation-timeline: view();
-      will-change: transform;
+      will-change: opacity, transform;
       /* El rango termina dentro de `entry`: así, en cuanto el elemento está
          entero en pantalla ya se ve al 100%. Con un rango que llega a `cover`,
          un elemento visible pero sin scroll disponible se queda a medio
          aparecer, y eso es un fallo de accesibilidad, no un efecto. */
-      animation-range: entry 0% entry 70%;
+      animation-range: entry 0% entry 80%;
     }
   }
 }
 
 /*
-  Solo desplazamiento, nunca opacidad.
-
-  Con `opacity: 0` en el fotograma inicial, cualquier situación en la que la
-  línea de tiempo no avance (viewport muy alto, composición de la página de
-  una vez, motor que soporta la propiedad pero no la actualiza) deja el
-  contenido literalmente invisible. Un texto que no se lee no es un efecto,
-  es un fallo. Moviendo solo la posición, el peor caso posible es un bloque
-  desplazado dos centímetros, que nadie nota.
+  El desplazamiento y el fade empiezan antes de que el elemento entre por
+  completo en pantalla, de modo que el usuario percibe cómo aparece mientras
+  hace scroll, no solo el último instante de la entrada.
 */
 @keyframes revelar {
   from {
-    transform: translateY(1.25rem);
+    opacity: 0;
+    transform: translateY(2rem);
   }
   to {
+    opacity: 1;
     transform: none;
   }
 }

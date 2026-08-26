@@ -17,6 +17,7 @@
  * ve una versión diluida de nada.
  */
 import type { CategoriaTrabajo } from './galeria'
+import { negocio, horarioResumen } from './negocio'
 
 export type SeccionTexto = {
   titulo: string
@@ -63,7 +64,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'manicura-rivas-vaciamadrid',
     titulo: 'Manicura en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Manicura y esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Manicura express, spa y permanente con precios y duración a la vista. Cita por WhatsApp.',
+      'Manicura express, spa y esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
     h1: { lineas: ['Manicura en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'En el Centro Comercial Santa Mónica. Manicura cuidada, esmaltado permanente que aguanta y diseño hecho a mano.',
@@ -117,8 +118,7 @@ export const paginasServicio: PaginaServicio[] = [
       },
       {
         pregunta: '¿Hace falta pedir cita?',
-        respuesta:
-          'Sí, se trabaja con cita para que nadie espere. Lo más cómodo es escribir por WhatsApp al 648 76 08 40 y cerrar el hueco en dos mensajes.',
+        respuesta: `Sí, se trabaja con cita para que nadie espere. Lo más cómodo es escribir por WhatsApp al ${negocio.contacto.movil} y cerrar el hueco en dos mensajes.`,
       },
       {
         pregunta: '¿El esmaltado permanente daña la uña?',
@@ -132,8 +132,7 @@ export const paginasServicio: PaginaServicio[] = [
       },
       {
         pregunta: '¿Dónde estáis exactamente?',
-        respuesta:
-          'En el Centro Comercial Santa Mónica de Rivas Vaciamadrid, con aparcamiento del propio centro. De lunes a viernes de 10:00 a 20:00 y los sábados de 10:00 a 14:00.',
+        respuesta: `En el ${negocio.direccion.local} de ${negocio.direccion.ciudad}, con aparcamiento del propio centro. ${horarioResumen}.`,
       },
     ],
   },
@@ -142,7 +141,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'pedicura-rivas-vaciamadrid',
     titulo: 'Pedicura en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Pedicura spa y pedicura con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Tratamiento completo de durezas, no solo color. Precios y cita por WhatsApp.',
+      'Pedicura spa y con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
     h1: { lineas: ['Pedicura en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'Tratamiento completo, no solo color. Baño, exfoliación, trabajo de durezas y masaje, en el C.C. Santa Mónica.',
@@ -211,8 +210,7 @@ export const paginasServicio: PaginaServicio[] = [
       },
       {
         pregunta: '¿Dónde estáis y qué horario tenéis?',
-        respuesta:
-          'En el Centro Comercial Santa Mónica de Rivas Vaciamadrid. De lunes a viernes de 10:00 a 20:00 y los sábados de 10:00 a 14:00.',
+        respuesta: `En el ${negocio.direccion.local} de ${negocio.direccion.ciudad}. ${horarioResumen}.`,
       },
     ],
   },
@@ -221,7 +219,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'unas-de-gel-rivas-vaciamadrid',
     titulo: 'Uñas de gel en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Uñas esculpidas en gel, relleno y retirada en el C.C. Santa Mónica de Rivas Vaciamadrid. Diferencias entre gel y acrílico, precios y duración. Cita por WhatsApp.',
+      'Uñas esculpidas en gel, relleno y retirada en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
     h1: { lineas: ['Uñas de gel en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'Extensión y estructura para quien quiere más longitud o más resistencia. Esculpido a medida en el C.C. Santa Mónica.',

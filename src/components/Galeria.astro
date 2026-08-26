@@ -38,14 +38,14 @@ const visibles = categoria ? trabajosDe(categoria) : trabajos
 
   <ul class="mosaico">
     {
-      visibles.map((trabajo, indice) => (
+      visibles.map((trabajo) => (
         <li class="pieza" data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
           <Image
             src={trabajo.imagen}
             alt={trabajo.alt}
             widths={[320, 480, 720]}
             sizes="(min-width: 75rem) 22vw, (min-width: 48rem) 30vw, 45vw"
-            loading={indice < 4 ? 'eager' : 'lazy'}
+            loading="lazy"
           />
         </li>
       ))

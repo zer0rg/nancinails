@@ -1,5 +1,8 @@
 # SEO — Nanci Nails
 
+> Documento histórico de la migración desde WordPress (17 de agosto de 2026).
+> La auditoría vigente del proyecto Astro está en `SEO_AUDIT.md`.
+
 Auditoría de la web actual (`https://nancinails.es`, WordPress) y plan para que la
 web nueva en Astro no solo **conserve** el posicionamiento en Rivas Vaciamadrid,
 sino que lo mejore.

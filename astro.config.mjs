@@ -26,10 +26,16 @@ const dominio =
  * `noindex` de Layout.astro.
  */
 const esProduccion = dominio === 'https://nancinails.es'
+const rutasNoIndexables = new Set([
+  '/aviso-legal/',
+  '/politica-de-cookies/',
+  '/politica-de-privacidad/',
+])
 
 export default defineConfig({
   // Necesario para generar URLs absolutas (canonical, Open Graph, sitemap).
   site: dominio,
+  trailingSlash: 'always',
 
   integrations: [
     sitemap({
@@ -38,7 +44,7 @@ export default defineConfig({
        * la ruta existe y no devuelve un 404 al probar el despliegue, pero no
        * le ofrece a Google ni una URL que rastrear.
        */
-      filter: () => esProduccion,
+      filter: (page) => esProduccion && !rutasNoIndexables.has(new URL(page).pathname),
     }),
   ],
 

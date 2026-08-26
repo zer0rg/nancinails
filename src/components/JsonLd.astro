@@ -1,0 +1,12 @@
+---
+type Props = {
+  data: Record<string, unknown>
+}
+
+const { data } = Astro.props
+
+// Evita que una cadena futura con "</script>" pueda cerrar la etiqueta.
+const json = JSON.stringify(data).replace(/</g, '\\u003c')
+---
+
+<script type="application/ld+json" set:html={json} is:inline />

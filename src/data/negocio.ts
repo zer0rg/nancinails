@@ -7,7 +7,7 @@
 export const negocio = {
   nombre: 'Nanci Nails',
   descripcion: 'Centro de manicura y pedicura en Rivas Vaciamadrid',
-  web: 'https://nancinails.es',
+  web: 'https://nancinails.es/',
 
   contacto: {
     /** Móvil del salón. Es el mismo número de WhatsApp. */
@@ -34,7 +34,7 @@ export const negocio = {
     // Dirección postal del centro comercial, según su ficha en Google Maps.
     calle: 'Calle Aloe, 14',
     codigoPostal: '28522',
-    ciudad: 'Rivas Vaciamadrid',
+    ciudad: 'Rivas-Vaciamadrid',
     provincia: 'Madrid',
     pais: 'ES',
   },
@@ -59,6 +59,9 @@ export const negocio = {
   /** Marcas con las que trabaja el salón. Aparece en la sección de método. */
   productos: ['Kinetics'],
 } as const
+
+/** Resumen visible derivado del horario estructurado, sin duplicar horas. */
+export const horarioResumen = `De lunes a viernes de ${negocio.horario[0].abre} a ${negocio.horario[0].cierra} y los sábados de ${negocio.horario[5].abre} a ${negocio.horario[5].cierra}`
 
 /**
  * Enlace de WhatsApp con el mensaje ya escrito.
@@ -101,15 +104,15 @@ export const mapaIncrustado = `https://www.google.com/maps?q=${encodeURIComponen
   consultaMapa,
 )}&hl=es&z=16&output=embed`
 
-/** Texto de dirección en una línea, saltando los campos aún sin confirmar. */
-export const direccionLegible = [
-  negocio.direccion.local,
-  negocio.direccion.numeroLocal,
+/** Las tres líneas NAP, compartidas por ubicación, pie y páginas legales. */
+export const lineasDireccion = [
+  `${negocio.direccion.local}, ${negocio.direccion.numeroLocal}`,
   negocio.direccion.calle,
-  [negocio.direccion.codigoPostal, negocio.direccion.ciudad].filter(Boolean).join(' '),
-]
-  .filter(Boolean)
-  .join(', ')
+  `${negocio.direccion.codigoPostal} ${negocio.direccion.ciudad}, ${negocio.direccion.provincia}`,
+] as const
+
+/** La misma dirección en una línea para `address`, `aria` y metadatos. */
+export const direccionLegible = lineasDireccion.join(', ')
 
 /**
  * Dirección de calle para el marcado `PostalAddress`.
@@ -118,6 +121,4 @@ export const direccionLegible = [
  * la ficha de Google y los directorios es de los factores que más pesan en el
  * posicionamiento local.
  */
-export const direccionPostal = [negocio.direccion.calle, negocio.direccion.numeroLocal]
-  .filter(Boolean)
-  .join(', ')
+export const direccionPostal = `${negocio.direccion.local}, ${negocio.direccion.numeroLocal}, ${negocio.direccion.calle}`

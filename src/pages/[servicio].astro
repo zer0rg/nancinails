@@ -9,8 +9,8 @@ import PieDePagina from '../components/PieDePagina.astro'
 import BarraMovil from '../components/BarraMovil.astro'
 import BotonReserva from '../components/BotonReserva.astro'
 import { paginasServicio } from '../data/paginasServicio'
-import { negocio } from '../data/negocio'
 import { trabajosDe } from '../data/galeria'
+import { esquemaMigas, esquemaServicio } from '../lib/schema'
 
 /**
  * Plantilla de las páginas de servicio local.
@@ -31,8 +31,6 @@ export function getStaticPaths() {
 }
 
 const { pagina } = Astro.props
-
-const url = new URL(`/${pagina.slug}/`, Astro.site).href
 
 /** Las otras dos páginas, para enlazarlas al final. */
 const otras = paginasServicio.filter((otra) => otra.slug !== pagina.slug)
@@ -58,46 +56,14 @@ const hayGaleria = trabajosDe(pagina.categoriaGaleria).length >= MINIMO_MOSAICO
  * Migas de pan. Google las usa para sustituir la URL cruda en el resultado de
  * búsqueda por una ruta legible: "nancinails.es › Manicura" en lugar del slug.
  */
-const migas = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Inicio', item: negocio.web },
-    { '@type': 'ListItem', position: 2, name: pagina.etiqueta, item: url },
-  ],
-}
-
-const esquemaServicio = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  name: pagina.servicio.nombre,
-  description: pagina.servicio.descripcion,
-  serviceType: pagina.servicio.nombre,
-  url,
-  provider: {
-    '@type': 'NailSalon',
-    name: negocio.nombre,
-    url: negocio.web,
-    telephone: negocio.contacto.movilE164,
-  },
-  areaServed: { '@type': 'City', name: negocio.direccion.ciudad },
-}
-
-const esquemaFaq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: pagina.faq.map((entrada) => ({
-    '@type': 'Question',
-    name: entrada.pregunta,
-    acceptedAnswer: { '@type': 'Answer', text: entrada.respuesta },
-  })),
-}
+const migas = esquemaMigas(pagina)
+const servicio = esquemaServicio(pagina)
 ---
 
 <Layout
   titulo={pagina.titulo}
   descripcion={pagina.descripcion}
-  esquemas={[migas, esquemaServicio, esquemaFaq]}
+  esquemas={[migas, servicio]}
 >
   <Cabecera />
 

@@ -103,36 +103,6 @@
       "statusCode": 301
     },
     {
-      "source": "/testimonials",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/testimonials/",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/our-clients",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/our-clients/",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/trabaja-con-nosotros",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/trabaja-con-nosotros/",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
       "source": "/personalizar-cookies",
       "destination": "/politica-de-cookies/",
       "statusCode": 301
@@ -140,31 +110,6 @@
     {
       "source": "/personalizar-cookies/",
       "destination": "/politica-de-cookies/",
-      "statusCode": 301
-    },
-    {
-      "source": "/feed",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/feed/",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/comments/feed",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/comments/feed/",
-      "destination": "/",
-      "statusCode": 301
-    },
-    {
-      "source": "/wp-json/:ruta*",
-      "destination": "/",
       "statusCode": 301
     }
   ]

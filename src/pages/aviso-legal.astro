@@ -1,11 +1,12 @@
 ---
 import PaginaLegal from '../components/PaginaLegal.astro'
+import { negocio, direccionLegible } from '../data/negocio'
 
 /**
  * Aviso legal.
  *
  * ⚠️ TEXTO COPIADO LITERALMENTE de la web antigua (https://nancinails.es/aviso-legal/)
- * por petición expresa. Solo cambia la presentación, no una coma del contenido.
+ * por petición expresa. Los datos NAP usan la fuente central confirmada.
  *
  * Los datos identificativos (titular, NIF, domicilio, correo) son los que la
  * propia dueña tenía publicados aquí. NO se tocan sin su confirmación: son los
@@ -33,16 +34,16 @@ import PaginaLegal from '../components/PaginaLegal.astro'
     <dd>02321296K</dd>
 
     <dt>Domicilio</dt>
-    <dd>LOCAL 52BIS CENTRO COMERCIAL SANTA MÓNICA RIVAS VACIAMADRID, Madrid - España.</dd>
+    <dd>{direccionLegible}.</dd>
 
     <dt>Correo electrónico</dt>
-    <dd><a href="mailto:nancy_jglc@hotmail.com">nancy_jglc@hotmail.com</a></dd>
+    <dd><a href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a></dd>
 
     <dt>Teléfono de contacto</dt>
-    <dd><a href="tel:+34648760840">648760840</a></dd>
+    <dd><a href={`tel:${negocio.contacto.movilE164}`}>{negocio.contacto.movil}</a></dd>
 
     <dt>Sitio Web</dt>
-    <dd><a href="https://nancinails.es">https://nancinails.es</a></dd>
+    <dd><a href={negocio.web}>{negocio.web}</a></dd>
   </dl>
 
   <h2>Finalidad</h2>
@@ -241,6 +242,6 @@ import PaginaLegal from '../components/PaginaLegal.astro'
     En caso de que usted tenga cualquier duda acerca de este Aviso Legal o quiera
     realizar cualquier comentario sobre el Sitio Web, puede enviar un mensaje de
     correo electrónico a la dirección:{' '}
-    <a href="mailto:nancy_jglc@hotmail.com">nancy_jglc@hotmail.com</a>
+    <a href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a>
   </p>
 </PaginaLegal>

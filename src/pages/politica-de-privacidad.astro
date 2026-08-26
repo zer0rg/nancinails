@@ -1,5 +1,6 @@
 ---
 import PaginaLegal from '../components/PaginaLegal.astro'
+import { negocio, direccionLegible } from '../data/negocio'
 
 /**
  * Política de privacidad.
@@ -31,7 +32,7 @@ import PaginaLegal from '../components/PaginaLegal.astro'
     El Titular le informa sobre su Política de Privacidad respecto del
     tratamiento y protección de los datos de carácter personal de los usuarios
     que puedan ser recabados durante la navegación a través del Sitio Web:{' '}
-    <a href="https://nancinails.es">https://nancinails.es</a>
+    <a href={negocio.web}>{negocio.web}</a>
   </p>
   <p>
     En este sentido, el Titular garantiza el cumplimiento de la normativa vigente
@@ -55,16 +56,16 @@ import PaginaLegal from '../components/PaginaLegal.astro'
     <dd>02321296K</dd>
 
     <dt>Domicilio</dt>
-    <dd>LOCAL 52BIS CENTRO COMERCIAL SANTA MÓNICA RIVAS VACIAMADRID, Madrid - España.</dd>
+    <dd>{direccionLegible}.</dd>
 
     <dt>Correo electrónico</dt>
-    <dd><a href="mailto:nancy_jglc@hotmail.com">nancy_jglc@hotmail.com</a></dd>
+    <dd><a href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a></dd>
 
     <dt>Teléfono de contacto</dt>
-    <dd><a href="tel:+34648760840">648760840</a></dd>
+    <dd><a href={`tel:${negocio.contacto.movilE164}`}>{negocio.contacto.movil}</a></dd>
 
     <dt>Sitio Web</dt>
-    <dd><a href="https://nancinails.es">https://nancinails.es</a></dd>
+    <dd><a href={negocio.web}>{negocio.web}</a></dd>
   </dl>
 
   <h2>Principios aplicados en el tratamiento de datos</h2>
@@ -134,7 +135,8 @@ import PaginaLegal from '../components/PaginaLegal.astro'
   <p>
     Para ejercitar sus derechos tiene que enviar su petición junto con una
     fotocopia del Documento Nacional de Identidad o equivalente a la dirección de
-    correo electrónico: <a href="mailto:nancy_jglc@hotmail.com">nancy_jglc@hotmail.com</a>
+    correo electrónico:{' '}
+    <a href={`mailto:${negocio.contacto.email}`}>{negocio.contacto.email}</a>
   </p>
   <p>
     El ejercicio de estos derechos no incluye ningún dato que el Titular esté

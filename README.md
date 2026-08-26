@@ -8,39 +8,27 @@ Objetivo único: que una visita desde el móvil acabe en una cita por WhatsApp.
 - Contexto estratégico: [PRODUCT.md](PRODUCT.md)
 - Sistema visual: [DESIGN.md](DESIGN.md)
 
-## Antes de publicar
-
-Cuatro cosas bloquean la publicación. Ninguna es de código.
+## Verificaciones de la dueña
 
 1. **Precios reales.** Los de `src/data/servicios.ts` son de referencia del
    mercado, no los de Nanci. Cada servicio lleva un `provisional: true` mientras
    no esté confirmado.
 
-   ⚠️ El aviso que los marcaba en pantalla se ha retirado de la sección de
-   tarifas, así que **nada indica ya a simple vista que estos precios son
-   inventados**. Hay que confirmarlos uno a uno antes de publicar. Para
+   ⚠️ Nada indica a simple vista que estos precios son provisionales. Hay que
+   confirmarlos uno a uno. Para
    comprobar si queda alguno sin revisar:
 
    ```sh
    grep -c "provisional: true" src/data/servicios.ts
    ```
 
-2. **Número de local.** La dirección postal del centro comercial (Calle Aloe 14,
-   28522) está tomada de su ficha en Google Maps y ya viaja en los datos
-   estructurados. Falta el número de local o la planta dentro del centro: sin
-   eso, una clienta nueva llega al edificio pero tiene que buscar el salón.
+2. **Duraciones.** Hay contradicciones entre la tabla y los textos de servicio.
+   Están inventariadas como `OWNER_VERIFICATION_REQUIRED` en `SEO_AUDIT.md`.
 
-3. **Aviso legal, política de privacidad y política de cookies.** Obligatorios
-   en España (LSSI-CE y RGPD). La web antigua los tenía. Hacen falta el nombre
-   o razón social de la titular, el NIF y el domicilio fiscal. Una vez
-   redactados, se añaden las páginas y se enlazan desde
-   `src/components/PieDePagina.astro`.
-
-   La de cookies es especialmente necesaria ahora: **el mapa incrustado de
-   Google instala cookies de terceros en cuanto carga**. Si se prefiere evitarlo
-   hasta tener el aviso publicado, la alternativa es sustituir el iframe de
-   `src/components/Ubicacion.astro` por una carga bajo consentimiento, o
-   quedarse solo con el enlace "Abrir en Google Maps", que no instala nada.
+3. **Textos legales.** Existen, pero la política de privacidad heredada declara
+   proveedores que la web actual no usa. Debe revisarla una persona responsable
+   del negocio con asesoramiento adecuado. El mapa de Google se mantiene sin
+   `src` hasta que el visitante acepta expresamente.
 
 4. **Texto de "El salón".** Está escrito solo con datos comprobables: servicios,
    marca de producto y ubicación. No hay biografía ni años de experiencia porque
@@ -95,9 +83,8 @@ en `assets-source/marca/` como referencia.
 - **Fuentes autoalojadas**, no Google Fonts por CDN. Cargarlas desde Google envía
   la IP de cada visitante a un tercero sin consentimiento, y en España eso tiene
   consecuencias legales.
-- **Sin mapa incrustado.** Un iframe de Google Maps carga cientos de kilobytes e
-  instala cookies de terceros. El enlace abre la app del móvil, que es lo que la
-  clienta va a hacer igualmente.
+- **Mapa bajo consentimiento.** El iframe de Google Maps no recibe `src` hasta
+  que el visitante acepta. Siempre queda disponible un enlace HTML normal.
 - **Las fotos no se desaturan.** La página es blanca y negra; las fotos, no. El
   color de la uña es el producto.
 - **El revelado al hacer scroll solo mueve, nunca oculta.** Si la animación no

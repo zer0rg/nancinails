@@ -4,14 +4,11 @@ import type { Pregunta } from '../data/paginasServicio'
 /**
  * Preguntas frecuentes.
  *
- * Dos motivos, y el segundo pesa tanto como el primero:
- *
- * 1. Responde lo que la clienta duda justo antes de escribir. Cuánto dura,
- *    si daña la uña, si hace falta cita. Quitar esas dudas es lo que convierte
- *    una visita en un mensaje de WhatsApp.
- * 2. Con el marcado `FAQPage`, Google puede desplegar estas respuestas dentro
- *    del propio resultado de búsqueda. Se ocupa más espacio en la página de
- *    resultados sin necesidad de subir de posición.
+ * Responde lo que la clienta duda justo antes de escribir: cuánto dura, si
+ * hace falta cita o cómo se retira. El contenido se mantiene en HTML semántico.
+ * No se añade `FAQPage`: Google reserva habitualmente ese resultado enriquecido
+ * a sitios sanitarios y gubernamentales autorizados, por lo que aquí no aporta
+ * una ventaja real.
  *
  * Se usa `<details>` nativo: sin JavaScript, accesible de serie y buscable con
  * Ctrl+F en los navegadores modernos, que abren el panel al encontrar el texto.

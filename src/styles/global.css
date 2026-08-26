@@ -240,6 +240,41 @@ a {
 
 /* --------------------------------------------------------------- movimiento */
 
+/* Entrada inicial: solo afecta a los bloques principales para que la página
+   tome forma al cargar sin animar de golpe todo el contenido que queda abajo. */
+@media (prefers-reduced-motion: no-preference) {
+  #contenido > * {
+    animation: entrada-pagina 0.75s var(--salida) both;
+  }
+
+  #contenido > :nth-child(2) {
+    animation-delay: 0.06s;
+  }
+
+  #contenido > :nth-child(3) {
+    animation-delay: 0.12s;
+  }
+
+  #contenido > :nth-child(4) {
+    animation-delay: 0.18s;
+  }
+
+  #contenido > :nth-child(5) {
+    animation-delay: 0.24s;
+  }
+}
+
+@keyframes entrada-pagina {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /*
   Revelado ligado al scroll, sin JavaScript. Los navegadores que no soportan
   animation-timeline muestran el contenido tal cual: no hay estado inicial
@@ -248,13 +283,14 @@ a {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     [data-revelar] {
-      animation: revelar linear both;
+      animation: revelar 0.8s var(--salida) both;
       animation-timeline: view();
+      will-change: transform;
       /* El rango termina dentro de `entry`: así, en cuanto el elemento está
          entero en pantalla ya se ve al 100%. Con un rango que llega a `cover`,
          un elemento visible pero sin scroll disponible se queda a medio
          aparecer, y eso es un fallo de accesibilidad, no un efecto. */
-      animation-range: entry 10% entry 90%;
+      animation-range: entry 0% entry 70%;
     }
   }
 }
@@ -271,7 +307,7 @@ a {
 */
 @keyframes revelar {
   from {
-    transform: translateY(1.75rem);
+    transform: translateY(1.25rem);
   }
   to {
     transform: none;

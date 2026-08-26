@@ -301,10 +301,10 @@ a {
 @keyframes revelar {
   from {
     opacity: 0;
-    transform: translateY(2rem);
+    transform: translateY(2rem) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: none;
+    transform: translateY(0) scale(1);
   }
 }

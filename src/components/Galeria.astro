@@ -282,11 +282,37 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     background: var(--tinta);
     color: var(--papel);
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.985);
+    transition:
+      opacity 0.45s var(--salida),
+      transform 0.45s var(--salida),
+      display 0.45s allow-discrete,
+      overlay 0.45s allow-discrete;
+    will-change: opacity, transform;
+  }
+
+  .visor[open] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  @starting-style {
+    .visor[open] {
+      opacity: 0;
+      transform: translateY(0.75rem) scale(0.985);
+    }
   }
 
   .visor::backdrop {
     background: oklch(0.08 0.01 350 / 0.88);
     backdrop-filter: blur(0.5rem);
+    opacity: 0;
+    transition: opacity 0.45s var(--salida), overlay 0.45s allow-discrete;
+  }
+
+  .visor[open]::backdrop {
+    opacity: 1;
   }
 
   .visor-marco {
@@ -311,6 +337,14 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     height: 100%;
     max-height: 76vh;
     object-fit: contain;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    transition: opacity 0.24s var(--salida), transform 0.34s var(--salida);
+  }
+
+  .visor-media[data-cambiando] img {
+    opacity: 0;
+    transform: translateX(0.75rem) scale(0.985);
   }
 
   .visor-info {
@@ -319,6 +353,14 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     justify-content: flex-end;
     gap: var(--espacio-sm);
     padding: var(--espacio-xl) var(--espacio-lg) var(--espacio-lg);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.24s var(--salida), transform 0.34s var(--salida);
+  }
+
+  .visor-info[data-cambiando] {
+    opacity: 0;
+    transform: translateY(0.5rem);
   }
 
   .visor-kicker,
@@ -500,6 +542,13 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     .visor::backdrop {
       backdrop-filter: none;
     }
+
+    .visor,
+    .visor::backdrop,
+    .visor-media img,
+    .visor-info {
+      transition: none;
+    }
   }
 
   .cierre {
@@ -569,6 +618,9 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     let indiceActual = 0
     let piezaAnterior: Element | null = null
     let inicioToque = 0
+    const media = visor.querySelector('[data-visor-media]') as HTMLElement | null
+    const info = visor.querySelector('.visor-info') as HTMLElement | null
+    let temporizadorCambio: number | undefined
 
     const piezasVisibles = () => [...piezas].filter((pieza) => !pieza.hasAttribute('data-oculta'))
 
@@ -579,14 +631,32 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
 
       if (!pieza || !foto || !imagen || !servicio || !descripcion || !contador || !anterior || !siguiente) return
 
-      indiceActual = indice
-      imagen.src = foto.currentSrc || foto.src
-      imagen.alt = foto.alt
-      servicio.textContent = pieza.getAttribute('data-servicio') ?? ''
-      descripcion.textContent = pieza.getAttribute('data-descripcion') ?? foto.alt
-      contador.textContent = `${indice + 1} / ${visibles.length}`
-      anterior.toggleAttribute('disabled', indice === 0)
-      siguiente.toggleAttribute('disabled', indice === visibles.length - 1)
+      const actualizar = () => {
+        indiceActual = indice
+        imagen.src = foto.currentSrc || foto.src
+        imagen.alt = foto.alt
+        servicio.textContent = pieza.getAttribute('data-servicio') ?? ''
+        descripcion.textContent = pieza.getAttribute('data-descripcion') ?? foto.alt
+        contador.textContent = `${indice + 1} / ${visibles.length}`
+        anterior.toggleAttribute('disabled', indice === 0)
+        siguiente.toggleAttribute('disabled', indice === visibles.length - 1)
+      }
+
+      if (!visor.open || !media || !info) {
+        actualizar()
+        return
+      }
+
+      window.clearTimeout(temporizadorCambio)
+      media.setAttribute('data-cambiando', '')
+      info.setAttribute('data-cambiando', '')
+      temporizadorCambio = window.setTimeout(() => {
+        actualizar()
+        window.requestAnimationFrame(() => {
+          media.removeAttribute('data-cambiando')
+          info.removeAttribute('data-cambiando')
+        })
+      }, 140)
     }
 
     const abrir = (pieza: Element) => {
@@ -627,7 +697,6 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
       if (evento.key === 'Escape') cerrarVisor()
     })
 
-    const media = visor.querySelector('[data-visor-media]') as HTMLElement | null
     media?.addEventListener('pointerdown', (evento) => {
       inicioToque = evento.clientX
     })

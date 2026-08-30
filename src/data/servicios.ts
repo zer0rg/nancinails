@@ -164,6 +164,44 @@ export const grupos: GrupoServicios[] = [
       },
     ],
   },
+  {
+    id: 'depilacion',
+    titulo: 'Depilación',
+    entradilla: 'Definición precisa y un acabado limpio, con la técnica del hilo.',
+    servicios: [
+      {
+        nombre: 'Depilación de cejas con hilo',
+        descripcion: 'Diseño y limpieza de cejas con hilo, respetando su forma natural.',
+        duracion: 15,
+        precio: 6,
+        suplemento: true,
+        provisional: true,
+      },
+      {
+        nombre: 'Depilación de labio con hilo',
+        descripcion: 'Eliminación del vello del labio superior con hilo, rápida y precisa.',
+        duracion: 5,
+        precio: 3,
+        desde: true,
+        provisional: true,
+      },
+    ],
+  },
+  {
+    id: 'parafina',
+    titulo: 'Parafina',
+    entradilla: 'Calor e hidratación profunda para devolver suavidad a las manos.',
+    servicios: [
+      {
+        nombre: 'Parafina para manos',
+        descripcion: 'Baño de parafina caliente para hidratar, suavizar y reconfortar la piel.',
+        duracion: 10,
+        precio: 6,
+        suplemento: true,
+        provisional: true,
+      },
+    ],
+  },
 ]
 
 /** Mientras sea `true`, la web avisa de que las tarifas están sin confirmar. */

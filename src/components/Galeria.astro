@@ -54,7 +54,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
   <ul class="mosaico" data-galeria-lista>
     {
       visibles.map((trabajo) => (
-        <li class="pieza" tabindex="0" aria-label={`${trabajo.descripcion ?? trabajo.alt}. Servicio: ${trabajo.categorias.map((id) => etiquetasCategoria[id]).join(', ')}`} data-descripcion={trabajo.descripcion ?? trabajo.alt} data-servicio={trabajo.categorias.map((id) => etiquetasCategoria[id]).join(' · ')} data-categorias={trabajo.categorias.join(' ')} data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
+        <li class="pieza" tabindex="0" aria-label={`${trabajo.titulo ?? trabajo.alt}. ${trabajo.descripcion ?? ''} Servicio: ${trabajo.categorias.map((id) => etiquetasCategoria[id]).join(', ')}`} data-titulo={trabajo.titulo ?? trabajo.alt} data-descripcion={trabajo.descripcion ?? trabajo.alt} data-servicio={trabajo.categorias.map((id) => etiquetasCategoria[id]).join(' · ')} data-categorias={trabajo.categorias.join(' ')} data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
           <Image
             src={trabajo.imagen}
             alt={trabajo.alt}
@@ -69,6 +69,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
                   <>{indice > 0 && ' · '}{etiquetasCategoria[id]}</>
                 ))}
               </span>
+              <h3>{trabajo.titulo ?? trabajo.alt}</h3>
               <p>{trabajo.descripcion ?? trabajo.alt}</p>
             </div>
           </div>
@@ -99,7 +100,8 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
       </div>
 
       <div class="visor-info">
-        <p class="visor-kicker" id="visor-titulo">Detalle del trabajo</p>
+        <p class="visor-kicker">Detalle del trabajo</p>
+        <h2 class="visor-titulo" id="visor-titulo" data-visor-titulo></h2>
         <p class="visor-servicio" data-visor-servicio></p>
         <p class="visor-descripcion" data-visor-descripcion></p>
         <p class="visor-contador" data-visor-contador aria-live="polite"></p>
@@ -240,6 +242,21 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     max-width: 25ch;
   }
 
+  .overlay h3 {
+    color: var(--papel);
+    font-family: var(--display);
+    font-size: var(--texto-lg);
+    line-height: 1.15;
+    margin-top: var(--espacio-2xs);
+  }
+
+  .overlay p {
+    font-family: var(--texto);
+    font-size: var(--texto-sm);
+    line-height: 1.35;
+    margin-top: var(--espacio-2xs);
+  }
+
   @media (hover: hover) {
     .pieza:hover .overlay {
       opacity: 1;
@@ -374,6 +391,13 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
 
   .visor-servicio {
     color: var(--papel);
+  }
+
+  .visor-titulo {
+    font-family: var(--display);
+    font-size: clamp(1.65rem, 1.3rem + 1.4vw, 2.6rem);
+    line-height: 1.08;
+    max-width: 16ch;
   }
 
   .visor-descripcion {
@@ -610,6 +634,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
 
     const imagen = visor.querySelector('[data-visor-imagen]') as HTMLImageElement | null
     const servicio = visor.querySelector('[data-visor-servicio]')
+    const titulo = visor.querySelector('[data-visor-titulo]')
     const descripcion = visor.querySelector('[data-visor-descripcion]')
     const contador = visor.querySelector('[data-visor-contador]')
     const anterior = visor.querySelector('[data-visor-anterior]') as HTMLButtonElement | null
@@ -629,12 +654,13 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
       const pieza = visibles[indice]
       const foto = pieza?.querySelector('img')
 
-      if (!pieza || !foto || !imagen || !servicio || !descripcion || !contador || !anterior || !siguiente) return
+      if (!pieza || !foto || !imagen || !servicio || !titulo || !descripcion || !contador || !anterior || !siguiente) return
 
       const actualizar = () => {
         indiceActual = indice
         imagen.src = foto.currentSrc || foto.src
         imagen.alt = foto.alt
+        titulo.textContent = pieza.getAttribute('data-titulo') ?? foto.alt
         servicio.textContent = pieza.getAttribute('data-servicio') ?? ''
         descripcion.textContent = pieza.getAttribute('data-descripcion') ?? foto.alt
         contador.textContent = `${indice + 1} / ${visibles.length}`

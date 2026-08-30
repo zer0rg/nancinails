@@ -33,6 +33,17 @@ import rosaNeonFrancesa from '../assets/galeria/rosa-neon-frances-invertida.jpg'
 import rosaNeonFloral from '../assets/galeria/rosa-neon-diseno-floral.jpg'
 import neonArcoiris from '../assets/galeria/neon-multicolor-arcoiris.jpg'
 import francesNeonExtension from '../assets/galeria/frances-neon-extension.jpg'
+import rojoAlmendraClasico from '../assets/galeria/rojo-almendra-clasico.jpg'
+import rojoClasicoCorta from '../assets/galeria/rojo-clasico-corta.jpg'
+import turquesaLisoCuadrada from '../assets/galeria/turquesa-liso-cuadrada.jpg'
+import turquesaLisoManicura from '../assets/galeria/turquesa-liso-manicura.jpg'
+import francesTurquesaNude from '../assets/galeria/frances-turquesa-nude.jpg'
+import francesTurquesaCorta from '../assets/galeria/frances-turquesa-corta.jpg'
+import rosaPastelAlmendra from '../assets/galeria/rosa-pastel-almendra.jpg'
+import pedicuraRosaPastel from '../assets/galeria/pedicura-rosa-pastel.jpg'
+import rosaNeonFlores from '../assets/galeria/rosa-neon-flores.jpg'
+import francesTurquesaFloral from '../assets/galeria/frances-turquesa-floral.jpg'
+import pedicuraRosaCorta from '../assets/galeria/pedicura-rosa-corta.jpg'
 
 /**
  * Categoría de un trabajo. Sirve para que cada página de servicio muestre solo
@@ -57,6 +68,8 @@ export const etiquetasCategoria: Record<CategoriaTrabajo, string> = {
 
 export type Trabajo = {
   imagen: ImageMetadata
+  /** Título breve que identifica el trabajo en el visor. */
+  titulo?: string
   alt: string
   /** Texto que aparece en la tarjeta al pasar el ratón o enfocarla. */
   descripcion?: string
@@ -198,5 +211,83 @@ export const trabajos: Trabajo[] = [
     categorias: ['manos', 'diseno'],
     alt: 'Neones lisos combinados con un degradado arcoíris pintado a mano alzada',
     descripcion: 'Colores neón lisos con un degradado arcoíris pintado a mano alzada.',
+  },
+  {
+    imagen: rojoAlmendraClasico,
+    titulo: 'Rojo clásico almendrado',
+    categorias: ['manos'],
+    alt: 'Manicura roja brillante en uñas largas de forma almendrada',
+    descripcion: 'Rojo clásico de alto brillo sobre una elegante forma almendrada.',
+  },
+  {
+    imagen: rojoClasicoCorta,
+    titulo: 'Rojo clásico corto',
+    categorias: ['manos'],
+    alt: 'Manicura roja brillante en uñas cortas y redondeadas',
+    descripcion: 'Rojo intenso y uniforme en una manicura corta, limpia y atemporal.',
+  },
+  {
+    imagen: turquesaLisoCuadrada,
+    titulo: 'Turquesa liso cuadrado',
+    categorias: ['manos'],
+    alt: 'Manicura turquesa brillante en uñas cuadradas',
+    descripcion: 'Turquesa vibrante y brillante en una forma cuadrada muy pulida.',
+  },
+  {
+    imagen: turquesaLisoManicura,
+    titulo: 'Turquesa brillante',
+    categorias: ['manos'],
+    alt: 'Manicura turquesa brillante en uñas de forma cuadrada',
+    descripcion: 'Un turquesa luminoso que destaca por su acabado espejo.',
+  },
+  {
+    imagen: francesTurquesaNude,
+    titulo: 'Francesa turquesa sobre nude',
+    categorias: ['manos', 'diseno'],
+    alt: 'Uñas nude con punta francesa en turquesa',
+    descripcion: 'Base nude natural con una punta francesa turquesa fresca y delicada.',
+  },
+  {
+    imagen: francesTurquesaCorta,
+    titulo: 'Francesa turquesa corta',
+    categorias: ['manos', 'diseno'],
+    alt: 'Uñas cortas nude con francesa turquesa y brillo',
+    descripcion: 'Francesa turquesa en uña corta para un resultado discreto y luminoso.',
+  },
+  {
+    imagen: rosaPastelAlmendra,
+    titulo: 'Rosa pastel almendrado',
+    categorias: ['manos'],
+    alt: 'Manicura rosa pastel brillante en uñas almendradas',
+    descripcion: 'Rosa pastel cremoso en forma almendrada, suave y muy femenina.',
+  },
+  {
+    imagen: pedicuraRosaPastel,
+    titulo: 'Pedicura rosa pastel',
+    categorias: ['pies'],
+    alt: 'Pedicura rosa pastel brillante en uñas de los pies',
+    descripcion: 'Pedicura rosa pastel con acabado brillante y cuidado impecable.',
+  },
+  {
+    imagen: rosaNeonFlores,
+    titulo: 'Rosa neón y flores',
+    categorias: ['manos', 'diseno'],
+    alt: 'Manicura rosa neón y verde agua con una uña decorada con flores',
+    descripcion: 'Rosa neón, verde agua y una uña floral multicolor llena de alegría.',
+    destacada: true,
+  },
+  {
+    imagen: francesTurquesaFloral,
+    titulo: 'Francesa turquesa floral',
+    categorias: ['manos', 'diseno'],
+    alt: 'Francesa turquesa sobre nude con flores blancas pintadas a mano',
+    descripcion: 'Francesa turquesa sobre nude con pequeños detalles florales pintados a mano.',
+  },
+  {
+    imagen: pedicuraRosaCorta,
+    titulo: 'Pedicura rosa corta',
+    categorias: ['pies'],
+    alt: 'Pedicura rosa pastel en uñas cortas de los pies',
+    descripcion: 'Rosa pastel uniforme para una pedicura corta, cuidada y luminosa.',
   },
 ]

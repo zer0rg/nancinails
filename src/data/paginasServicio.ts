@@ -144,7 +144,7 @@ export const paginasServicio: PaginaServicio[] = [
       'Pedicura spa y con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta los servicios y pide cita por WhatsApp.',
     h1: { lineas: ['Pedicura en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
-      'Tratamiento completo, no solo color. Baño, exfoliación, trabajo de durezas y masaje, en el C.C. Santa Mónica.',
+      'Tratamiento completo, no solo color. Exfoliación, trabajo de durezas y masaje, en el C.C. Santa Mónica.',
     etiqueta: 'Pedicura',
     servicio: {
       nombre: 'Pedicura',
@@ -159,7 +159,7 @@ export const paginasServicio: PaginaServicio[] = [
         titulo: 'Una pedicura no es pintar las uñas de los pies',
         parrafos: [
           'Esa es la confusión más común y la razón por la que mucha gente cree que la pedicura es cara. Lo que se paga no es el color: es el trabajo que hay debajo.',
-          'La pedicura spa empieza con baño para reblandecer, sigue con exfoliación, trabajo de durezas en talón y planta, corte y limado recto para prevenir uñas encarnadas, cutícula, y termina con masaje. Cincuenta minutos. Sales caminando distinto, y eso no es una frase de marketing: la mayoría de las molestias al andar vienen de durezas acumuladas, no de nada más serio.',
+          'La pedicura spa empieza con exfoliación, sigue con el trabajo de durezas en talón y planta, corte y limado recto para prevenir uñas encarnadas, cutícula, y termina con masaje. Cincuenta minutos. Sales caminando distinto, y eso no es una frase de marketing: la mayoría de las molestias al andar vienen de durezas acumuladas, no de nada más serio.',
           'La versión vip alarga el tratamiento con mascarilla, parafina y masaje extendido. Ochenta minutos. Es la que tiene sentido si vienes dos o tres veces al año en lugar de cada mes, porque hace más trabajo de golpe.',
         ],
       },
@@ -196,7 +196,7 @@ export const paginasServicio: PaginaServicio[] = [
       {
         pregunta: '¿La pedicura incluye quitar durezas?',
         respuesta:
-          'Sí. El trabajo de durezas en talón y planta va incluido en la pedicura spa, junto con el baño, la exfoliación y el masaje. No es un extra aparte.',
+          'Sí. El trabajo de durezas en talón y planta va incluido en la pedicura spa, junto con la exfoliación y el masaje. No es un extra aparte.',
       },
       {
         pregunta: '¿Se trabaja con cuchilla?',

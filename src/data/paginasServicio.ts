@@ -64,7 +64,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'manicura-rivas-vaciamadrid',
     titulo: 'Manicura en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Manicura express, spa y esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
+      'Manicura express, spa y esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta los servicios y pide cita por WhatsApp.',
     h1: { lineas: ['Manicura en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'En el Centro Comercial Santa Mónica. Manicura cuidada, esmaltado permanente que aguanta y diseño hecho a mano.',
@@ -97,7 +97,7 @@ export const paginasServicio: PaginaServicio[] = [
       {
         titulo: 'Diseño: de la francesa al dibujo a mano alzada',
         parrafos: [
-          'El diseño se añade a cualquiera de los servicios anteriores y se cobra aparte porque depende del detalle. Una francesa clásica o una babyboomer degradada tienen un precio cerrado. Un dibujo a mano alzada (flores, mármol, carey, líneas finas) se cobra por uña decorada, así que puedes llevar diseño solo en dos y liso en el resto.',
+          'El diseño se añade a cualquiera de los servicios anteriores y depende del detalle. Una francesa clásica o una babyboomer degradada dan un acabado limpio y elegante. Un dibujo a mano alzada (flores, mármol, carey, líneas finas) se adapta a las uñas que quieras decorar, así que puedes llevar diseño solo en dos y liso en el resto.',
           'Si traes una foto de referencia, mejor. No hace falta que sea exacta: sirve para entender qué te gusta, si buscas algo discreto o algo que se vea desde lejos, y de ahí salimos.',
         ],
       },
@@ -141,7 +141,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'pedicura-rivas-vaciamadrid',
     titulo: 'Pedicura en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Pedicura spa y con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
+      'Pedicura spa y con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta los servicios y pide cita por WhatsApp.',
     h1: { lineas: ['Pedicura en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'Tratamiento completo, no solo color. Baño, exfoliación, trabajo de durezas y masaje, en el C.C. Santa Mónica.',
@@ -219,7 +219,7 @@ export const paginasServicio: PaginaServicio[] = [
     slug: 'unas-de-gel-rivas-vaciamadrid',
     titulo: 'Uñas de gel en Rivas Vaciamadrid · Nanci Nails',
     descripcion:
-      'Uñas esculpidas en gel, relleno y retirada en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp.',
+      'Uñas esculpidas en gel, relleno y retirada en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta los servicios y pide cita por WhatsApp.',
     h1: { lineas: ['Uñas de gel en'], enfasis: 'Rivas Vaciamadrid' },
     entradilla:
       'Extensión y estructura para quien quiere más longitud o más resistencia. Esculpido a medida en el C.C. Santa Mónica.',

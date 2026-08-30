@@ -1,19 +1,17 @@
 ---
 import BotonReserva from './BotonReserva.astro'
-import { grupos, formatearPrecio, formatearDuracion } from '../data/servicios'
+import { grupos, formatearDuracion } from '../data/servicios'
 import { paginaDeGrupo } from '../data/paginasServicio'
 
 /**
  * Carta de servicios, no rejilla de tarjetas.
  *
- * El nombre a la izquierda, el precio a la derecha y una línea de puntos que
- * los une: es como se lee una carta de restaurante, y funciona porque la
- * clienta escanea precios en vertical. Doce tarjetas idénticas con icono
- * arriba serían más código y peor lectura.
+ * El nombre a la izquierda y la duración a la derecha, como una carta de
+ * restaurante. Doce tarjetas idénticas con icono arriba serían más código y
+ * peor lectura.
  *
  * Las páginas de servicio reutilizan esta misma carta filtrada por grupo, para
- * que las tarifas se mantengan en un único sitio. Sin esto, cambiar un precio
- * obligaría a tocar cuatro archivos y acabarían descuadrados entre sí.
+ * que el catálogo de servicios se mantenga en un único sitio.
  */
 type Props = {
   /** Ids de grupo a mostrar. Sin esto, la carta completa. */
@@ -27,7 +25,7 @@ type Props = {
 const {
   ids,
   titulo = 'Tarifas',
-  entradilla = 'Cada servicio con su duración y su precio.',
+  entradilla = 'Cada servicio con su duración.',
   slugActual,
 } = Astro.props
 
@@ -75,13 +73,10 @@ const gruposConPagina = gruposVisibles.map((grupo) => {
                   <p class="detalle">{servicio.descripcion}</p>
                 </div>
 
-                <span class="puntos" aria-hidden="true" />
-
                 <p class="cifras">
                   {formatearDuracion(servicio) && (
                     <span class="duracion">{formatearDuracion(servicio)}</span>
                   )}
-                  <span class="precio">{formatearPrecio(servicio)}</span>
                 </p>
               </li>
             ))}
@@ -194,11 +189,6 @@ const gruposConPagina = gruposVisibles.map((grupo) => {
     max-width: 46ch;
   }
 
-  /* La línea de puntos solo aparece cuando hay sitio: en móvil estorba. */
-  .puntos {
-    display: none;
-  }
-
   .cifras {
     display: flex;
     flex-direction: column;
@@ -215,13 +205,6 @@ const gruposConPagina = gruposVisibles.map((grupo) => {
     font-size: var(--texto-xs);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.06em;
-  }
-
-  .precio {
-    font-family: var(--display);
-    font-optical-sizing: auto;
-    font-size: var(--texto-lg);
-    line-height: 1.1;
   }
 
   .cierre {
@@ -252,18 +235,7 @@ const gruposConPagina = gruposVisibles.map((grupo) => {
     }
 
     .fila {
-      grid-template-columns: auto 1fr auto;
-    }
-
-    .puntos {
-      display: block;
-      /* Puntos suspensivos tipográficos, no un border-bottom punteado:
-         el punto redondo se lee mucho mejor a este tamaño. */
-      height: 1px;
-      background-image: radial-gradient(circle, var(--borde) 1px, transparent 1px);
-      background-size: 6px 1px;
-      background-repeat: repeat-x;
-      transform: translateY(-0.35em);
+      grid-template-columns: 1fr auto;
     }
 
     .cifras {
@@ -277,8 +249,5 @@ const gruposConPagina = gruposVisibles.map((grupo) => {
       text-align: right;
     }
 
-    .precio {
-      min-width: 8ch;
-    }
   }
 </style>

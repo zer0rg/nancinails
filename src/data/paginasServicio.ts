@@ -159,8 +159,8 @@ export const paginasServicio: PaginaServicio[] = [
         titulo: 'Una pedicura no es pintar las uñas de los pies',
         parrafos: [
           'Esa es la confusión más común y la razón por la que mucha gente cree que la pedicura es cara. Lo que se paga no es el color: es el trabajo que hay debajo.',
-          'La pedicura spa empieza con exfoliación, sigue con el trabajo de durezas en talón y planta, corte y limado recto para prevenir uñas encarnadas, cutícula, y termina con masaje. Cincuenta minutos. Sales caminando distinto, y eso no es una frase de marketing: la mayoría de las molestias al andar vienen de durezas acumuladas, no de nada más serio.',
-          'La versión vip alarga el tratamiento con mascarilla, parafina y masaje extendido. Ochenta minutos. Es la que tiene sentido si vienes dos o tres veces al año en lugar de cada mes, porque hace más trabajo de golpe.',
+          'La pedicura spa empieza con exfoliación, sigue con el trabajo de durezas en talón y planta, corte y limado recto para prevenir uñas encarnadas, cutícula, y termina con masaje. Una hora. Sales caminando distinto, y eso no es una frase de marketing: la mayoría de las molestias al andar vienen de durezas acumuladas, no de nada más serio.',
+          'La versión vip alarga el tratamiento con mascarilla y masaje extendido. Ochenta minutos. Es la que tiene sentido si vienes dos o tres veces al año en lugar de cada mes, porque hace más trabajo de golpe.',
         ],
       },
       {
@@ -206,7 +206,7 @@ export const paginasServicio: PaginaServicio[] = [
       {
         pregunta: '¿Cuánto dura la sesión?',
         respuesta:
-          'La pedicura spa, cincuenta minutos. Con esmaltado permanente, sesenta y cinco. La versión vip, ochenta.',
+          'La pedicura spa, una hora. Con esmaltado permanente, sesenta y cinco minutos. La versión vip, ochenta minutos.',
       },
       {
         pregunta: '¿Dónde estáis y qué horario tenéis?',

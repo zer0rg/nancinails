@@ -160,7 +160,7 @@ export const paginasServicio: PaginaServicio[] = [
         parrafos: [
           'Esa es la confusión más común y la razón por la que mucha gente cree que la pedicura es cara. Lo que se paga no es el color: es el trabajo que hay debajo.',
           'La pedicura spa empieza con exfoliación, sigue con el trabajo de durezas en talón y planta, corte y limado recto para prevenir uñas encarnadas, cutícula, y termina con masaje. Una hora. Sales caminando distinto, y eso no es una frase de marketing: la mayoría de las molestias al andar vienen de durezas acumuladas, no de nada más serio.',
-          'La versión vip alarga el tratamiento con mascarilla y masaje extendido. Ochenta minutos. Es la que tiene sentido si vienes dos o tres veces al año en lugar de cada mes, porque hace más trabajo de golpe.',
+          'La versión vip alarga el tratamiento con mascarilla y masaje extendido. 1 hora. Es la que tiene sentido si vienes dos o tres veces al año en lugar de cada mes, porque hace más trabajo de golpe.',
         ],
       },
       {
@@ -168,7 +168,7 @@ export const paginasServicio: PaginaServicio[] = [
         parrafos: [
           'Las durezas no se quitan de una vez y quien te diga lo contrario te está vendiendo algo. Son la respuesta del pie a una presión que sigue ahí: el calzado, la pisada, las horas de pie. Se rebajan, se hidrata la zona y se mantiene.',
           'Lo que sí se consigue en una sesión es quitar la capa que molesta y frenar la grieta antes de que se abra. Los talones agrietados que llegan en verano, con sandalia, suelen venir de meses sin tratar. Cuanto antes se cogen, menos sesiones hacen falta.',
-          'Aquí se trabaja con lima y torno, sin cuchilla. Es más lento y es lo correcto: la cuchilla quita más rápido pero deja el pie pidiendo callo otra vez, y a la larga la dureza vuelve más gruesa.',
+          'Aquí se trabaja con lima y torno. Es más lento y es lo correcto.',
         ],
       },
       {

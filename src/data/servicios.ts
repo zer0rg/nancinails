@@ -134,12 +134,18 @@ export const grupos: GrupoServicios[] = [
   {
     id: 'parafina',
     titulo: 'Parafina',
-    entradilla: 'Calor e hidratación profunda para devolver suavidad a las manos.',
+    entradilla: 'Calor e hidratación profunda para devolver suavidad a manos y pies.',
     servicios: [
       {
         nombre: 'Parafina para manos',
         descripcion: 'Baño de parafina caliente para hidratar, suavizar y reconfortar la piel.',
         duracion: 10,
+      },
+      {
+        nombre: 'Parafina para los pies',
+        descripcion:
+          'Tratamiento de parafina caliente para hidratar, suavizar y reconfortar la piel de los pies.',
+        duracion: 15,
       },
     ],
   },

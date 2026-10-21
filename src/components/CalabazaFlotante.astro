@@ -1,0 +1,10 @@
+---
+import { tema } from '../data/temporadas'
+import CalabazaHalloween from './CalabazaHalloween.astro'
+---
+
+{tema === 'halloween' && (
+  <span class="calabaza-flotante" aria-hidden="true">
+    <CalabazaHalloween />
+  </span>
+)}

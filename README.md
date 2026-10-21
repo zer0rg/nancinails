@@ -8,6 +8,41 @@ Objetivo único: que una visita desde el móvil acabe en una cita por WhatsApp.
 - Contexto estratégico: [PRODUCT.md](PRODUCT.md)
 - Sistema visual: [DESIGN.md](DESIGN.md)
 
+## Campañas de temporada
+
+Halloween está activo por defecto. Para recuperar el diseño habitual, añade
+`SITE_THEME=default` a `.env` o a las variables de entorno del alojamiento.
+Usa `SITE_THEME=halloween` para volver a activarlo; `.env.example` contiene el ejemplo.
+En local reinicia Astro y, en producción, recompila y despliega: la web es estática.
+
+El interruptor cambia la paleta de todas las páginas, el texto de la portada
+y la decoración. Halloween incluye murciélagos con vuelo y
+aleteo y respeto a `prefers-reduced-motion`. En móvil vuelan dos, con tamaño y
+contraste ajustados a pantallas pequeñas.
+Una calabaza inclinada asoma por la esquina superior derecha de la barra de reserva
+en móvil y por la esquina inferior derecha de la pantalla en escritorio, con luz
+interior animada en CSS.
+Toda la decoración desaparece con `default`.
+
+La portada de Halloween usa `src/assets/hero-halloween.png`, una imagen de campaña
+generada con IA a partir de la mano de la foto original. Se reserva para la portada;
+la galería conserva los trabajos reales. El prompt está en
+`output/imagegen/hero-halloween-prompt.txt`. Con `default` vuelve la foto original.
+
+Para preparar Navidad, San Valentín u otra campaña:
+
+1. Añade una entrada a `src/data/temporadas.ts` con los textos, la reserva y,
+   opcionalmente, una imagen de portada con su texto alternativo.
+2. Define sus tokens bajo `html[data-tema='nombre']` en `src/styles/temporadas.css`.
+   Usa `--reserva-fondo`, `--reserva-texto` y `--reserva-hover` para los botones;
+   conserva la relación de colores de `[data-invertido]` en la galería y el visor.
+3. Actívala con `SITE_THEME=nombre`. Si lleva decoración propia, móntala
+   condicionalmente como la de Halloween en `Layout.astro` y `Hero.astro`.
+
+`temaPorDefecto` en `src/data/temporadas.ts` permite cambiar el valor sin usar
+variables de entorno. Un nombre desconocido detiene la compilación con un error
+que enumera los temas disponibles.
+
 ## Verificaciones de la dueña
 
 1. **Precios reales.** Los de `src/data/servicios.ts` son de referencia del

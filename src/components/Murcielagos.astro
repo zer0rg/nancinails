@@ -1,0 +1,107 @@
+---
+// SVG y CSS: el vuelo no necesita JavaScript ni escucha el scroll.
+const bandada = [
+  { ruta: 'cruzado', duracion: '23s', retraso: '-7s', tamano: '3.65rem', altura: '0vh' },
+  { ruta: 'regreso', duracion: '29s', retraso: '-19s', tamano: '2.3rem', altura: '5vh' },
+  { ruta: 'cruzado', duracion: '34s', retraso: '-23s', tamano: '1.7rem', altura: '24vh' },
+  { ruta: 'regreso', duracion: '37s', retraso: '-3s', tamano: '2.8rem', altura: '-14vh' },
+]
+---
+
+<div class="bandada" aria-hidden="true">
+  {bandada.map((murcielago) => (
+    <div
+      class="vuelo"
+      data-ruta={murcielago.ruta}
+      style={`--duracion: ${murcielago.duracion}; --retraso: ${murcielago.retraso}; --tamano: ${murcielago.tamano}; --altura: ${murcielago.altura}`}
+    >
+      <svg viewBox="0 0 120 64" fill="currentColor" focusable="false">
+        <g class="ala izquierda">
+          <path d="M59 27C47 24 38 13 32 3C28 12 17 17 2 18C13 23 19 33 18 45C25 36 34 35 38 48C42 39 50 39 55 51L61 35Z" />
+          <path class="nervio" d="M59 29Q39 24 32 5M57 31Q31 24 4 19M57 32Q30 26 19 43M57 34Q43 29 38 46" />
+        </g>
+        <g class="ala derecha">
+          <path d="M61 27C73 24 82 13 88 3C92 12 103 17 118 18C107 23 101 33 102 45C95 36 86 35 82 48C78 39 70 39 65 51L59 35Z" />
+          <path class="nervio" d="M61 29Q81 24 88 5M63 31Q89 24 116 19M63 32Q90 26 101 43M63 34Q77 29 82 46" />
+        </g>
+        <path d="m54 24 1-12 5 6 5-6 1 12q6 10-2 24l-4 10-4-10q-8-14-2-24Z" />
+      </svg>
+    </div>
+  ))}
+</div>
+
+<style>
+  .bandada {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .vuelo {
+    position: absolute;
+    top: var(--altura);
+    left: 0;
+    width: var(--tamano);
+    color: #bba2ca;
+    filter: drop-shadow(0 1px 2px #100d1480);
+    opacity: 0.65;
+    animation: cruzado var(--duracion) var(--retraso) linear infinite;
+  }
+
+  .vuelo[data-ruta='regreso'] {
+    color: #e8aa78;
+    animation-name: regreso;
+  }
+
+  .ala {
+    animation: aleteo 0.32s ease-in-out infinite alternate;
+    animation-delay: var(--retraso);
+  }
+
+  .izquierda { transform-origin: 60px 30px; }
+  .derecha { transform-origin: 60px 30px; }
+
+  .nervio {
+    fill: none;
+    stroke: #18121d;
+    stroke-width: 0.6;
+    opacity: 0.4;
+  }
+
+  @keyframes aleteo {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(0.25); }
+  }
+
+  @keyframes cruzado {
+    0% { transform: translate(-15vw, 65vh) rotate(-18deg); }
+    20% { transform: translate(13vw, 43vh) rotate(-30deg); }
+    40% { transform: translate(40vw, 22vh) rotate(8deg); }
+    60% { transform: translate(67vw, 34vh) rotate(22deg); }
+    80% { transform: translate(92vw, 54vh) rotate(-12deg); }
+    100% { transform: translate(120vw, 30vh) rotate(-22deg); }
+  }
+
+  @keyframes regreso {
+    0% { transform: translate(120vw, 28vh) rotate(18deg); }
+    25% { transform: translate(85vw, 52vh) rotate(-12deg); }
+    50% { transform: translate(50vw, 35vh) rotate(12deg); }
+    75% { transform: translate(18vw, 58vh) rotate(24deg); }
+    100% { transform: translate(-15vw, 36vh) rotate(-12deg); }
+  }
+
+  @media (max-width: 47.99rem) {
+    .vuelo {
+      width: clamp(2rem, var(--tamano), 3.25rem);
+      opacity: 0.8;
+    }
+    .vuelo:nth-child(n + 3) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bandada { display: none; }
+    .vuelo, .ala { animation: none; }
+  }
+</style>

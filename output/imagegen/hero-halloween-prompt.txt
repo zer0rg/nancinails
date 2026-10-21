@@ -1,0 +1,10 @@
+Generation mode: built-in image_gen tool.
+Reference: src/assets/hero.jpg
+Output: src/assets/hero-halloween.png
+
+Use case: photorealistic-natural.
+Asset type: high-resolution square editorial manicure photograph for the Halloween hero of the Nanci Nails beauty salon website.
+Input image 1 is a reference for the woman's hand, skin tone, slender finger anatomy, almond-shaped nail lengths, diagonal hand pose, and close-up photographic composition. Create a NEW Halloween campaign photograph based on that hand, preserving its recognizable natural proportions, believable cuticles and skin texture. Show a single anatomically correct hand, all five natural fingers including the thumb, no duplicate fingers. Keep all nail tips and the nail art safely within the central 75% of the frame so the image can be cropped both vertically on desktop and horizontally on mobile.
+Replace the reference manicure with an elegant, achievable hand-painted Halloween set: glossy black and very dark plum nails, a translucent smoky nude accent nail with an extremely fine ivory spiderweb, a muted pumpkin-orange nail with a tiny black bat silhouette, and a deep plum French tip on another nude nail. Restrained sophisticated salon nail art with realistic high-gloss gel reflections, precise fine lines and individual natural nails, never sculptural fantasy or chunky costume decorations.
+Replace the bright pink flowers with a moody softly blurred dark plum botanical backdrop, a few subdued burgundy autumn leaves around the edges, and very subtle warm amber light. Palette coordinated with the website: plum-black #18121d, warm pumpkin #f5a15d, ivory #f6ecdf. Soft warm side lighting, beauty editorial photography, macro detail on nails, natural real skin with pores and creases, not airbrushed plastic.
+The hand and nail art are the clear main subject, beautiful luminous skin against the dark background. Square image, high resolution. No text, captions, logos, watermarks, frames, website UI, additional hands, jewelry, oversized props, gore, or cartoon rendering. Reference is for the hand and composition, not the original floral colors or original printed lettering.

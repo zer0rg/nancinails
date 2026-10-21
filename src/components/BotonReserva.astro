@@ -59,13 +59,13 @@ const { servicio, variante = 'normal', texto = 'Reservar por WhatsApp' } = Astro
   }
 
   .boton[data-variante='normal'] {
-    background: var(--tinta);
-    color: var(--papel);
+    background: var(--reserva-fondo, var(--tinta));
+    color: var(--reserva-texto, var(--papel));
   }
 
   .boton[data-variante='inverso'] {
-    background: var(--papel);
-    color: var(--tinta);
+    background: var(--reserva-fondo, var(--papel));
+    color: var(--reserva-texto, var(--tinta));
   }
 
   .boton[data-variante='contorno'] {
@@ -82,11 +82,11 @@ const { servicio, variante = 'normal', texto = 'Reservar por WhatsApp' } = Astro
 
   @media (hover: hover) {
     .boton[data-variante='normal']:hover {
-      background: var(--tinta-media);
+      background: var(--reserva-hover, var(--tinta-media));
     }
 
     .boton[data-variante='inverso']:hover {
-      background: var(--sobre-tinta-suave);
+      background: var(--reserva-hover, var(--sobre-tinta-suave));
     }
 
     .boton[data-variante='contorno']:hover {

@@ -1,0 +1,116 @@
+/* Cada tema vive bajo su atributo: default conserva los tokens originales. */
+html[data-tema='halloween'] {
+  color-scheme: dark;
+  --tinta: #f6ecdf;
+  --tinta-media: #dfd0df;
+  --grafito: #c5b7c9;
+  --linea: #443448;
+  --borde: #937d9c;
+  --papel-hueso: #231a29;
+  --papel: #18121d;
+  --laca: #f5a15d;
+  --abierto: #83bf96;
+  --sobre-tinta-suave: #c5b7c9;
+  --reserva-fondo: #f5a15d;
+  --reserva-texto: #18121d;
+  --reserva-hover: #ffb97f;
+}
+
+/* La galería ya era oscura: mantiene su relación fondo/texto y el visor. */
+[data-tema='halloween'] [data-invertido] {
+  --tinta: #100d14;
+  --tinta-media: #302336;
+  --papel: #f6ecdf;
+}
+
+[data-tema='halloween'] .cabecera {
+  border-bottom: 1px solid var(--linea);
+}
+
+[data-tema='halloween'] .logo .nombre em {
+  color: var(--laca);
+}
+
+[data-tema='halloween'] .hero {
+  background: radial-gradient(ellipse at 20% 50%, #39223c 0, transparent 65%);
+}
+
+[data-tema='halloween'] .hero .boton {
+  position: relative;
+}
+
+[data-tema='halloween'] .hero .boton::before {
+  content: '';
+  position: absolute;
+  right: -1.65rem;
+  bottom: calc(100% - 0.8rem);
+  width: 4rem;
+  height: 3.5rem;
+  background: url('/decoracion/halloween/arana.svg') no-repeat center / contain;
+  rotate: 35deg;
+  pointer-events: none;
+}
+
+[data-tema='halloween'] .hero .titular em {
+  color: var(--laca);
+}
+
+.hero-localidad {
+  margin-top: 1.25rem;
+  color: var(--grafito);
+  font-size: var(--texto-sm);
+}
+
+[data-tema='halloween'] .hero .imagen {
+  position: relative;
+  isolation: isolate;
+}
+
+.halloween-escena {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  color: #f5a15d;
+  /* El degradado enmarca la foto; no aplica filtros al color de las uñas. */
+  background: linear-gradient(180deg, #18121d80, transparent 35%, transparent 70%, #18121db3);
+}
+
+[data-tema='halloween'] #salon .titulo-seccion::before {
+  content: '✦';
+  display: block;
+  margin-bottom: 1.25rem;
+  color: var(--laca);
+  font-size: 1.5rem;
+}
+
+[data-tema='halloween'] #trabajos {
+  border-block: 1px solid #443448;
+}
+
+[data-tema='halloween'] #trabajos .titulo-seccion {
+  color: var(--laca);
+}
+
+.calabaza-flotante {
+  position: fixed;
+  right: -1.25rem;
+  bottom: -0.75rem;
+  z-index: 35;
+  display: block;
+  width: clamp(11rem, 15vw, 14rem);
+  rotate: -12deg;
+  transform-origin: center;
+  filter: drop-shadow(0 0.4rem 0.8rem #18121d80);
+  pointer-events: none;
+}
+
+@media (max-width: 47.99rem) {
+  .calabaza-flotante {
+    right: -2.375rem;
+    /* La base queda detrás de la barra y el lateral asoma por la esquina. */
+    bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px) + 0.25rem);
+    width: 8.5rem;
+    transform-origin: bottom right;
+  }
+}

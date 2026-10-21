@@ -1,0 +1,87 @@
+<svg viewBox="0 0 180 148" fill="none" focusable="false" aria-hidden="true">
+  <defs>
+    <radialGradient id="calabaza-piel" cx=".34" cy=".23" r=".85">
+      <stop stop-color="#ffc17b" /><stop offset=".38" stop-color="#ea883c" />
+      <stop offset=".76" stop-color="#bd5426" /><stop offset="1" stop-color="#702c26" />
+    </radialGradient>
+    <linearGradient id="calabaza-lateral" x1="0" y1="0" x2="1" y2=".35">
+      <stop stop-color="#8d3b25" /><stop offset=".38" stop-color="#dd7834" />
+      <stop offset=".68" stop-color="#ef974f" /><stop offset="1" stop-color="#a74624" />
+    </linearGradient>
+    <radialGradient id="calabaza-frente" cx=".34" cy=".25" r=".86">
+      <stop stop-color="#ffc787" /><stop offset=".42" stop-color="#ee9a50" />
+      <stop offset=".8" stop-color="#d56d2c" /><stop offset="1" stop-color="#a74422" />
+    </radialGradient>
+    <linearGradient id="calabaza-tallo" x1="0" y1="0" x2="1" y2=".3">
+      <stop stop-color="#53452f" /><stop offset=".45" stop-color="#a18b52" />
+      <stop offset=".7" stop-color="#7d7043" /><stop offset="1" stop-color="#413c2d" />
+    </linearGradient>
+    <radialGradient id="calabaza-vela" cx=".48" cy=".66" r=".8">
+      <stop stop-color="#fff7ce" /><stop offset=".45" stop-color="#ffe597" />
+      <stop offset=".8" stop-color="#fdb34a" /><stop offset="1" stop-color="#d77425" />
+    </radialGradient>
+    <path id="calabaza-ojo-izquierdo" d="M46 84Q54 72 68 66L76 90Q62 89 46 84Z" />
+    <path id="calabaza-ojo-derecho" d="M106 89L113 66Q126 72 135 82Q121 86 106 89Z" />
+    <path id="calabaza-nariz" d="m84 98 7-13 8 13Q91 96 84 98Z" />
+    <path id="calabaza-boca" d="M47 104L64 111L68 106L78 118L91 116L101 119L112 106L116 111L135 102C129 123 110 134 91 134C70 134 54 122 47 104Z" />
+  </defs>
+
+  {/* El tallo, los surcos y la talla comparten la luz cálida de la campaña. */}
+  <path d="M84 43C91 29 80 23 91 12L103 7Q111 13 102 20C94 28 101 34 97 44Z" fill="url(#calabaza-tallo)" stroke="#443928" stroke-width="1" />
+  <path d="M90 39Q94 29 90 23Q89 18 99 12M97 40Q96 30 94 26" stroke="#cab17a" stroke-width=".8" opacity=".6" />
+  <path d="M98 32C111 19 126 24 130 34C117 40 106 38 98 32Z" fill="#706841" />
+  <path d="M101 32Q114 29 125 33" stroke="#b6a46a" stroke-width=".7" opacity=".6" />
+  <path d="M101 35C115 43 124 45 126 53C128 61 114 62 117 54" stroke="#99814c" stroke-width="1.2" stroke-linecap="round" />
+
+  <path d="M90 42C63 20 31 33 21 55C3 92 18 137 51 144C67 148 77 142 90 146C105 142 117 148 132 142C166 130 175 86 158 55C143 29 115 24 90 42Z" fill="url(#calabaza-piel)" />
+  <path d="M83 40C49 30 33 69 40 109C43 132 58 145 79 144C59 122 59 63 83 40Z" fill="url(#calabaza-lateral)" />
+  <path d="M96 40C131 30 148 68 141 108C137 132 121 144 101 144C122 119 119 62 96 40Z" fill="url(#calabaza-lateral)" opacity=".85" />
+  <path d="M90 39C67 40 61 80 68 115C72 136 81 146 90 146C102 146 110 132 113 111C118 77 111 40 90 39Z" fill="url(#calabaza-frente)" />
+
+  <g stroke-linecap="round" fill="none">
+    <path d="M81 42C58 62 56 113 76 140M99 42C121 64 125 111 105 140" stroke="#7e3421" stroke-width="1.3" opacity=".28" />
+    <path d="M48 44C31 65 27 103 42 126M131 45C148 69 150 101 138 125" stroke="#713226" stroke-width="1.1" opacity=".24" />
+    <path d="M34 52C21 70 21 91 26 105M55 42Q69 32 82 40M101 40Q118 33 132 45" stroke="#ffe1ae" stroke-width="1.1" opacity=".4" />
+    <path d="M72 55Q63 70 64 82M103 52Q111 65 113 78" stroke="#ffdc9d" stroke-width=".8" opacity=".3" />
+  </g>
+
+  {/* Un borde oscuro da profundidad a los huecos tallados. */}
+  <g fill="#5c291a" stroke="#78331c" stroke-width="4" stroke-linejoin="round">
+    <use href="#calabaza-ojo-izquierdo" /><use href="#calabaza-ojo-derecho" />
+    <use href="#calabaza-nariz" /><use href="#calabaza-boca" />
+  </g>
+  <g class="luz-interior" stroke="#d58435" stroke-width=".8" stroke-linejoin="round">
+    <use href="#calabaza-ojo-izquierdo" /><use href="#calabaza-ojo-derecho" />
+    <use href="#calabaza-nariz" /><use href="#calabaza-boca" />
+  </g>
+  <g stroke="#ffd490" stroke-width="1" stroke-linecap="round" opacity=".65">
+    <path d="M48 86Q63 92 75 92M107 92Q121 89 135 84" />
+    <path d="M58 118Q72 136 90 136Q110 137 126 120" />
+  </g>
+</svg>
+
+<style>
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .luz-interior {
+    fill: url('#calabaza-vela');
+    filter: drop-shadow(0 0 2px #ff9d2d80);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .luz-interior {
+      animation: luz-de-vela 5.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes luz-de-vela {
+    0%, 100% { opacity: .94; filter: brightness(1) drop-shadow(0 0 2px #ff9d2d80); }
+    18%, 45%, 77% { opacity: 1; filter: brightness(1.08) drop-shadow(0 0 4px #ffb34099); }
+    24%, 51% { opacity: .86; filter: brightness(.94) drop-shadow(0 0 1px #ef852266); }
+    34%, 65%, 89% { opacity: .98; filter: brightness(1.04) drop-shadow(0 0 3px #ff9d2d88); }
+  }
+</style>

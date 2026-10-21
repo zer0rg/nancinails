@@ -5,8 +5,12 @@ import '@fontsource-variable/bodoni-moda'
 import '@fontsource-variable/bodoni-moda/wght-italic.css'
 import '@fontsource-variable/jost'
 import '../styles/global.css'
+import '../styles/temporadas.css'
 
 import AvisoCookies from '../components/AvisoCookies.astro'
+import Murcielagos from '../components/Murcielagos.astro'
+import CalabazaFlotante from '../components/CalabazaFlotante.astro'
+import { tema } from '../data/temporadas'
 import SEO from '../components/SEO.astro'
 import JsonLd from '../components/JsonLd.astro'
 import { direccionLegible } from '../data/negocio'
@@ -55,7 +59,7 @@ const indexable = esProduccion && !sinIndexar
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" data-tema={tema}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -81,6 +85,8 @@ const indexable = esProduccion && !sinIndexar
 
   <body>
     <a class="salto" href="#contenido">Saltar al contenido</a>
+    {tema === 'halloween' && <Murcielagos />}
+    <CalabazaFlotante />
     <slot />
     {/* Va en el Layout para que el consentimiento valga en todo el sitio. */}
     <AvisoCookies />

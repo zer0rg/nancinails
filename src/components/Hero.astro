@@ -3,6 +3,10 @@ import { Image } from 'astro:assets'
 import BotonReserva from './BotonReserva.astro'
 import { portada } from '../data/galeria'
 import { negocio } from '../data/negocio'
+import { campana, tema } from '../data/temporadas'
+import DecoracionHalloween from './DecoracionHalloween.astro'
+
+const imagenPortada = campana?.portada.imagen ?? { src: portada.imagen, alt: portada.alt }
 
 /**
  * Composición asimétrica: el titular ocupa la mitad izquierda y desborda por
@@ -21,32 +25,33 @@ import { negocio } from '../data/negocio'
         Google y un lector de pantalla, aunque en pantalla se vea bien. El
         espacio se colapsa visualmente y no mueve nada. */}
     <h1 class="titular">
-      <span>Las manos </span>
-      <span>hablan </span>
-      <em>antes que tú</em>
+      <span>{campana?.portada.lineas[0] ?? 'Las manos'} </span>
+      <span>{campana?.portada.lineas[1] ?? 'hablan'} </span>
+      <em>{campana?.portada.lineas[2] ?? 'antes que tú'}</em>
     </h1>
 
     <p class="claim">
-      Centro de cuidados de manicura y pedicura en Rivas Vaciamadrid. Esmaltado permanente,
-      uñas de gel y diseño a mano alzada.
+      {campana?.portada.descripcion ?? 'Centro de cuidados de manicura y pedicura en Rivas Vaciamadrid. Esmaltado permanente, uñas de gel y diseño a mano alzada.'}
     </p>
 
     <div class="acciones">
-      <BotonReserva />
+      <BotonReserva texto={campana?.portada.reserva} servicio={campana?.portada.servicio} />
       <a class="enlace-servicios toque" href="#tarifas">Ver tarifas</a>
     </div>
+    {campana && <p class="hero-localidad">{campana.portada.pie}</p>}
   </div>
 
   <div class="imagen">
     <Image
-      src={portada.imagen}
-      alt={portada.alt}
+      src={imagenPortada.src}
+      alt={imagenPortada.alt}
       widths={[480, 760, 1100, 1440]}
       sizes="(min-width: 60rem) 45vw, 100vw"
       loading="eager"
       fetchpriority="high"
       layout="full-width"
     />
+    {tema === 'halloween' && <DecoracionHalloween />}
   </div>
 
   <p class="pie">
@@ -209,7 +214,7 @@ import { negocio } from '../data/negocio'
       overflow: hidden;
     }
 
-    .imagen :global(img) {
+    .imagen > :global(img) {
       position: absolute;
       inset: 0;
       width: 100%;

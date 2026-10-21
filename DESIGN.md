@@ -1,5 +1,19 @@
 # Design
 
+## Campañas estacionales
+
+El diseño descrito a continuación es la base `default`. Las campañas lo amplían
+mediante tokens aislados por `data-tema`, sin sustituirlo. El interruptor y los
+pasos para añadir campañas están en [README.md](README.md#campañas-de-temporada).
+
+Halloween usa ciruela oscuro, marfil y naranja calabaza, conserva las fuentes y
+los trabajos reales de la galería, e incorpora una calabaza iluminada, una araña y murciélagos SVG animados.
+Su portada utiliza una imagen de campaña generada con IA a partir de la mano
+original; el tema `default` recupera la fotografía original.
+El vuelo no captura clics y se oculta con movimiento reducido.
+La galería mantiene su contraste oscuro/claro; las reservas comparten un acento
+naranja en todas las páginas.
+
 ## Visual Theme
 
 **Editorial de moda en blanco y negro.** La referencia es una portada de Vogue o Harper's Bazaar: negro sobre blanco, serif de altísimo contraste a tamaño enorme, composición asimétrica y fotografía a sangre.

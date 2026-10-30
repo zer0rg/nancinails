@@ -4,6 +4,9 @@ Fecha: 26 de agosto de 2026
 Ámbito: repositorio Astro, salida estática `dist/` y respuestas HTTP públicas de
 `https://nancinails.es`.
 
+Este documento se actualizó al añadir la landing de depilación con hilo; el
+detalle de ese cambio está en «Ampliación de cobertura», al final.
+
 ## Resumen por prioridad
 
 | Prioridad | Estado | Hallazgo |
@@ -41,6 +44,7 @@ Fecha: 26 de agosto de 2026
 | `/manicura-rivas-vaciamadrid/` | Manicura en Rivas Vaciamadrid · Nanci Nails | Manicura express, spa y esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp. | `https://nancinails.es/manicura-rivas-vaciamadrid/` | Manicura en Rivas Vaciamadrid | `NailSalon`, `BreadcrumbList`, `Service` |
 | `/pedicura-rivas-vaciamadrid/` | Pedicura en Rivas Vaciamadrid · Nanci Nails | Pedicura spa y con esmaltado permanente en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp. | `https://nancinails.es/pedicura-rivas-vaciamadrid/` | Pedicura en Rivas Vaciamadrid | `NailSalon`, `BreadcrumbList`, `Service` |
 | `/unas-de-gel-rivas-vaciamadrid/` | Uñas de gel en Rivas Vaciamadrid · Nanci Nails | Uñas esculpidas en gel, relleno y retirada en el C.C. Santa Mónica de Rivas Vaciamadrid. Consulta precios y pide cita por WhatsApp. | `https://nancinails.es/unas-de-gel-rivas-vaciamadrid/` | Uñas de gel en Rivas Vaciamadrid | `NailSalon`, `BreadcrumbList`, `Service` |
+| `/depilacion-con-hilo-rivas-vaciamadrid/` | Depilación con hilo en Rivas Vaciamadrid · Nanci Nails | Depilación de cejas y de labio superior con hilo en el C.C. Santa Mónica de Rivas Vaciamadrid. Diseño de cejas respetando su forma natural. Pide cita por WhatsApp. | `https://nancinails.es/depilacion-con-hilo-rivas-vaciamadrid/` | Depilación con hilo en Rivas Vaciamadrid | `NailSalon`, `BreadcrumbList`, `Service` |
 
 Las páginas indexables no necesitan una meta `robots`: la ausencia equivale a
 `index, follow`. Open Graph incluye título, descripción, URL, imagen, tipo y
@@ -66,7 +70,7 @@ No se publican `Offer`, `priceRange`, `aggregateRating`, `review`, `geo` ni
 
 - Sitemap real: `https://nancinails.es/sitemap-index.xml`.
 - El índice apunta a `sitemap-0.xml`.
-- `sitemap-0.xml` contiene exactamente las cuatro URLs indexables de la tabla.
+- `sitemap-0.xml` contiene exactamente las URLs indexables de la tabla.
 - `robots.txt` permite el rastreo público y señala el índice correcto.
 - En previews, el sitemap queda vacío, el robots bloquea el rastreo y el HTML
   lleva `noindex`.
@@ -183,11 +187,11 @@ automáticamente afirmaciones comerciales discutibles.
 | `npm run build` antes de los cambios | Correcto; 8 páginas generadas |
 | `npm run build` después de los cambios | Correcto; 8 páginas generadas |
 | `npx astro check` | 0 errores, 0 advertencias, 0 sugerencias |
-| HTML final de las 4 URLs indexables | Un `title`, una description, un canonical absoluto y un H1 por página |
-| JSON-LD parseado desde `dist/` | Válido; `NailSalon` en las cuatro páginas y `Service` + `BreadcrumbList` en cada servicio |
+| HTML final de las URLs indexables | Un `title`, una description, un canonical absoluto y un H1 por página |
+| JSON-LD parseado desde `dist/` | Válido; `NailSalon` en todas las páginas y `Service` + `BreadcrumbList` en cada servicio |
 | Marcado sensible | Sin `FAQPage`, `Offer`, `priceRange`, ratings, coordenadas ni logo no confirmado |
-| Sitemap final | Solo 4 URLs canónicas, indexables y con salida HTML 200 esperada |
-| Rastreo local de `dist/` | 8 HTML; 0 enlaces internos, anclas o recursos locales rotos |
+| Sitemap final | Solo URLs canónicas, indexables y con salida HTML 200 esperada |
+| Rastreo local de `dist/` | 0 enlaces internos, anclas o recursos locales rotos |
 | 404 y legales | `noindex, follow`; sin datos estructurados de negocio |
 | `git diff --check` | Correcto, sin errores de espacios |
 
@@ -221,3 +225,40 @@ solo tras el siguiente despliegue.
 - Schema.org: `NailSalon`, subtipo de `HealthAndBeautyBusiness` y
   `LocalBusiness`.
 - Vercel: redirects, `trailingSlash` y configuración de dominios.
+
+## Ampliación de cobertura: depilación con hilo
+
+El catálogo ofrecía depilación de cejas y de labio superior con hilo, pero esos
+dos servicios solo aparecían como filas de la portada: el grupo `depilacion` no
+tenía página propia y `paginaDeGrupo` devolvía `undefined`, así que tampoco se
+enlazaba. Ninguna búsqueda de esa intención tenía un documento al que apuntar.
+
+Se añade una cuarta landing al array de `src/data/paginasServicio.ts`, de modo
+que la ruta, el enlace del pie, el enlace desde la sección de tarifas y la
+entrada del sitemap se generan por el mismo camino que las tres existentes.
+
+| Aspecto | Decisión |
+|---|---|
+| URL | `/depilacion-con-hilo-rivas-vaciamadrid/` |
+| Grupos de tarifas | Solo `depilacion` (2 servicios, 15 y 5 min, derivados de `servicios.ts`) |
+| Galería | Ninguna. `categoriaGaleria` pasa a ser opcional y `hayGaleria` exige que exista: no hay fotografías de hilo propias y un mosaico de uñas etiquetado como cejas mentiría |
+| Precios | No se publican: siguen sin estar confirmados |
+| Afirmaciones | Sin dolor garantizado, sin permanencia, sin diagnóstico ni prevención de uñas encarnadas |
+
+Se mantiene fuera del alcance la reescritura de las duraciones contradictorias
+del resto de páginas y el `H1` estacional de la portada: ambos dependen de datos
+o de decisiones de la propietaria, no de una corrección técnica.
+
+### Validación de esta ampliación
+
+| Comprobación | Resultado |
+|---|---|
+| `npx astro check` | 0 errores, 0 advertencias, 0 sugerencias |
+| `npm run build` | 9 páginas generadas |
+| Página nueva | Un `title` con la palabra clave delante, un `H1`, canonical autorreferente, `BreadcrumbList` y `Service` con `provider` al `@id` del salón |
+| Tarifas renderizadas | Los dos servicios de hilo con sus 15 y 5 minutos, derivados de `servicios.ts` |
+| Galería | Ausente en la página nueva; las tres landings anteriores conservan su mosaico |
+| Enlaces internos | 9 HTML sin destinos rotos; el pie de cualquier página y la fila del grupo enlazan la página nueva una sola vez |
+| Sitemap | 5 URLs canónicas, sin la 404 ni las legales |
+| Pruebas de navegador | `node --test scripts/test-landing-*.mjs`: 48 pruebas en verde en el tema de campaña y en `SITE_THEME=default` |
+| Rojo comprobado | Las pruebas nuevas fallan contra la compilación del commit anterior y pasan con este cambio |

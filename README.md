@@ -181,7 +181,8 @@ SITE_DIR=node_modules/.studio-qa/default-dist node --test scripts/test-landing-*
 El servidor de pruebas es local y efímero. Las pruebas cubren portada, primera
 visita con cookies, fotografía por tema, murciélagos y movimiento reducido,
 araña y ausencia de calabaza, equipo compacto, revelado/filtros/visor, consulta del diseño,
-servicios sin JavaScript y preservación de las rutas de manicura, pedicura y gel.
+servicios sin JavaScript y preservación de las rutas de manicura, pedicura, gel
+y depilación con hilo.
 La revisión visual de capturas en móvil, tableta y escritorio sigue siendo necesaria.
 
 ## Comandos

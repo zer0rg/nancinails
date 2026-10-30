@@ -20,7 +20,7 @@ test('the homepage summarizes all six service groups without losing any service'
     assert.match(await groups.nth(2).innerText(), /Pedicura spa/)
     assert.match(await groups.nth(4).innerText(), /Depilación de cejas con hilo/)
     assert.match(await groups.nth(5).innerText(), /Parafina para los pies/)
-    for (const route of ['manicura-rivas-vaciamadrid', 'pedicura-rivas-vaciamadrid', 'unas-de-gel-rivas-vaciamadrid']) {
+    for (const route of ['manicura-rivas-vaciamadrid', 'pedicura-rivas-vaciamadrid', 'unas-de-gel-rivas-vaciamadrid', 'depilacion-con-hilo-rivas-vaciamadrid']) {
       assert.equal(await page.locator(`#tarifas a[href='/${route}/']`).count(), 1)
     }
     await page.close()
@@ -83,7 +83,7 @@ test('compact team and appointment photographs share a row without unequal frame
 test('service labels remain honest and existing service-page catalogs stay complete', async () => {
   await withBrowser(async ({ browser, url }) => {
     const page = await browser.newPage()
-    for (const [route, rows] of [['/', 17], ['/manicura-rivas-vaciamadrid/', 8], ['/pedicura-rivas-vaciamadrid/', 2], ['/unas-de-gel-rivas-vaciamadrid/', 7]]) {
+    for (const [route, rows] of [['/', 17], ['/manicura-rivas-vaciamadrid/', 8], ['/pedicura-rivas-vaciamadrid/', 2], ['/unas-de-gel-rivas-vaciamadrid/', 7], ['/depilacion-con-hilo-rivas-vaciamadrid/', 2]]) {
       await page.goto(url + route)
       assert.equal(await page.locator('#tarifas .fila').count(), rows)
       assert.equal(await page.locator('header a').filter({ hasText: 'Servicios' }).count(), 1)
@@ -91,6 +91,30 @@ test('service labels remain honest and existing service-page catalogs stay compl
       assert.equal(await page.locator('main').getByText(/precio y duración/i).count(), 0)
       if (route !== '/') assert.equal(await page.locator('#tarifas details').count(), 0)
     }
+    await page.close()
+  })
+})
+
+test('the threading landing answers the local intent without inventing a gallery', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    const page = await browser.newPage({ javaScriptEnabled: false })
+    const response = await page.goto(`${url}/depilacion-con-hilo-rivas-vaciamadrid/`)
+    assert.equal(response.status(), 200)
+    assert.equal((await page.locator('main h1').innerText()).replace(/\s+/g, ' ').trim(),
+      'Depilación con hilo en Rivas Vaciamadrid')
+    assert.equal(await page.title(), 'Depilación con hilo en Rivas Vaciamadrid · Nanci Nails')
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),
+      'https://nancinails.es/depilacion-con-hilo-rivas-vaciamadrid/')
+    const rows = page.locator('#tarifas .fila')
+    assert.equal(await rows.count(), 2)
+    assert.match(await rows.nth(0).innerText(), /cejas/i)
+    assert.match(await rows.nth(0).innerText(), /15 min/)
+    assert.match(await rows.nth(1).innerText(), /labio/i)
+    assert.match(await rows.nth(1).innerText(), /5 min/)
+    assert.equal(await page.locator('#trabajos').count(), 0,
+      'Threading has no photographs of its own, so it must not borrow the nail gallery')
+    const booking = new URL(await page.locator('.portada a[href^="https://wa.me/"]').getAttribute('href'))
+    assert.equal(booking.searchParams.get('text'), 'Hola Nanci, me gustaría pedir cita para la depilación con hilo.')
     await page.close()
   })
 })

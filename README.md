@@ -15,24 +15,27 @@ Halloween está activo por defecto. Para recuperar el diseño habitual, añade
 Usa `SITE_THEME=halloween` para volver a activarlo; `.env.example` contiene el ejemplo.
 En local reinicia Astro y, en producción, recompila y despliega: la web es estática.
 
-El interruptor cambia la paleta y el mensaje de campaña. La portada mantiene
-siempre la fotografía real de `src/assets/hero.jpg`, el titular de manicura y
-pedicura en Rivas y la acción «Reservar por WhatsApp».
+El interruptor cambia la paleta, el mensaje y la imagen de campaña. Halloween
+utiliza `src/assets/hero-halloween.png`; `default` conserva la fotografía real
+`src/assets/hero.jpg`. Ambos mantienen el titular de manicura y pedicura en Rivas
+y la acción «Reservar por WhatsApp».
 
-La calabaza, la araña y el mensaje de Halloween quedan dentro de la fotografía,
-con el desbordamiento recortado. No hay decoración flotante sobre botones,
-contenido ni controles de cookies. Toda la decoración desaparece con `default`.
-La imagen generada `hero-halloween.png` queda archivada, sin usarse en la portada.
+Halloween recupera los murciélagos en vuelo y la araña sobre el botón de reserva,
+sin calabaza. La decoración no intercepta clics y queda por debajo de los
+controles de cookies; los murciélagos desaparecen con movimiento reducido.
+El mensaje de campaña permanece dentro de la foto. `default` elimina la decoración.
 
 Para preparar Navidad, San Valentín u otra campaña:
 
 1. Añade una entrada a `src/data/temporadas.ts` con el mensaje y el contexto de
-   reserva. El titular y la fotografía real se mantienen estables en `Hero.astro`.
+   reserva y, opcionalmente, `portada.imagen`. El titular permanece estable en
+   `Hero.astro`; sin imagen de campaña se usa la fotografía habitual.
 2. Define sus tokens bajo `html[data-tema='nombre']` en `src/styles/temporadas.css`.
    Usa `--reserva-fondo`, `--reserva-texto` y `--reserva-hover` para los botones;
    conserva la relación de colores de `[data-invertido]` en la galería y el visor.
-3. Actívala con `SITE_THEME=nombre`. Si lleva decoración propia, móntala
-   condicionalmente dentro de la imagen de `Hero.astro`, nunca en el Layout.
+3. Actívala con `SITE_THEME=nombre`. Monta la decoración condicionalmente y
+   comprueba reserva, cookies y movimiento reducido. La bandada de Halloween
+   vive en el Layout; el marco de la fotografía permanece en `Hero.astro`.
 
 `temaPorDefecto` en `src/data/temporadas.ts` permite cambiar el valor sin usar
 variables de entorno. Un nombre desconocido detiene la compilación con un error
@@ -87,9 +90,9 @@ Astro genera versiones más pequeñas con `srcset` y carga diferida.
 | `pedicure-massage.webp` | Página de pedicura | DSC_1459 copia.jpg |
 
 `src/components/VidaEnSalon.astro` presenta el equipo, la atención y los detalles.
-El salón conserva su composición dividida; el equipo tiene una fotografía
-panorámica de ancho completo y la atención recupera la composición dividida.
-En móvil se apilan texto e imagen. Las tres
+El salón conserva su composición dividida. Equipo y atención comparten una fila
+con fotografías de igual tamaño y proporción 3:2; ninguna ocupa por sí sola todo
+el ancho de escritorio. En móvil se apilan sin bordes añadidos. Las tres
 fotos de detalle comparten un encuadre 3:2 para alinear sus alturas y sus textos;
 no se mezclan con la galería vertical de trabajos. Las imágenes no acreditan por
 sí solas protocolos de esterilización. Antes de incorporar otras
@@ -174,7 +177,8 @@ SITE_DIR=node_modules/.studio-qa/default-dist node --test scripts/test-landing-*
 ```
 
 El servidor de pruebas es local y efímero. Las pruebas cubren portada, primera
-visita con cookies, fotografía real, revelado/filtros/visor, consulta del diseño,
+visita con cookies, fotografía por tema, murciélagos y movimiento reducido,
+araña y ausencia de calabaza, equipo compacto, revelado/filtros/visor, consulta del diseño,
 servicios sin JavaScript y preservación de las rutas de manicura, pedicura y gel.
 La revisión visual de capturas en móvil, tableta y escritorio sigue siendo necesaria.
 

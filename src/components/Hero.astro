@@ -5,9 +5,9 @@ import { portada } from '../data/galeria'
 import { negocio } from '../data/negocio'
 import { campana, tema } from '../data/temporadas'
 import DecoracionHalloween from './DecoracionHalloween.astro'
-import CalabazaHalloween from './CalabazaHalloween.astro'
 
-// Campaigns accompany real work; they never replace the salon's photograph.
+// A campaign can supply its original artwork without changing the booking journey.
+const imagen = campana?.portada.imagen ?? { src: portada.imagen, alt: portada.alt }
 ---
 
 <section class="hero">
@@ -27,8 +27,8 @@ import CalabazaHalloween from './CalabazaHalloween.astro'
 
   <div class="imagen">
     <Image
-      src={portada.imagen}
-      alt={portada.alt}
+      src={imagen.src}
+      alt={imagen.alt}
       widths={[480, 760, 1100, 1440]}
       sizes="(min-width: 60rem) 50vw, 100vw"
       loading="eager"
@@ -39,10 +39,6 @@ import CalabazaHalloween from './CalabazaHalloween.astro'
       <>
         <DecoracionHalloween />
         <p class="hero-campana">{campana?.portada.descripcion}</p>
-        <span class="hero-calabaza" aria-hidden="true"><CalabazaHalloween /></span>
-        <span class="hero-arana" aria-hidden="true">
-          <img src="/decoracion/halloween/arana.svg" alt="" width="48" height="48" />
-        </span>
       </>
     )}
   </div>
@@ -134,23 +130,6 @@ import CalabazaHalloween from './CalabazaHalloween.astro'
     background: #18121dcc;
     color: #f6ecdf;
     font-size: var(--texto-sm);
-  }
-
-  .hero-calabaza,
-  .hero-arana {
-    position: absolute;
-    right: var(--espacio-sm);
-    width: clamp(3rem, 7vw, 5rem);
-    pointer-events: none;
-  }
-
-  .hero-calabaza {
-    bottom: var(--espacio-sm);
-  }
-
-  .hero-arana {
-    top: var(--espacio-sm);
-    width: 3rem;
   }
 
   .pie {

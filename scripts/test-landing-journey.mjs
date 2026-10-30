@@ -46,17 +46,29 @@ test('the reading journey reaches real people before an exhaustive catalog', asy
   })
 })
 
-test('panoramic team photography varies the studio composition and keeps detail frames equal', async () => {
+test('compact team and appointment photographs share a row without unequal frames', async () => {
   await withBrowser(async ({ browser, url }) => {
-    for (const width of [1440, 768, 390]) {
+    for (const width of [1920, 1440, 1024, 768, 390, 360]) {
       const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' })
       await page.goto(url)
       await page.locator('.equipo').scrollIntoViewIfNeeded()
       await page.locator('.equipo img').evaluate((image) => image.decode())
       const image = await page.locator('.equipo img').boundingBox()
       const heading = await page.locator('.equipo h2').boundingBox()
-      assert.ok(Math.abs(image.width - width) <= 1)
+      const appointment = await page.locator('.atencion img').boundingBox()
+      if (width >= 960) {
+        assert.ok(image.width <= width * 0.55, `Team image still dominates: ${image.width}px`)
+        assert.ok(Math.abs(image.width - appointment.width) <= 1)
+        assert.ok(Math.abs(image.height - appointment.height) <= 1)
+        assert.ok(Math.abs(image.y - appointment.y) <= 1)
+        assert.ok(appointment.x >= image.x + image.width - 1)
+      } else {
+        assert.ok(Math.abs(image.width - width) <= 1)
+        assert.ok(appointment.y >= image.y + image.height)
+      }
       assert.ok(image.y > heading.y + heading.height)
+      assert.ok(Math.abs(image.width / image.height - 1.5) < 0.01)
+      assert.match(await page.locator('.equipo img').getAttribute('alt'), /tres integrantes/)
       const ratios = await page.locator('.detalles img').evaluateAll((images) => images.map((image) => {
         const rect = image.getBoundingClientRect()
         return rect.width / rect.height

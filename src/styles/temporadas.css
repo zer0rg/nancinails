@@ -35,6 +35,22 @@ html[data-tema='halloween'] {
   background: radial-gradient(ellipse at 20% 50%, #39223c 0, transparent 65%);
 }
 
+[data-tema='halloween'] .hero .boton {
+  position: relative;
+}
+
+[data-tema='halloween'] .hero .boton::before {
+  content: '';
+  position: absolute;
+  right: -1.65rem;
+  bottom: calc(100% - 0.8rem);
+  width: 4rem;
+  height: 3.5rem;
+  background: url('/decoracion/halloween/arana.svg') no-repeat center / contain;
+  rotate: 35deg;
+  pointer-events: none;
+}
+
 [data-tema='halloween'] .hero .titular em {
   color: var(--laca);
 }

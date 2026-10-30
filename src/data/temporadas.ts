@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro'
+import heroHalloween from '../assets/hero-halloween.png'
 
 type Campana = {
   portada: {
@@ -15,6 +16,10 @@ type Campana = {
 export const temporadas = {
   halloween: {
     portada: {
+      imagen: {
+        src: heroHalloween,
+        alt: 'Manicura de inspiración Halloween en negro y naranja, con un murciélago y una telaraña fina sobre fondo otoñal',
+      },
       lineas: ['Tu lado', 'más', 'hechizante.'],
       descripcion:
         'Halloween: tonos de otoño y diseño a mano alzada.',

@@ -29,38 +29,40 @@ const detalles = [
 ---
 
 <section class="seccion vida-salon" aria-labelledby="equipo-titulo">
-  <div class="equipo">
-    <div class="introduccion">
-      <h2 class="titulo-seccion" id="equipo-titulo">El equipo</h2>
-      <p class="entradilla">El equipo de Nanci Nails, en el salón.</p>
+  <div class="personas">
+    <div class="equipo">
+      <div class="introduccion">
+        <h2 class="titulo-seccion" id="equipo-titulo">El equipo</h2>
+        <p class="entradilla">El equipo de Nanci Nails, en el salón.</p>
+      </div>
+      <figure class="foto-principal">
+        <Image
+          src={equipo}
+          alt="Las tres integrantes del equipo de Nanci Nails juntas en el salón"
+          width={1440}
+          widths={[420, 720, 1080, 1440]}
+          sizes="(min-width: 60rem) 50vw, 100vw"
+          loading="lazy"
+        />
+      </figure>
     </div>
-    <figure class="foto-principal">
-      <Image
-        src={equipo}
-        alt="Las tres integrantes del equipo de Nanci Nails juntas en el salón"
-        width={1440}
-        widths={[420, 720, 1080, 1440]}
-        sizes="100vw"
-        loading="lazy"
-      />
-    </figure>
-  </div>
 
-  <div class="atencion">
-    <div class="introduccion">
-      <h2 class="titulo-seccion">Así trabajamos</h2>
-      <p class="entradilla">De la preparación al acabado, en una sesión de manicura.</p>
+    <div class="atencion">
+      <div class="introduccion">
+        <h2 class="titulo-seccion">Así trabajamos</h2>
+        <p class="entradilla">De la preparación al acabado, en una sesión de manicura.</p>
+      </div>
+      <figure class="foto-principal">
+        <Image
+          src={cita}
+          alt="Una clienta sonríe mientras una profesional con mascarilla y guantes trabaja sus uñas"
+          width={1440}
+          widths={[420, 720, 1080, 1440]}
+          sizes="(min-width: 60rem) 50vw, 100vw"
+          loading="lazy"
+        />
+      </figure>
     </div>
-    <figure class="foto-principal">
-      <Image
-        src={cita}
-        alt="Una clienta sonríe mientras una profesional con mascarilla y guantes trabaja sus uñas"
-        width={1440}
-        widths={[420, 720, 1080, 1440]}
-        sizes="(min-width: 60rem) 50vw, 100vw"
-        loading="lazy"
-      />
-    </figure>
   </div>
 
   <div class="detalles">
@@ -88,15 +90,19 @@ const detalles = [
     padding: 0;
   }
 
+  .personas {
+    display: grid;
+  }
+
   .equipo,
   .atencion {
-    display: grid;
-    align-items: stretch;
+    display: flex;
+    flex-direction: column;
   }
 
   .introduccion {
-    align-self: center;
-    padding: var(--espacio-xl) var(--margen);
+    flex: 1;
+    padding: var(--espacio-lg) var(--margen);
   }
 
   .entradilla {
@@ -114,7 +120,8 @@ const detalles = [
   }
 
   .foto-principal :global(img) {
-    height: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
     object-position: 50% 45%;
   }
@@ -149,21 +156,8 @@ const detalles = [
   }
 
   @media (min-width: 60rem) {
-    .atencion {
+    .personas {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .equipo .introduccion {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--espacio-md);
-    }
-
-    .equipo .foto-principal :global(img) {
-      aspect-ratio: 2 / 1;
-      height: auto;
-      object-position: 50% 20%;
     }
 
     .detalles {

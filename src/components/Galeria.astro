@@ -644,8 +644,22 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     }
   }
 
+  /* The eight-work preview forms complete rows; expansion restores the mosaic. */
+  .mosaico:has(> .pieza[data-pospuesta]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mosaico:has(> .pieza[data-pospuesta]) .pieza {
+    grid-column: auto;
+    aspect-ratio: 4 / 5;
+  }
+
   @media (min-width: 75rem) {
     .mosaico {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .mosaico:has(> .pieza[data-pospuesta]) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }

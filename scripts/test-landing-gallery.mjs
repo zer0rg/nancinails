@@ -205,3 +205,36 @@ test('navigates unrevealed matches with correct consultation links, boundaries a
     }
   })
 })
+
+
+test('the abbreviated gallery fills its final row and restores the full mosaic on reveal', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    for (const width of [1440, 768, 390]) {
+      const { context, page } = await openPage(browser, url, { viewport: { width, height: 1000 } })
+      try {
+        const geometry = await page.locator('[data-galeria-lista]').evaluate((list) => {
+          const bounds = list.getBoundingClientRect()
+          const cards = [...list.children].map((card) => card.getBoundingClientRect()).filter((rect) => rect.height > 0)
+          const lastTop = Math.max(...cards.map((rect) => rect.top))
+          const lastRow = cards.filter((rect) => Math.abs(rect.top - lastTop) < 1)
+          const style = getComputedStyle(list)
+          return {
+            left: bounds.left + parseFloat(style.paddingLeft),
+            right: bounds.right - parseFloat(style.paddingRight),
+            rowLeft: lastRow[0].left, rowRight: lastRow.at(-1).right,
+          }
+        })
+        assert.ok(Math.abs(geometry.left - geometry.rowLeft) <= 1, JSON.stringify({ width, ...geometry }))
+        assert.ok(Math.abs(geometry.right - geometry.rowRight) <= 1, JSON.stringify({ width, ...geometry }))
+        await page.getByRole('button', { name: revealName }).click()
+        assert.equal(await page.locator(visibleCards).count(), 30)
+        if (width >= 768) {
+          assert.equal(await page.locator('.pieza[data-destacada]').first().evaluate((card) =>
+            getComputedStyle(card).gridColumnStart), 'span 2')
+        }
+      } finally {
+        await context.close()
+      }
+    }
+  })
+})

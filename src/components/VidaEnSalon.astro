@@ -32,8 +32,7 @@ const detalles = [
   <div class="equipo">
     <div class="introduccion">
       <h2 class="titulo-seccion" id="equipo-titulo">El equipo</h2>
-      <p class="entradilla">Las personas que cuidan de tus manos.</p>
-      <p class="texto">Detrás de cada cita está el equipo de Nanci Nails. Aquí puedes conocernos antes de venir al salón.</p>
+      <p class="entradilla">El equipo de Nanci Nails, en el salón.</p>
     </div>
     <figure class="foto-principal">
       <Image
@@ -41,7 +40,7 @@ const detalles = [
         alt="Las tres integrantes del equipo de Nanci Nails juntas en el salón"
         width={1440}
         widths={[420, 720, 1080, 1440]}
-        sizes="(min-width: 60rem) 50vw, 100vw"
+        sizes="100vw"
         loading="lazy"
       />
     </figure>
@@ -50,8 +49,7 @@ const detalles = [
   <div class="atencion">
     <div class="introduccion">
       <h2 class="titulo-seccion">Así trabajamos</h2>
-      <p class="entradilla">Una cita, de cerca.</p>
-      <p class="texto">El trabajo de las uñas y el trato con quien se sienta al otro lado de la mesa, en una escena del salón.</p>
+      <p class="entradilla">De la preparación al acabado, en una sesión de manicura.</p>
     </div>
     <figure class="foto-principal">
       <Image
@@ -105,12 +103,6 @@ const detalles = [
     margin-top: var(--espacio-md);
   }
 
-  .texto {
-    margin-top: var(--espacio-sm);
-    max-width: 42ch;
-    color: var(--grafito);
-  }
-
   figure {
     margin: 0;
     min-width: 0;
@@ -157,19 +149,21 @@ const detalles = [
   }
 
   @media (min-width: 60rem) {
-    .equipo,
     .atencion {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .equipo .introduccion {
-      grid-column: 2;
-      grid-row: 1;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--espacio-md);
     }
 
-    .equipo figure {
-      grid-column: 1;
-      grid-row: 1;
+    .equipo .foto-principal :global(img) {
+      aspect-ratio: 2 / 1;
+      height: auto;
+      object-position: 50% 20%;
     }
 
     .detalles {

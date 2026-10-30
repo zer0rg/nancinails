@@ -1,0 +1,180 @@
+---
+import BotonReserva from './BotonReserva.astro'
+import { grupos, formatearDuracion } from '../data/servicios'
+import { paginaDeGrupo } from '../data/paginasServicio'
+---
+
+<section class="seccion resumen-servicios" id="tarifas" aria-labelledby="servicios-titulo">
+  <div class="cabecera-seccion">
+    <h2 class="titulo-seccion" id="servicios-titulo">Servicios</h2>
+    <p class="entradilla">Elige qué necesitas y consulta cada servicio con su duración.</p>
+  </div>
+
+  <div class="categorias">
+    {grupos.map((grupo) => {
+      const pagina = paginaDeGrupo(grupo.id)
+      return (
+        <details>
+          <summary><h3>{grupo.titulo}</h3><span class="indicador" aria-hidden="true"></span></summary>
+          <div class="contenido-grupo">
+            <p class="descripcion-grupo">{grupo.entradilla}</p>
+            <ul>
+              {grupo.servicios.map((servicio) => (
+                <li class="fila">
+                  <div>
+                    <h4>{servicio.nombre}</h4>
+                    <p>{servicio.descripcion}</p>
+                  </div>
+                  <span class="duracion">{formatearDuracion(servicio)}</span>
+                </li>
+              ))}
+            </ul>
+            {pagina && <a class="enlace toque" href={`/${pagina.slug}/`}>Todo sobre {pagina.etiqueta.toLowerCase()}</a>}
+          </div>
+        </details>
+      )
+    })}
+  </div>
+
+  <div class="cierre">
+    <p>¿No sabes qué elegir? Pregúntanos por WhatsApp.</p>
+    <BotonReserva />
+  </div>
+</section>
+
+<style>
+  .resumen-servicios {
+    padding-inline: var(--margen);
+  }
+
+  .cabecera-seccion {
+    display: grid;
+    gap: var(--espacio-sm);
+    margin-bottom: var(--espacio-lg);
+  }
+
+  .categorias {
+    display: grid;
+    gap: var(--espacio-sm);
+  }
+
+  details {
+    background: var(--papel-hueso);
+    padding: var(--espacio-md);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-sm);
+    cursor: pointer;
+    list-style: none;
+    min-height: 44px;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary h3 {
+    font-family: var(--display);
+    font-size: var(--texto-xl);
+  }
+
+  .indicador {
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .indicador::before,
+  .indicador::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+  }
+
+  .indicador::before {
+    width: 100%;
+    height: 2px;
+    top: calc(50% - 1px);
+  }
+
+  .indicador::after {
+    width: 2px;
+    height: 100%;
+    left: calc(50% - 1px);
+  }
+
+  details[open] .indicador::after {
+    display: none;
+  }
+
+  .contenido-grupo {
+    padding-top: var(--espacio-md);
+  }
+
+  .descripcion-grupo {
+    color: var(--grafito);
+    max-width: 48ch;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-block: var(--espacio-sm);
+  }
+
+  .fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--espacio-sm);
+    padding-block: var(--espacio-sm);
+  }
+
+  .fila h4 {
+    font-size: var(--texto-base);
+    font-weight: 500;
+  }
+
+  .fila p {
+    font-size: var(--texto-sm);
+    color: var(--grafito);
+    margin-top: var(--espacio-3xs);
+    max-width: 48ch;
+  }
+
+  .duracion {
+    font-size: var(--texto-sm);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .enlace {
+    display: inline-block;
+    padding-block: var(--espacio-2xs);
+    text-underline-offset: 0.2em;
+  }
+
+  .cierre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-lg);
+  }
+
+  .cierre p {
+    color: var(--grafito);
+  }
+
+  @media (min-width: 60rem) {
+    .categorias {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+</style>

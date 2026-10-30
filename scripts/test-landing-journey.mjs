@@ -1,0 +1,84 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import { withBrowser } from './browser-test-support.mjs'
+
+test('the homepage summarizes all six service groups without losing any service', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    const page = await browser.newPage({ javaScriptEnabled: false })
+    await page.goto(url)
+    const groups = page.locator('#tarifas details')
+    assert.equal(await groups.count(), 6)
+    assert.equal(await page.locator('#tarifas .fila').count(), 17)
+    assert.equal(await page.locator('#tarifas .fila:visible').count(), 0)
+    for (const [index, count] of [4, 3, 2, 4, 2, 2].entries()) {
+      await groups.nth(index).locator('summary').click()
+      assert.equal(await groups.nth(index).locator('.fila:visible').count(), count)
+    }
+    assert.match(await groups.nth(0).innerText(), /Manicura express/)
+    assert.match(await groups.nth(0).innerText(), /30 min/)
+    assert.match(await groups.nth(1).innerText(), /Retirada de gel/)
+    assert.match(await groups.nth(2).innerText(), /Pedicura spa/)
+    assert.match(await groups.nth(4).innerText(), /Depilación de cejas con hilo/)
+    assert.match(await groups.nth(5).innerText(), /Parafina para los pies/)
+    for (const route of ['manicura-rivas-vaciamadrid', 'pedicura-rivas-vaciamadrid', 'unas-de-gel-rivas-vaciamadrid']) {
+      assert.equal(await page.locator(`#tarifas a[href='/${route}/']`).count(), 1)
+    }
+    await page.close()
+  })
+})
+
+test('the reading journey reaches real people before an exhaustive catalog', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' })
+    await page.goto(url)
+    const order = await page.locator('main').evaluate((main) => [...main.children]
+      .filter((element) => element.matches('section'))
+      .map((element) => element.id || element.className))
+    assert.ok(order.indexOf('trabajos') < order.indexOf('tarifas'))
+    assert.ok(order.indexOf('tarifas') < order.indexOf('salon'))
+    const salonTop = await page.locator('#salon').evaluate((element) => element.getBoundingClientRect().top + scrollY)
+    assert.ok(salonTop < 5000, `Salon starts at ${salonTop}px`)
+    const heading = page.locator('#salon .principal')
+    assert.ok((await heading.innerText()).split(/\s+/).length <= 12)
+    const size = await heading.evaluate((element) => parseFloat(getComputedStyle(element).fontSize))
+    assert.ok(size <= 24)
+    await page.close()
+  })
+})
+
+test('panoramic team photography varies the studio composition and keeps detail frames equal', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    for (const width of [1440, 768, 390]) {
+      const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' })
+      await page.goto(url)
+      await page.locator('.equipo').scrollIntoViewIfNeeded()
+      await page.locator('.equipo img').evaluate((image) => image.decode())
+      const image = await page.locator('.equipo img').boundingBox()
+      const heading = await page.locator('.equipo h2').boundingBox()
+      assert.ok(Math.abs(image.width - width) <= 1)
+      assert.ok(image.y > heading.y + heading.height)
+      const ratios = await page.locator('.detalles img').evaluateAll((images) => images.map((image) => {
+        const rect = image.getBoundingClientRect()
+        return rect.width / rect.height
+      }))
+      assert.ok(ratios.every((ratio) => Math.abs(ratio - 1.5) < 0.01))
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false)
+      await page.close()
+    }
+  })
+})
+
+test('service labels remain honest and existing service-page catalogs stay complete', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    const page = await browser.newPage()
+    for (const [route, rows] of [['/', 17], ['/manicura-rivas-vaciamadrid/', 8], ['/pedicura-rivas-vaciamadrid/', 2], ['/unas-de-gel-rivas-vaciamadrid/', 7]]) {
+      await page.goto(url + route)
+      assert.equal(await page.locator('#tarifas .fila').count(), rows)
+      assert.equal(await page.locator('header a').filter({ hasText: 'Servicios' }).count(), 1)
+      assert.equal(await page.getByRole('link', { name: /ver tarifas/i }).count(), 0)
+      assert.equal(await page.locator('main').getByText(/precio y duración/i).count(), 0)
+      if (route !== '/') assert.equal(await page.locator('#tarifas details').count(), 0)
+    }
+    await page.close()
+  })
+})

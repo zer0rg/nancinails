@@ -43,8 +43,11 @@ const compromisos = [
     <h2 class="titulo-seccion">El salón</h2>
 
     <p class="principal">
-      Un centro pequeño en el {negocio.direccion.local} donde se atiende con
-      cita y sin prisa. Cada clienta tiene su hora y su hora es suya.
+      Manicura y pedicura en Santa Mónica.
+    </p>
+    <p class="descripcion">
+      Estamos en el {negocio.direccion.numeroLocal} del {negocio.direccion.local},
+      en {negocio.direccion.ciudad}. Pide tu cita por WhatsApp.
     </p>
 
     <ul class="compromisos">
@@ -78,7 +81,7 @@ const compromisos = [
   }
 
   .contenido {
-    padding: var(--espacio-3xl) var(--margen);
+    padding: var(--espacio-xl) var(--margen);
   }
 
   .principal {
@@ -86,9 +89,15 @@ const compromisos = [
     margin-top: var(--espacio-md);
     font-family: var(--display);
     font-optical-sizing: auto;
-    font-size: var(--texto-xl);
-    line-height: 1.22;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 2rem);
+    line-height: 1.35;
     letter-spacing: -0.015em;
+  }
+
+  .descripcion {
+    margin-top: var(--espacio-sm);
+    max-width: 46ch;
+    color: var(--grafito);
   }
 
   .compromisos {
@@ -123,7 +132,7 @@ const compromisos = [
   }
 
   @media (min-width: 60rem) {
-    /* Match the team and appointment rows: one shared, full-bleed divider. */
+    /* The split studio rows share an axis; the team panorama breaks the rhythm. */
     .salon {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       align-items: stretch;

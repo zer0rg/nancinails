@@ -7,10 +7,9 @@ mediante tokens aislados por `data-tema`, sin sustituirlo. El interruptor y los
 pasos para añadir campañas están en [README.md](README.md#campañas-de-temporada).
 
 Halloween usa ciruela oscuro, marfil y naranja calabaza, conserva las fuentes y
-los trabajos reales de la galería, e incorpora una calabaza iluminada, una araña y murciélagos SVG animados.
-Su portada utiliza una imagen de campaña generada con IA a partir de la mano
-original; el tema `default` recupera la fotografía original.
-El vuelo no captura clics y se oculta con movimiento reducido.
+la fotografía real de las uñas. La calabaza y la araña quedan dentro de la foto
+de portada; no hay adornos flotantes que cubran contenido o controles. El titular
+y la reserva son estables entre campañas. El tema `default` elimina la decoración.
 La galería mantiene su contraste oscuro/claro; las reservas comparten un acento
 naranja en todas las páginas.
 
@@ -80,9 +79,10 @@ Reglas:
 
 **Rejilla de 12 columnas, composición asimétrica.** El centrado sistemático es lo que hace que una página parezca plantilla.
 
-- Hero: el titular ocupa las columnas 1 a 7 y desborda el margen izquierdo; la fotografía ocupa de la 8 a la 12 a sangre por el borde derecho y superior.
-- Servicios: dos columnas desiguales. Nombre y descripción a la izquierda, duración y precio alineados a la derecha sobre una línea de puntos, como una carta de restaurante.
-- Galería: mosaico de alturas variables sobre fondo negro. Todas las fotos comparten relación 4:5, así que la variación viene del ancho de celda, no de recortes distintos.
+- Hero: dos mitades en escritorio, titular de dos líneas y fotografía real a sangre por el borde derecho y superior. En móvil, texto compacto seguido de una foto visible en la primera pantalla.
+- Servicios: seis categorías desplegables en la portada, con el catálogo completo dentro de cada una; las páginas de servicio conservan su carta completa. Solo se muestran duraciones, no precios sin confirmar.
+- Galería: ocho trabajos iniciales sobre fondo negro, con acceso al resto y al visor completo por categoría. Las fotos conservan su tratamiento y las marcas de agua.
+- Salón y equipo: bloque dividido para el local, encabezado y panorama para el equipo, bloque dividido para la atención. Las tres fotos de detalle comparten proporción 3:2.
 - Sin tarjetas. En ningún sitio. Las tarjetas son la respuesta perezosa y aquí no son la mejor forma de nada.
 
 Espaciado fluido con `clamp()`, variando el ritmo: separaciones amplias entre secciones, agrupaciones apretadas dentro de cada una.

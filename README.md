@@ -147,7 +147,9 @@ conservar accesibilidad y nitidez. La marca rosa anterior queda archivada en
 La portada ordena trabajos destacados, servicios, salón/equipo y ubicación.
 `ResumenServicios.astro` reutiliza el catálogo y presenta las seis categorías
 como desplegables HTML nativos: se pueden abrir sin JavaScript y contienen los
-17 servicios con sus descripciones y duraciones. Las páginas de servicio siguen
+17 servicios con sus descripciones y duraciones. La apertura tiene una entrada
+suave de 240 ms y el indicador pasa de «+» a «−»; con movimiento reducido se
+muestra directamente, sin animación. Las páginas de servicio siguen
 usando la carta completa de `Servicios.astro`.
 
 Se conserva `#tarifas` para no romper enlaces antiguos; sus etiquetas visibles

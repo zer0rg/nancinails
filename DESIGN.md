@@ -101,6 +101,7 @@ Espaciado fluido con `clamp()`, variando el ritmo: separaciones amplias entre se
 Discreta y orquestada, nunca decorativa.
 
 - Revelado al entrar en pantalla mediante animaciones CSS ligadas al scroll (`animation-timeline: view()`), sin JavaScript. Si el navegador no lo soporta, el contenido aparece visible sin más.
+- Servicios: al abrir cada categoría, el contenido aparece con un fundido y desplazamiento de 240 ms; el indicador pasa de «+» a «−». Funciona sin JavaScript y se omite con movimiento reducido.
 - Curva de salida exponencial (`cubic-bezier(0.16, 1, 0.3, 1)`). Sin rebote, sin elástico.
 - Nunca se animan propiedades de layout. Solo `opacity`, `transform` y `filter`.
 - `prefers-reduced-motion: reduce` desactiva todo movimiento de entrada.

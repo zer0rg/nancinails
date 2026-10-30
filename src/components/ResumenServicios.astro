@@ -109,7 +109,7 @@ import { paginaDeGrupo } from '../data/paginasServicio'
   }
 
   details[open] .indicador::after {
-    display: none;
+    transform: scaleY(0);
   }
 
   .contenido-grupo {
@@ -169,6 +169,27 @@ import { paginaDeGrupo } from '../data/paginasServicio'
 
   .cierre p {
     color: var(--grafito);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details[open] .contenido-grupo {
+      animation: desplegar-servicios 0.24s var(--salida);
+    }
+
+    .indicador::after {
+      transition: transform 0.24s var(--salida);
+    }
+  }
+
+  @keyframes desplegar-servicios {
+    from {
+      opacity: 0;
+      transform: translateY(-0.4rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   @media (min-width: 60rem) {

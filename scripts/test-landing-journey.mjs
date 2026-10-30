@@ -94,3 +94,42 @@ test('service labels remain honest and existing service-page catalogs stay compl
     await page.close()
   })
 })
+
+test('service disclosures animate opening and respect reduced motion without JavaScript', async () => {
+  await withBrowser(async ({ browser, url }) => {
+    for (const reducedMotion of ['no-preference', 'reduce']) {
+      const page = await browser.newPage({ javaScriptEnabled: false, reducedMotion })
+      await page.goto(url)
+      const groups = page.locator('#tarifas details')
+      for (const group of await groups.all()) {
+        const summary = group.locator('summary')
+        const content = group.locator('.contenido-grupo')
+        await summary.click()
+        assert.equal(await group.getAttribute('open'), '')
+        const motion = await content.evaluate(async (element) => {
+          const animations = element.getAnimations().filter(animation => animation.effect.target === element)
+          if (!animations.length) return { count: 0, opacity: getComputedStyle(element).opacity }
+          const animation = animations[0]
+          animation.pause()
+          await animation.ready
+          animation.currentTime = animation.effect.getTiming().duration / 2
+          const halfway = Number(getComputedStyle(element).opacity)
+          animation.finish()
+          return { count: animations.length, halfway, opacity: getComputedStyle(element).opacity }
+        })
+        if (reducedMotion === 'no-preference') {
+          assert.equal(motion.count, 1, 'Opening must visibly animate each service group')
+          assert.ok(motion.halfway > 0 && motion.halfway < 1)
+        } else assert.equal(motion.count, 0, 'Reduced motion must bypass the animation')
+        assert.equal(motion.opacity, '1')
+        assert.ok(await content.isVisible())
+        assert.equal(await summary.evaluate(element => element === document.activeElement), true)
+        await summary.press('Enter')
+        assert.equal(await group.getAttribute('open'), null)
+        assert.equal(await content.isVisible(), false)
+      }
+      assert.equal(await page.locator('#tarifas .fila').count(), 17)
+      await page.close()
+    }
+  })
+})

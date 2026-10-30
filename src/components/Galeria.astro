@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 import BotonReserva from './BotonReserva.astro'
 import { trabajos, trabajosDe, etiquetasCategoria, type CategoriaTrabajo } from '../data/galeria'
-import { negocio } from '../data/negocio'
+import { negocio, enlaceWhatsapp } from '../data/negocio'
 
 /**
  * La única sección invertida de la página.
@@ -17,12 +17,15 @@ import { negocio } from '../data/negocio'
 type Props = {
   /** Filtra el mosaico. Sin esto, todos los trabajos. */
   categoria?: CategoriaTrabajo
+  /** Initial matching works; category galleries remain unlimited by default. */
+  limiteInicial?: number
   titulo?: string
   entradilla?: string
 }
 
 const {
   categoria,
+  limiteInicial = categoria ? undefined : 8,
   titulo = 'Trabajos',
   entradilla = 'Todo lo que ves está hecho en el salón. Si traes una foto de referencia, mejor.',
 } = Astro.props
@@ -51,10 +54,10 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     )
   }
 
-  <ul class="mosaico" data-galeria-lista>
+  <ul class="mosaico" data-galeria-lista data-limite-inicial={limiteInicial}>
     {
       visibles.map((trabajo) => (
-        <li class="pieza" tabindex="0" aria-label={`${trabajo.titulo ?? trabajo.alt}. ${trabajo.descripcion ?? ''} Servicio: ${trabajo.categorias.map((id) => etiquetasCategoria[id]).join(', ')}`} data-titulo={trabajo.titulo ?? trabajo.alt} data-descripcion={trabajo.descripcion ?? trabajo.alt} data-servicio={trabajo.categorias.map((id) => etiquetasCategoria[id]).join(' · ')} data-categorias={trabajo.categorias.join(' ')} data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
+        <li class="pieza" tabindex="0" aria-label={`${trabajo.titulo ?? trabajo.alt}. ${trabajo.descripcion ?? ''} Servicio: ${trabajo.categorias.map((id) => etiquetasCategoria[id]).join(', ')}`} data-titulo={trabajo.titulo ?? trabajo.alt} data-consulta={enlaceWhatsapp(trabajo.titulo ?? trabajo.alt)} data-descripcion={trabajo.descripcion ?? trabajo.alt} data-servicio={trabajo.categorias.map((id) => etiquetasCategoria[id]).join(' · ')} data-categorias={trabajo.categorias.join(' ')} data-destacada={trabajo.destacada ? '' : undefined} data-revelar>
           <Image
             src={trabajo.imagen}
             alt={trabajo.alt}
@@ -78,12 +81,14 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     }
   </ul>
 
+  <button class="ver-mas" type="button" data-ver-mas hidden>Ver más trabajos</button>
+
   <div class="cierre">
     <p class="nota">
       Hay muchos más en Instagram, y ahí se publican los últimos.
     </p>
     <div class="acciones">
-      <BotonReserva variante="inverso" texto="Pedir cita" />
+      <BotonReserva variante="inverso" texto="Reservar por WhatsApp" />
       <a class="enlace-instagram toque" href={negocio.redes.instagram} target="_blank" rel="noopener noreferrer">
         Ver {negocio.redes.instagramUsuario}
       </a>
@@ -105,6 +110,9 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
         <p class="visor-servicio" data-visor-servicio></p>
         <p class="visor-descripcion" data-visor-descripcion></p>
         <p class="visor-contador" data-visor-contador aria-live="polite"></p>
+        <div data-visor-consulta>
+          <BotonReserva variante="inverso" texto="Consultar este diseño" servicio={visibles[0]?.titulo ?? visibles[0]?.alt} />
+        </div>
       </div>
     </div>
   </dialog>
@@ -275,8 +283,28 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     transform: translateY(0);
   }
 
-  .pieza[data-oculta] {
+  .pieza[data-oculta],
+  .pieza[data-pospuesta],
+  .ver-mas[hidden] {
     display: none;
+  }
+
+  .ver-mas {
+    display: block;
+    margin: var(--espacio-lg) var(--margen) 0;
+    padding: var(--espacio-sm) var(--espacio-md);
+    min-height: 3rem;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: var(--papel);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .ver-mas:hover,
+  .ver-mas:focus-visible {
+    background: var(--papel);
+    color: var(--tinta);
   }
 
   .pieza {
@@ -515,6 +543,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
       inline-size: 100%;
       max-inline-size: 100%;
       max-height: 100dvh;
+      overflow-y: auto;
       border: 0;
     }
 
@@ -615,8 +644,22 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     }
   }
 
+  /* The eight-work preview forms complete rows; expansion restores the mosaic. */
+  .mosaico:has(> .pieza[data-pospuesta]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mosaico:has(> .pieza[data-pospuesta]) .pieza {
+    grid-column: auto;
+    aspect-ratio: 4 / 5;
+  }
+
   @media (min-width: 75rem) {
     .mosaico {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .mosaico:has(> .pieza[data-pospuesta]) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
@@ -640,17 +683,43 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     const anterior = visor.querySelector('[data-visor-anterior]') as HTMLButtonElement | null
     const siguiente = visor.querySelector('[data-visor-siguiente]') as HTMLButtonElement | null
     const cerrar = visor.querySelector('[data-visor-cerrar]') as HTMLButtonElement | null
+    const consulta = visor.querySelector('[data-visor-consulta] a') as HTMLAnchorElement | null
+    const verMas = galeria.closest('[data-invertido]')?.querySelector('[data-ver-mas]') as HTMLButtonElement | null
+    const limite = Number(galeria.getAttribute('data-limite-inicial') ?? Infinity)
+    let categoriaActual = 'todos'
+    let expandida = false
     let indiceActual = 0
-    let piezaAnterior: Element | null = null
+    let piezaSeleccionada: Element | null = null
     let inicioToque = 0
     const media = visor.querySelector('[data-visor-media]') as HTMLElement | null
     const info = visor.querySelector('.visor-info') as HTMLElement | null
     let temporizadorCambio: number | undefined
 
-    const piezasVisibles = () => [...piezas].filter((pieza) => !pieza.hasAttribute('data-oculta'))
+    // Viewer navigation follows category matches, never progressive visibility.
+    const piezasCoincidentes = () => [...piezas].filter((pieza) =>
+      categoriaActual === 'todos' || pieza.getAttribute('data-categorias')?.split(' ').includes(categoriaActual))
+
+    const actualizarMosaico = () => {
+      const coincidentes = piezasCoincidentes()
+      const indices = new Map(coincidentes.map((pieza, indice) => [pieza, indice]))
+      piezas.forEach((pieza) => {
+        const indice = indices.get(pieza)
+        pieza.toggleAttribute('data-oculta', indice === undefined)
+        pieza.toggleAttribute('data-pospuesta', indice !== undefined && !expandida && indice >= limite)
+      })
+      if (verMas) verMas.hidden = expandida || coincidentes.length <= limite
+    }
+
+    verMas?.addEventListener('click', () => {
+      const primeraNueva = piezasCoincidentes()[limite]
+      expandida = true
+      actualizarMosaico()
+      if (primeraNueva instanceof HTMLElement) primeraNueva.focus()
+    })
+    actualizarMosaico()
 
     const pintar = (indice: number) => {
-      const visibles = piezasVisibles()
+      const visibles = piezasCoincidentes()
       const pieza = visibles[indice]
       const foto = pieza?.querySelector('img')
 
@@ -658,6 +727,8 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
 
       const actualizar = () => {
         indiceActual = indice
+        piezaSeleccionada = pieza
+        if (consulta) consulta.href = pieza.getAttribute('data-consulta') ?? ''
         imagen.src = foto.currentSrc || foto.src
         imagen.alt = foto.alt
         titulo.textContent = pieza.getAttribute('data-titulo') ?? foto.alt
@@ -686,18 +757,30 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     }
 
     const abrir = (pieza: Element) => {
-      const indice = piezasVisibles().indexOf(pieza)
+      const indice = piezasCoincidentes().indexOf(pieza)
       if (indice < 0) return
-      piezaAnterior = pieza
       pintar(indice)
       visor.showModal()
       cerrar?.focus()
     }
 
     const cerrarVisor = () => {
+      window.clearTimeout(temporizadorCambio)
+      media?.removeAttribute('data-cambiando')
+      info?.removeAttribute('data-cambiando')
+      // A selected work may not yet have been revealed in the mosaic.
+      if (piezaSeleccionada?.hasAttribute('data-pospuesta')) {
+        expandida = true
+        actualizarMosaico()
+      }
       visor.close()
-      if (piezaAnterior instanceof HTMLElement) piezaAnterior.focus()
+      if (piezaSeleccionada instanceof HTMLElement) piezaSeleccionada.focus()
     }
+
+    visor.addEventListener('cancel', (evento) => {
+      evento.preventDefault()
+      cerrarVisor()
+    })
 
     piezas.forEach((pieza) => {
       pieza.addEventListener('click', () => abrir(pieza))
@@ -719,8 +802,11 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
 
     visor.addEventListener('keydown', (evento) => {
       if (evento.key === 'ArrowLeft' && indiceActual > 0) pintar(indiceActual - 1)
-      if (evento.key === 'ArrowRight' && indiceActual < piezasVisibles().length - 1) pintar(indiceActual + 1)
-      if (evento.key === 'Escape') cerrarVisor()
+      if (evento.key === 'ArrowRight' && indiceActual < piezasCoincidentes().length - 1) pintar(indiceActual + 1)
+      if (evento.key === 'Escape') {
+        evento.preventDefault()
+        cerrarVisor()
+      }
     })
 
     media?.addEventListener('pointerdown', (evento) => {
@@ -729,13 +815,14 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
     media?.addEventListener('pointerup', (evento) => {
       const diferencia = evento.clientX - inicioToque
       if (Math.abs(diferencia) < 45) return
-      if (diferencia < 0 && indiceActual < piezasVisibles().length - 1) pintar(indiceActual + 1)
+      if (diferencia < 0 && indiceActual < piezasCoincidentes().length - 1) pintar(indiceActual + 1)
       if (diferencia > 0 && indiceActual > 0) pintar(indiceActual - 1)
     })
 
     filtros?.forEach((filtro) => {
       filtro.addEventListener('click', () => {
-        const categoria = filtro.getAttribute('data-filtro')
+        categoriaActual = filtro.getAttribute('data-filtro') ?? 'todos'
+        expandida = false
 
         filtros.forEach((otro) => {
           const activo = otro === filtro
@@ -743,10 +830,7 @@ const categorias = Object.entries(etiquetasCategoria) as [CategoriaTrabajo, stri
           otro.setAttribute('aria-pressed', String(activo))
         })
 
-        piezas.forEach((pieza) => {
-          const visible = categoria === 'todos' || pieza.getAttribute('data-categorias')?.split(' ').includes(categoria ?? '')
-          pieza.toggleAttribute('data-oculta', !visible)
-        })
+        actualizarMosaico()
       })
     })
   })

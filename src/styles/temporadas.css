@@ -55,33 +55,14 @@ html[data-tema='halloween'] {
   color: var(--laca);
 }
 
-.hero-localidad {
-  margin-top: 1.25rem;
-  color: var(--grafito);
-  font-size: var(--texto-sm);
-}
-
-[data-tema='halloween'] .hero .imagen {
-  position: relative;
-  isolation: isolate;
-}
-
 .halloween-escena {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
   color: #f5a15d;
-  /* El degradado enmarca la foto; no aplica filtros al color de las uñas. */
+  /* Frame real work without filtering the nail colours. */
   background: linear-gradient(180deg, #18121d80, transparent 35%, transparent 70%, #18121db3);
-}
-
-[data-tema='halloween'] #salon .titulo-seccion::before {
-  content: '✦';
-  display: block;
-  margin-bottom: 1.25rem;
-  color: var(--laca);
-  font-size: 1.5rem;
 }
 
 [data-tema='halloween'] #trabajos {
@@ -90,27 +71,4 @@ html[data-tema='halloween'] {
 
 [data-tema='halloween'] #trabajos .titulo-seccion {
   color: var(--laca);
-}
-
-.calabaza-flotante {
-  position: fixed;
-  right: -1.25rem;
-  bottom: -0.75rem;
-  z-index: 35;
-  display: block;
-  width: clamp(11rem, 15vw, 14rem);
-  rotate: -12deg;
-  transform-origin: center;
-  filter: drop-shadow(0 0.4rem 0.8rem #18121d80);
-  pointer-events: none;
-}
-
-@media (max-width: 47.99rem) {
-  .calabaza-flotante {
-    right: -2.375rem;
-    /* La base queda detrás de la barra y el lateral asoma por la esquina. */
-    bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px) + 0.25rem);
-    width: 8.5rem;
-    transform-origin: bottom right;
-  }
 }

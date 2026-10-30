@@ -15,29 +15,27 @@ Halloween está activo por defecto. Para recuperar el diseño habitual, añade
 Usa `SITE_THEME=halloween` para volver a activarlo; `.env.example` contiene el ejemplo.
 En local reinicia Astro y, en producción, recompila y despliega: la web es estática.
 
-El interruptor cambia la paleta de todas las páginas, el texto de la portada
-y la decoración. Halloween incluye murciélagos con vuelo y
-aleteo y respeto a `prefers-reduced-motion`. En móvil vuelan dos, con tamaño y
-contraste ajustados a pantallas pequeñas.
-Una calabaza inclinada asoma por la esquina superior derecha de la barra de reserva
-en móvil y por la esquina inferior derecha de la pantalla en escritorio, con luz
-interior animada en CSS.
-Toda la decoración desaparece con `default`.
+El interruptor cambia la paleta, el mensaje y la imagen de campaña. Halloween
+utiliza `src/assets/hero-halloween.png`; `default` conserva la fotografía real
+`src/assets/hero.jpg`. Ambos mantienen el titular de manicura y pedicura en Rivas
+y la acción «Reservar por WhatsApp».
 
-La portada de Halloween usa `src/assets/hero-halloween.png`, una imagen de campaña
-generada con IA a partir de la mano de la foto original. Se reserva para la portada;
-la galería conserva los trabajos reales. El prompt está en
-`output/imagegen/hero-halloween-prompt.txt`. Con `default` vuelve la foto original.
+Halloween recupera los murciélagos en vuelo y la araña sobre el botón de reserva,
+sin calabaza. La decoración no intercepta clics y queda por debajo de los
+controles de cookies; los murciélagos desaparecen con movimiento reducido.
+El mensaje de campaña permanece dentro de la foto. `default` elimina la decoración.
 
 Para preparar Navidad, San Valentín u otra campaña:
 
-1. Añade una entrada a `src/data/temporadas.ts` con los textos, la reserva y,
-   opcionalmente, una imagen de portada con su texto alternativo.
+1. Añade una entrada a `src/data/temporadas.ts` con el mensaje y el contexto de
+   reserva y, opcionalmente, `portada.imagen`. El titular permanece estable en
+   `Hero.astro`; sin imagen de campaña se usa la fotografía habitual.
 2. Define sus tokens bajo `html[data-tema='nombre']` en `src/styles/temporadas.css`.
    Usa `--reserva-fondo`, `--reserva-texto` y `--reserva-hover` para los botones;
    conserva la relación de colores de `[data-invertido]` en la galería y el visor.
-3. Actívala con `SITE_THEME=nombre`. Si lleva decoración propia, móntala
-   condicionalmente como la de Halloween en `Layout.astro` y `Hero.astro`.
+3. Actívala con `SITE_THEME=nombre`. Monta la decoración condicionalmente y
+   comprueba reserva, cookies y movimiento reducido. La bandada de Halloween
+   vive en el Layout; el marco de la fotografía permanece en `Hero.astro`.
 
 `temaPorDefecto` en `src/data/temporadas.ts` permite cambiar el valor sin usar
 variables de entorno. Un nombre desconocido detiene la compilación con un error
@@ -45,17 +43,9 @@ que enumera los temas disponibles.
 
 ## Verificaciones de la dueña
 
-1. **Precios reales.** Los de `src/data/servicios.ts` son de referencia del
-   mercado, no los de Nanci. Cada servicio lleva un `provisional: true` mientras
-   no esté confirmado.
-
-   ⚠️ Nada indica a simple vista que estos precios son provisionales. Hay que
-   confirmarlos uno a uno. Para
-   comprobar si queda alguno sin revisar:
-
-   ```sh
-   grep -c "provisional: true" src/data/servicios.ts
-   ```
+1. **Precios reales.** El catálogo publica servicios y duraciones, no precios.
+   Por eso la navegación dice «Servicios», no «Tarifas». Antes de añadir precios,
+   confirmarlos con Nanci; no hay tarifas de ejemplo ni campos `provisional`.
 
 2. **Duraciones.** Hay contradicciones entre la tabla y los textos de servicio.
    Están inventariadas como `OWNER_VERIFICATION_REQUIRED` en `SEO_AUDIT.md`.
@@ -72,19 +62,45 @@ que enumera los temas disponibles.
 
 ## Fotografía
 
-El material actual son 19 fotos de su Instagram, tratadas como provisionales
-hasta que lleguen las definitivas.
+La galería contiene 30 trabajos reales, además de las ocho fotos del estudio.
+Se conservan las marcas de agua. La portada presenta ocho trabajos inicialmente;
+«Ver más trabajos» descubre el resto de la categoría elegida. Sin JavaScript se
+muestran las 30 fotos. Las galerías de las páginas de servicio no se recortan.
 
-De los 27 archivos originales se descartaron 7: pegatinas de Stories encima de
-las uñas, la barra de interfaz de Instagram, un fondo desordenado y dos fotos
-apaisadas a las que el encuadre 4:5 les partía la marca de agua.
+El visor recorre todos los trabajos de la categoría, aunque no estuvieran aún
+visibles en el mosaico. «Consultar este diseño» prepara un mensaje de WhatsApp
+con el nombre del trabajo seleccionado; no adjunta una fotografía automáticamente.
 
-Solo hay **una foto de pedicura**, que es medio negocio. Es el primer hueco a
-cubrir con el material nuevo.
+### Fotografías del estudio
 
-### Sustituir las fotos
+La web incorpora ocho fotos de la sesión del local, separadas de los trabajos
+terminados. Se guardan en `src/assets/studio/` como WebP, con un ancho máximo de
+1920 px, orientación corregida y sin metadatos EXIF. Los originales no se modifican.
+Astro genera versiones más pequeñas con `srcset` y carga diferida.
 
-Todas las imágenes están normalizadas a 4:5. Para cambiar una, basta con
+| Archivo | Ubicación | Original de la sesión |
+| --- | --- | --- |
+| `salon-interior.webp` | El salón | DSC_1260 copia copia.jpg |
+| `salon-team.webp` | El equipo | DSC_1353 copia.jpg |
+| `manicure-appointment.webp` | Así trabajamos | DSC_1479 copia.jpg |
+| `kinetics-products.webp` | Detalles del salón | DSC_1300 copia.jpg |
+| `nail-colour-swatches.webp` | Detalles del salón | DSC_1330 copia.jpg |
+| `eyebrow-threading.webp` | Detalles del salón | DSC_1402 copia.jpg |
+| `polish-removal.webp` | Página de manicura | DSC_1386 copia.jpg |
+| `pedicure-massage.webp` | Página de pedicura | DSC_1459 copia.jpg |
+
+`src/components/VidaEnSalon.astro` presenta el equipo, la atención y los detalles.
+El salón conserva su composición dividida. Equipo y atención comparten una fila
+con fotografías de igual tamaño y proporción 3:2; ninguna ocupa por sí sola todo
+el ancho de escritorio. En móvil se apilan sin bordes añadidos. Las tres
+fotos de detalle comparten un encuadre 3:2 para alinear sus alturas y sus textos;
+no se mezclan con la galería vertical de trabajos. Las imágenes no acreditan por
+sí solas protocolos de esterilización. Antes de incorporar otras
+personas reconocibles, confirmar los permisos de publicación correspondientes.
+
+### Sustituir las fotos de trabajos
+
+Las imágenes de la galería de trabajos están normalizadas a 4:5. Para cambiar una, basta con
 reemplazar el archivo en `src/assets/galeria/` conservando el nombre: el
 encuadre no cambia y no hay que tocar `src/data/galeria.ts`.
 
@@ -125,6 +141,48 @@ conservar accesibilidad y nitidez. La marca rosa anterior queda archivada en
 - **El revelado al hacer scroll solo mueve, nunca oculta.** Si la animación no
   progresa por lo que sea, el peor caso es un bloque desplazado, no un texto
   invisible.
+
+## Recorrido de la portada
+
+La portada ordena trabajos destacados, servicios, salón/equipo y ubicación.
+`ResumenServicios.astro` reutiliza el catálogo y presenta las seis categorías
+como desplegables HTML nativos: se pueden abrir sin JavaScript y contienen los
+17 servicios con sus descripciones y duraciones. La apertura tiene una entrada
+suave de 240 ms y el indicador pasa de «+» a «−»; con movimiento reducido se
+muestra directamente, sin animación. Las páginas de servicio siguen
+usando la carta completa de `Servicios.astro`.
+
+Se conserva `#tarifas` para no romper enlaces antiguos; sus etiquetas visibles
+dicen «Servicios». La consulta de un diseño es una acción contextual distinta
+de la reserva general.
+
+## QA de la landing
+
+Las pruebas comprueban la web compilada en Chromium, no archivos de código.
+Playwright se instala de forma aislada y no es una dependencia de producción:
+
+```sh
+QA_DIR="$PWD/node_modules/.studio-qa"
+npm install --prefix "$QA_DIR" --cache "$QA_DIR/npm-cache" --package-lock=false --no-audit --no-fund playwright
+export PLAYWRIGHT_MODULE="$QA_DIR/node_modules/playwright/index.mjs"
+export PLAYWRIGHT_BROWSERS_PATH="$QA_DIR/browsers"
+node "$QA_DIR/node_modules/playwright/cli.js" install chromium --only-shell
+npm run build
+node --test scripts/test-landing-*.mjs
+```
+
+Para verificar también el tema habitual sin sustituir la compilación principal:
+
+```sh
+SITE_THEME=default npm run build -- --outDir node_modules/.studio-qa/default-dist
+SITE_DIR=node_modules/.studio-qa/default-dist node --test scripts/test-landing-*.mjs
+```
+
+El servidor de pruebas es local y efímero. Las pruebas cubren portada, primera
+visita con cookies, fotografía por tema, murciélagos y movimiento reducido,
+araña y ausencia de calabaza, equipo compacto, revelado/filtros/visor, consulta del diseño,
+servicios sin JavaScript y preservación de las rutas de manicura, pedicura y gel.
+La revisión visual de capturas en móvil, tableta y escritorio sigue siendo necesaria.
 
 ## Comandos
 

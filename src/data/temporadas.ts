@@ -22,8 +22,8 @@ export const temporadas = {
       },
       lineas: ['Tu lado', 'más', 'hechizante.'],
       descripcion:
-        'Negros intensos, tonos de otoño y diseño a mano alzada. Este Halloween, la magia está en tus manos.',
-      reserva: 'Reservar mi manicura',
+        'Halloween: tonos de otoño y diseño a mano alzada.',
+      reserva: 'Reservar por WhatsApp',
       servicio: 'una manicura para Halloween',
       pie: 'Manicura y pedicura en Rivas Vaciamadrid',
     },

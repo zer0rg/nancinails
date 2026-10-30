@@ -2,9 +2,10 @@
 import Layout from '../layouts/Layout.astro'
 import Cabecera from '../components/Cabecera.astro'
 import Hero from '../components/Hero.astro'
-import Servicios from '../components/Servicios.astro'
+import ResumenServicios from '../components/ResumenServicios.astro'
 import Galeria from '../components/Galeria.astro'
 import ElSalon from '../components/ElSalon.astro'
+import VidaEnSalon from '../components/VidaEnSalon.astro'
 import Ubicacion from '../components/Ubicacion.astro'
 import PieDePagina from '../components/PieDePagina.astro'
 import BarraMovil from '../components/BarraMovil.astro'
@@ -18,9 +19,10 @@ import BarraMovil from '../components/BarraMovil.astro'
 
   <main id="contenido">
     <Hero />
-    <Servicios />
-    <Galeria />
+    <Galeria limiteInicial={8} />
+    <ResumenServicios />
     <ElSalon />
+    <VidaEnSalon />
     <Ubicacion />
   </main>
 

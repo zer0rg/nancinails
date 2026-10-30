@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import { negocio } from '../data/negocio'
-import salon from '../assets/salon.jpg'
+import salon from '../assets/studio/salon-interior.webp'
 
 /**
  * ⚠️ TEXTO PENDIENTE DE VALIDAR CON LA DUEÑA.
@@ -43,8 +43,11 @@ const compromisos = [
     <h2 class="titulo-seccion">El salón</h2>
 
     <p class="principal">
-      Un centro pequeño en el {negocio.direccion.local} donde se atiende con
-      cita y sin prisa. Cada clienta tiene su hora y su hora es suya.
+      Manicura y pedicura en Santa Mónica.
+    </p>
+    <p class="descripcion">
+      Estamos en el {negocio.direccion.numeroLocal} del {negocio.direccion.local},
+      en {negocio.direccion.ciudad}. Pide tu cita por WhatsApp.
     </p>
 
     <ul class="compromisos">
@@ -62,9 +65,9 @@ const compromisos = [
   <figure class="retrato">
     <Image
       src={salon}
-      alt="Interior del salón: tres puestos de manicura con sillones negros, lámparas de luz fría y el expositor de esmaltes al fondo"
+      alt="Puestos de manicura de Nanci Nails con sillones negros, mesas blancas, lámparas de arco y esmaltes al fondo"
       widths={[420, 640, 900, 1080]}
-      sizes="(min-width: 60rem) 42vw, 100vw"
+      sizes="(min-width: 60rem) 50vw, 100vw"
       loading="lazy"
     />
   </figure>
@@ -73,9 +76,12 @@ const compromisos = [
 <style>
   .salon {
     display: grid;
-    gap: var(--espacio-xl);
-    padding-inline: var(--margen);
+    padding: 0;
     background: var(--papel-hueso);
+  }
+
+  .contenido {
+    padding: var(--espacio-xl) var(--margen);
   }
 
   .principal {
@@ -83,9 +89,15 @@ const compromisos = [
     margin-top: var(--espacio-md);
     font-family: var(--display);
     font-optical-sizing: auto;
-    font-size: var(--texto-xl);
-    line-height: 1.22;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 2rem);
+    line-height: 1.35;
     letter-spacing: -0.015em;
+  }
+
+  .descripcion {
+    margin-top: var(--espacio-sm);
+    max-width: 46ch;
+    color: var(--grafito);
   }
 
   .compromisos {
@@ -111,22 +123,18 @@ const compromisos = [
   }
 
   .retrato {
-    /* Sangra hasta los bordes de la ventana, igual que la foto de portada, y
-       cierra la sección por abajo anulando su relleno inferior: si no, queda
-       una franja de fondo suelta entre la foto y la sección siguiente. */
     margin: 0;
-    margin-inline: calc(var(--margen) * -1);
-    margin-bottom: calc(var(--espacio-3xl) * -1);
+  }
+
+  .retrato :global(img) {
+    width: 100%;
+    height: auto;
   }
 
   @media (min-width: 60rem) {
+    /* The split studio rows share an axis; the team panorama breaks the rhythm. */
     .salon {
-      /* Mitad y mitad, con un hueco amplio entre ambas. La foto ya gana ancho
-         real por el sangrado del borde derecho, así que no necesita robárselo
-         al texto: con la columna más estrecha, los cuatro apartados quedaban
-         apretados y las líneas se partían mal. */
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--espacio-2xl);
       align-items: stretch;
     }
 
@@ -135,35 +143,17 @@ const compromisos = [
       gap: var(--espacio-xl) var(--espacio-lg);
     }
 
-    /*
-      Misma solución que en el hero: la foto llena la sección de arriba abajo
-      y sangra por el borde derecho. Los márgenes negativos anulan el relleno
-      de la sección, y la imagen va en posición absoluta para que sea la
-      altura del texto la que manda, no la proporción de la foto.
-
-      Asume recorte lateral: al pasar de una foto apaisada a un hueco vertical
-      se pierden el mostrador de la izquierda y parte del expositor. A cambio,
-      los puestos de manicura se ven de cerca y la sección deja de tener un
-      hueco muerto debajo de la imagen.
-    */
     .retrato {
       position: relative;
       min-height: 0;
       overflow: hidden;
-      align-self: stretch;
-      margin-block: calc(var(--espacio-3xl) * -1);
-      /* Solo por la derecha: el sangrado izquierdo es cosa del móvil, y aquí
-         invadiría el hueco que la separa del texto. */
-      margin-inline: 0 calc(var(--margen) * -1);
     }
 
     .retrato :global(img) {
       position: absolute;
       inset: 0;
-      width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Ancla en los puestos de trabajo, que es lo que interesa enseñar. */
       object-position: 55% 50%;
     }
   }

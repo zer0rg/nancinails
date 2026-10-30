@@ -1,0 +1,179 @@
+---
+import { Image } from 'astro:assets'
+import equipo from '../assets/studio/salon-team.webp'
+import cita from '../assets/studio/manicure-appointment.webp'
+import productos from '../assets/studio/kinetics-products.webp'
+import colores from '../assets/studio/nail-colour-swatches.webp'
+import hilo from '../assets/studio/eyebrow-threading.webp'
+
+const detalles = [
+  {
+    imagen: productos,
+    alt: 'Esmaltes SHIELD, sérum y cremas de cuidado Kinetics sobre una mesa del salón',
+    titulo: 'Productos Kinetics',
+    texto: 'Esmaltes y productos de cuidado que utilizamos en el salón.',
+  },
+  {
+    imagen: colores,
+    alt: 'Muestrarios de esmaltes con tonos rojos, rosas, azules y verdes sobre la mesa',
+    titulo: 'El color lo eliges tú',
+    texto: 'Muestrarios para comparar los tonos antes de decidir.',
+  },
+  {
+    imagen: hilo,
+    alt: 'Una profesional con guantes trabajando el contorno de una ceja con hilo',
+    titulo: 'También, cejas con hilo',
+    texto: 'Un detalle del servicio de depilación que encontrarás en nuestra carta.',
+  },
+]
+---
+
+<section class="seccion vida-salon" aria-labelledby="equipo-titulo">
+  <div class="equipo">
+    <div class="introduccion">
+      <h2 class="titulo-seccion" id="equipo-titulo">El equipo</h2>
+      <p class="entradilla">Las personas que cuidan de tus manos.</p>
+      <p class="texto">Detrás de cada cita está el equipo de Nanci Nails. Aquí puedes conocernos antes de venir al salón.</p>
+    </div>
+    <figure class="foto-principal">
+      <Image
+        src={equipo}
+        alt="Las tres integrantes del equipo de Nanci Nails juntas en el salón"
+        width={1440}
+        widths={[420, 720, 1080, 1440]}
+        sizes="(min-width: 60rem) 50vw, 100vw"
+        loading="lazy"
+      />
+    </figure>
+  </div>
+
+  <div class="atencion">
+    <div class="introduccion">
+      <h2 class="titulo-seccion">Así trabajamos</h2>
+      <p class="entradilla">Una cita, de cerca.</p>
+      <p class="texto">El trabajo de las uñas y el trato con quien se sienta al otro lado de la mesa, en una escena del salón.</p>
+    </div>
+    <figure class="foto-principal">
+      <Image
+        src={cita}
+        alt="Una clienta sonríe mientras una profesional con mascarilla y guantes trabaja sus uñas"
+        width={1440}
+        widths={[420, 720, 1080, 1440]}
+        sizes="(min-width: 60rem) 50vw, 100vw"
+        loading="lazy"
+      />
+    </figure>
+  </div>
+
+  <div class="detalles">
+    {detalles.map((detalle) => (
+      <figure>
+        <Image
+          src={detalle.imagen}
+          alt={detalle.alt}
+          width={960}
+          widths={[420, 640, 960]}
+          sizes="(min-width: 60rem) 30vw, 100vw"
+          loading="lazy"
+        />
+        <figcaption>
+          <h3>{detalle.titulo}</h3>
+          <p>{detalle.texto}</p>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .vida-salon {
+    padding: 0;
+  }
+
+  .equipo,
+  .atencion {
+    display: grid;
+    align-items: stretch;
+  }
+
+  .introduccion {
+    align-self: center;
+    padding: var(--espacio-xl) var(--margen);
+  }
+
+  .entradilla {
+    margin-top: var(--espacio-md);
+  }
+
+  .texto {
+    margin-top: var(--espacio-sm);
+    max-width: 42ch;
+    color: var(--grafito);
+  }
+
+  figure {
+    margin: 0;
+    min-width: 0;
+  }
+
+  figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .foto-principal :global(img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+  }
+
+  figcaption {
+    margin-top: var(--espacio-xs);
+    color: var(--grafito);
+    font-size: var(--texto-sm);
+  }
+
+  .detalles {
+    display: grid;
+    gap: var(--espacio-lg);
+    padding: var(--espacio-xl) var(--margen);
+  }
+
+  .detalles :global(img) {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .detalles h3 {
+    color: var(--tinta);
+    font-family: var(--texto);
+    font-size: var(--texto-lg);
+    line-height: 1.3;
+  }
+
+  .detalles p {
+    margin-top: var(--espacio-2xs);
+    max-width: 42ch;
+  }
+
+  @media (min-width: 60rem) {
+    .equipo,
+    .atencion {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .equipo .introduccion {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .equipo figure {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .detalles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

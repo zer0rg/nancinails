@@ -82,9 +82,36 @@ apaisadas a las que el encuadre 4:5 les partía la marca de agua.
 Solo hay **una foto de pedicura**, que es medio negocio. Es el primer hueco a
 cubrir con el material nuevo.
 
-### Sustituir las fotos
+### Fotografías del estudio
 
-Todas las imágenes están normalizadas a 4:5. Para cambiar una, basta con
+La web incorpora ocho fotos de la sesión del local, separadas de los trabajos
+terminados. Se guardan en `src/assets/studio/` como WebP, con un ancho máximo de
+1920 px, orientación corregida y sin metadatos EXIF. Los originales no se modifican.
+Astro genera versiones más pequeñas con `srcset` y carga diferida.
+
+| Archivo | Ubicación | Original de la sesión |
+| --- | --- | --- |
+| `salon-interior.webp` | El salón | DSC_1260 copia copia.jpg |
+| `salon-team.webp` | El equipo | DSC_1353 copia.jpg |
+| `manicure-appointment.webp` | Así trabajamos | DSC_1479 copia.jpg |
+| `kinetics-products.webp` | Detalles del salón | DSC_1300 copia.jpg |
+| `nail-colour-swatches.webp` | Detalles del salón | DSC_1330 copia.jpg |
+| `eyebrow-threading.webp` | Detalles del salón | DSC_1402 copia.jpg |
+| `polish-removal.webp` | Página de manicura | DSC_1386 copia.jpg |
+| `pedicure-massage.webp` | Página de pedicura | DSC_1459 copia.jpg |
+
+`src/components/VidaEnSalon.astro` presenta el equipo, la atención y los detalles.
+Las fotos grandes del equipo y de la atención llegan al borde exterior de la
+pantalla, alternando imagen y texto desde «El salón» sobre el mismo eje central
+en escritorio y apilándose en móvil. Las tres
+fotos de detalle comparten un encuadre 3:2 para alinear sus alturas y sus textos;
+no se mezclan con la galería vertical de trabajos. Las imágenes no acreditan por
+sí solas protocolos de esterilización. Antes de incorporar otras
+personas reconocibles, confirmar los permisos de publicación correspondientes.
+
+### Sustituir las fotos de trabajos
+
+Las imágenes de la galería de trabajos están normalizadas a 4:5. Para cambiar una, basta con
 reemplazar el archivo en `src/assets/galeria/` conservando el nombre: el
 encuadre no cambia y no hay que tocar `src/data/galeria.ts`.
 

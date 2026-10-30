@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import { negocio } from '../data/negocio'
-import salon from '../assets/salon.jpg'
+import salon from '../assets/studio/salon-interior.webp'
 
 /**
  * ⚠️ TEXTO PENDIENTE DE VALIDAR CON LA DUEÑA.
@@ -62,9 +62,9 @@ const compromisos = [
   <figure class="retrato">
     <Image
       src={salon}
-      alt="Interior del salón: tres puestos de manicura con sillones negros, lámparas de luz fría y el expositor de esmaltes al fondo"
+      alt="Puestos de manicura de Nanci Nails con sillones negros, mesas blancas, lámparas de arco y esmaltes al fondo"
       widths={[420, 640, 900, 1080]}
-      sizes="(min-width: 60rem) 42vw, 100vw"
+      sizes="(min-width: 60rem) 50vw, 100vw"
       loading="lazy"
     />
   </figure>
@@ -73,9 +73,12 @@ const compromisos = [
 <style>
   .salon {
     display: grid;
-    gap: var(--espacio-xl);
-    padding-inline: var(--margen);
+    padding: 0;
     background: var(--papel-hueso);
+  }
+
+  .contenido {
+    padding: var(--espacio-3xl) var(--margen);
   }
 
   .principal {
@@ -111,22 +114,18 @@ const compromisos = [
   }
 
   .retrato {
-    /* Sangra hasta los bordes de la ventana, igual que la foto de portada, y
-       cierra la sección por abajo anulando su relleno inferior: si no, queda
-       una franja de fondo suelta entre la foto y la sección siguiente. */
     margin: 0;
-    margin-inline: calc(var(--margen) * -1);
-    margin-bottom: calc(var(--espacio-3xl) * -1);
+  }
+
+  .retrato :global(img) {
+    width: 100%;
+    height: auto;
   }
 
   @media (min-width: 60rem) {
+    /* Match the team and appointment rows: one shared, full-bleed divider. */
     .salon {
-      /* Mitad y mitad, con un hueco amplio entre ambas. La foto ya gana ancho
-         real por el sangrado del borde derecho, así que no necesita robárselo
-         al texto: con la columna más estrecha, los cuatro apartados quedaban
-         apretados y las líneas se partían mal. */
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--espacio-2xl);
       align-items: stretch;
     }
 
@@ -135,35 +134,17 @@ const compromisos = [
       gap: var(--espacio-xl) var(--espacio-lg);
     }
 
-    /*
-      Misma solución que en el hero: la foto llena la sección de arriba abajo
-      y sangra por el borde derecho. Los márgenes negativos anulan el relleno
-      de la sección, y la imagen va en posición absoluta para que sea la
-      altura del texto la que manda, no la proporción de la foto.
-
-      Asume recorte lateral: al pasar de una foto apaisada a un hueco vertical
-      se pierden el mostrador de la izquierda y parte del expositor. A cambio,
-      los puestos de manicura se ven de cerca y la sección deja de tener un
-      hueco muerto debajo de la imagen.
-    */
     .retrato {
       position: relative;
       min-height: 0;
       overflow: hidden;
-      align-self: stretch;
-      margin-block: calc(var(--espacio-3xl) * -1);
-      /* Solo por la derecha: el sangrado izquierdo es cosa del móvil, y aquí
-         invadiría el hueco que la separa del texto. */
-      margin-inline: 0 calc(var(--margen) * -1);
     }
 
     .retrato :global(img) {
       position: absolute;
       inset: 0;
-      width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Ancla en los puestos de trabajo, que es lo que interesa enseñar. */
       object-position: 55% 50%;
     }
   }

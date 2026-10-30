@@ -1,5 +1,9 @@
 # Oportunidades SEO futuras
 
+`/depilacion-con-hilo-rivas-vaciamadrid/` ya está publicada en el repositorio (ver
+«Ampliación de cobertura» en `SEO_AUDIT.md`); las filas siguientes siguen siendo
+oportunidades pendientes.
+
 No crear estas páginas hasta confirmar datos comerciales, consolidar la
 migración y revisar consultas reales en Search Console. Cada nueva URL debe
 responder una intención distinta y aportar contenido propio, fotografías y
@@ -7,6 +11,7 @@ enlaces internos; un cambio de sinónimo no justifica una landing.
 
 | Landing posible | Intención de búsqueda | Riesgo de canibalización | Contenido mínimo necesario | Prioridad |
 |---|---|---|---|---|
+| `/depilacion-con-hilo-rivas-vaciamadrid/` | Depilación con hilo de cejas y labio superior en Rivas | Bajo: no compite con manicura ni pedicura y el grupo no tenía página | **Creada.** Cejas y labio, sin otras zonas de la cara, sin galería propia y sin precios | Hecha |
 | `/esmaltado-permanente-rivas-vaciamadrid/` | Servicio concreto, duración, retirada, precio y cita | Alto con `/manicura-rivas-vaciamadrid/`, que ya dedica una sección al permanente | Proceso propio, cuidados, retirada, galería filtrada, tarifa y duración confirmadas, diferencias frente a esmalte tradicional y enlaces claros con Manicura | P1 solo si Search Console muestra demanda diferenciada |
 | `/manicura-semipermanente-rivas-vaciamadrid/` | Variante lingüística de «esmaltado permanente» | Muy alto con Manicura y con la landing anterior | No crear por defecto. Tratar «manicura semipermanente» como sinónimo natural dentro de Manicura; solo separar si los datos prueban una intención distinta y puede ofrecerse contenido no duplicado | P3 |
 | `/nail-art-rivas-vaciamadrid/` | Inspiración visual y reserva de diseños personalizados | Medio con Manicura, Uñas de gel y la galería de Home | Portfolio amplio por técnicas, proceso creativo, dificultad/tiempo confirmados, límites del servicio, mantenimiento y trabajos reales con alt descriptivo | P2 |

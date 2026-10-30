@@ -68,7 +68,9 @@ const otras = paginasServicio.filter((otra) => otra.slug !== pagina.slug)
  * como `pies` en galeria.ts y la sección aparece sola.
  */
 const MINIMO_MOSAICO = 3
-const hayGaleria = trabajosDe(pagina.categoriaGaleria).length >= MINIMO_MOSAICO
+const hayGaleria =
+  pagina.categoriaGaleria !== undefined &&
+  trabajosDe(pagina.categoriaGaleria).length >= MINIMO_MOSAICO
 
 /*
  * Migas de pan. Google las usa para sustituir la URL cruda en el resultado de

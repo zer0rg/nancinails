@@ -51,8 +51,14 @@ export type PaginaServicio = {
   servicio: { nombre: string; descripcion: string }
   /** Se inserta en el mensaje de WhatsApp: "…pedir cita para {servicio}". */
   servicioWhatsapp: string
-  /** Qué fotos de la galería se muestran. */
-  categoriaGaleria: CategoriaTrabajo
+  /**
+   * Qué fotos de la galería se muestran.
+   *
+   * Opcional a propósito. La depilación con hilo todavía no tiene fotografías
+   * propias y es preferible una página sin mosaico que un mosaico de uñas
+   * etiquetadas como cejas: la sección aparecería, pero mentiría.
+   */
+  categoriaGaleria?: CategoriaTrabajo
   /** Ids de `grupos` en servicios.ts cuyas tarifas se listan. */
   gruposTarifas: string[]
   secciones: SeccionTexto[]
@@ -296,6 +302,84 @@ export const paginasServicio: PaginaServicio[] = [
       },
     ],
   },
+
+  {
+    slug: 'depilacion-con-hilo-rivas-vaciamadrid',
+    titulo: 'Depilación con hilo en Rivas Vaciamadrid · Nanci Nails',
+    descripcion:
+      'Depilación de cejas y de labio superior con hilo en el C.C. Santa Mónica de Rivas Vaciamadrid. Diseño de cejas respetando su forma natural. Pide cita por WhatsApp.',
+    h1: { lineas: ['Depilación con hilo en'], enfasis: 'Rivas Vaciamadrid' },
+    entradilla:
+      'Cejas y labio superior, con hilo y sin cera. En el Centro Comercial Santa Mónica.',
+    etiqueta: 'Depilación con hilo',
+    servicio: {
+      nombre: 'Depilación con hilo',
+      descripcion:
+        'Depilación de cejas y de labio superior con hilo en Rivas Vaciamadrid.',
+    },
+    servicioWhatsapp: 'la depilación con hilo',
+    gruposTarifas: ['depilacion'],
+    secciones: [
+      {
+        titulo: 'Qué es la depilación con hilo',
+        parrafos: [
+          'El hilo es un trozo de algodón que se tensa entre las manos y se desliza sobre la piel. Al girar, atrapa el vello desde la raíz y lo arranca en el sentido en que crece. No lleva cera, no lleva cuchilla y no queda producto que retirar después.',
+          'Se usa sobre todo en la cara por una razón práctica: en el arco de la ceja y en el labio superior el margen es de milímetros, y el hilo permite seguir la línea exacta. La cera es más rápida en una pierna, pero en una ceja no distingue dónde acaba lo que sobra.',
+          'Tampoco necesita una longitud mínima de vello, así que se puede repasar el contorno en cuanto empieza a verse. No hay que esperar a que crezca para poder hacer nada.',
+        ],
+      },
+      {
+        titulo: 'Cejas: primero el diseño, después la limpieza',
+        parrafos: [
+          'El diseño es la parte que importa. Antes de quitar nada se mira la forma natural de la ceja: dónde empieza, dónde hace el arco y dónde termina en relación con el ojo. Lo que se retira es lo que sobra de esa forma, no lo que hay.',
+          'Ahí está la diferencia entre salir con tus cejas, más limpias, y salir con las cejas de otra persona. Si llevas años con una forma concreta y quieres mantenerla, se dice y se mantiene. Si quieres cambiarla, se puede, pero poco a poco: quitar es rápido y volver a crecer tarda meses.',
+          'Son quince minutos. Si vienes con las cejas maquilladas se limpia la zona antes de empezar, aunque es mejor venir sin maquillar: así se ve la forma real y el diseño sale más ajustado.',
+        ],
+      },
+      {
+        titulo: 'Labio superior: aquí no se diseña, se limpia',
+        parrafos: [
+          'El labio superior se hace en cinco minutos. Es una zona pequeña, así que la técnica va rápida: se tensa la piel y se pasa el hilo por encima del labio y por las comisuras si hace falta.',
+          'El objetivo es que no se note que se ha hecho. Ni una línea recta artificial ni un borde marcado: solo la piel despejada.',
+          'Conviene decirlo claro: aquí se trabajan cejas y labio superior. No se hacen otras zonas de la cara, así que si lo que buscas es el labio completo, la barbilla o las mejillas, este no es el sitio y es mejor saberlo antes de pedir cita.',
+        ],
+      },
+      {
+        titulo: 'Cómo es la cita',
+        parrafos: [
+          'Entre cinco y quince minutos por zona. Cabe en cualquier hueco, incluso en una mañana de recados. Se trabaja con cita, como el resto del salón: se escribe por WhatsApp, se elige hora y no hay espera.',
+          'La piel puede quedar algo rojiza justo después, unos minutos, sobre todo la primera vez. Es pasajero y se va solo. No hace falta nada especial, y si te molesta, una crema suave de las que ya uses te sirve.',
+          'Y si además quieres hacerte las uñas, se resuelve en la misma visita: se empieza por el hilo y se sigue con la manicura o la pedicura. Así no hay que volver otro día al centro comercial.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        pregunta: '¿Duele la depilación con hilo?',
+        respuesta:
+          'Es un tirón corto y repetido, no un dolor continuo. En las cejas se lleva bien; en el labio superior, por la zona, suele notarse algo más. La primera vez impresiona más de lo que molesta y a la tercera ya se sabe qué esperar.',
+      },
+      {
+        pregunta: '¿Cuánto tarda en volver a salir el vello?',
+        respuesta:
+          'Depende de cada persona. Lo habitual es que la zona se vea limpia varias semanas, y en el labio suele asomar antes que en las cejas. No hay un plazo fijo que se pueda prometer.',
+      },
+      {
+        pregunta: '¿Puedo venir con maquillaje?',
+        respuesta:
+          'Sí, se limpia la zona antes de empezar. Aun así, para las cejas es mejor venir sin maquillar: así se ve la forma natural y el diseño queda más ajustado.',
+      },
+      {
+        pregunta: '¿Cada cuánto conviene repetir?',
+        respuesta:
+          'Para mantener la forma de la ceja, cada tres o cuatro semanas es lo habitual. Si prefieres venir cuando ya se ve desordenada, también vale: no hay un calendario obligatorio.',
+      },
+      {
+        pregunta: '¿Dónde estáis y cómo pido cita?',
+        respuesta: `En el ${negocio.direccion.local} de ${negocio.direccion.ciudad}. ${horarioResumen}. Basta con escribir por WhatsApp al ${negocio.contacto.movil} y decir qué zona quieres hacer.`,
+      },
+    ],
+  },
 ]
 
 /** Busca una página por su slug. */
@@ -307,7 +391,8 @@ export function paginaPorSlug(slug: string): PaginaServicio | undefined {
  * Página que desarrolla un grupo de tarifas, si existe.
  *
  * Se empareja por el PRIMER id de `gruposTarifas`, que es el grupo del que trata
- * la página: manos → manicura, pies → pedicura, gel → uñas de gel. El grupo
+ * la página: manos → manicura, pies → pedicura, gel → uñas de gel,
+ * depilación → depilación con hilo. El grupo
  * "diseño" aparece en varias páginas como complemento y no tiene página propia,
  * así que devuelve `undefined` y simplemente no se enlaza.
  *

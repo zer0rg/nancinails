@@ -33,7 +33,7 @@ export const temporadas = {
 export type Tema = 'default' | keyof typeof temporadas
 
 // Interruptor único. SITE_THEME tiene prioridad, también en el despliegue.
-const temaPorDefecto: Tema = 'halloween'
+const temaPorDefecto: Tema = 'default'
 const configurado: string = import.meta.env.SITE_THEME ?? temaPorDefecto
 
 if (configurado !== 'default' && !Object.hasOwn(temporadas, configurado)) {

@@ -10,9 +10,10 @@ Objetivo único: que una visita desde el móvil acabe en una cita por WhatsApp.
 
 ## Campañas de temporada
 
-Halloween está activo por defecto. Para recuperar el diseño habitual, añade
-`SITE_THEME=default` a `.env` o a las variables de entorno del alojamiento.
-Usa `SITE_THEME=halloween` para volver a activarlo; `.env.example` contiene el ejemplo.
+El diseño habitual (`default`) está activo por defecto; Halloween queda desactivado.
+Puedes forzar el diseño habitual con `SITE_THEME=default` en las variables de
+entorno del alojamiento. Para reactivar Halloween, usa `SITE_THEME=halloween`;
+`.env.example` conserva el ejemplo de activación explícita de la campaña.
 En local reinicia Astro y, en producción, recompila y despliega: la web es estática.
 
 El interruptor cambia la paleta, el mensaje y la imagen de campaña. Halloween
@@ -168,14 +169,14 @@ export PLAYWRIGHT_MODULE="$QA_DIR/node_modules/playwright/index.mjs"
 export PLAYWRIGHT_BROWSERS_PATH="$QA_DIR/browsers"
 node "$QA_DIR/node_modules/playwright/cli.js" install chromium --only-shell
 npm run build
-node --test scripts/test-landing-*.mjs
+node --test scripts/test-landing-*.mjs scripts/test-theme-default.mjs
 ```
 
-Para verificar también el tema habitual sin sustituir la compilación principal:
+Para verificar también la campaña de Halloween sin sustituir la compilación principal:
 
 ```sh
-SITE_THEME=default npm run build -- --outDir node_modules/.studio-qa/default-dist
-SITE_DIR=node_modules/.studio-qa/default-dist node --test scripts/test-landing-*.mjs
+SITE_THEME=halloween npm run build -- --outDir node_modules/.studio-qa/halloween-dist
+SITE_DIR=node_modules/.studio-qa/halloween-dist node --test scripts/test-landing-*.mjs
 ```
 
 El servidor de pruebas es local y efímero. Las pruebas cubren portada, primera
